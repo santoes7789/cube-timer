@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { formatMilliseconds } from "../utils/helpers";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { formatMilliseconds } from "@/utils/helpers";
+import { TimesContext } from "../App";
 
 const waitTime = 500;
 const updateTimeInterval = 10;
@@ -12,18 +13,16 @@ const TimerStates = {
 	STOPPED: "stopped",
 }
 
-const addTime = (time, setTimes) => {
-	const newTime = { timestamp: Date.now(), value: time, modifier: "" };
-	setTimes(oldTimes => [...oldTimes, newTime])
-}
 
-const Timer = ({ setTimes }) => {
+const Timer = () => {
+
+	const timesContext = useContext(TimesContext);
+
 	const [timerState, setTimerState] = useState(TimerStates.IDLE);
 	const [time, setTime] = useState(0);
 
 	const timeoutRef = useRef(null);
 	const updateTimerRef = useRef(null);
-
 	const startTime = useRef(null)
 
 	const handleKeyDown = useCallback((event) => {
@@ -39,7 +38,7 @@ const Timer = ({ setTimes }) => {
 
 			const time = Date.now() - startTime.current;
 			setTime(time);
-			addTime(time, setTimes);
+			timesContext.addTime(time);
 			setTimerState(TimerStates.STOPPED);
 		}
 	}, [timerState])

@@ -4,12 +4,12 @@ import TimerStats from '../components/TimerStats'
 
 import './Timer.css'
 
-const Timer = ({ times, setTimes }) => {
+const Timer = () => {
 	return (
 		<main>
-			<TimerText setTimes={setTimes} />
-			<TimerTable times={times} />
-			<TimerStats times={times} />
+			<TimerText />
+			<TimerTable />
+			<TimerStats />
 		</main>
 	)
 }

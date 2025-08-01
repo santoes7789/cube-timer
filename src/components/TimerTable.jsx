@@ -1,6 +1,10 @@
 import { timeToString } from "@/utils/helpers"
+import { useContext } from "react"
 
-const TimerTable = ({ times }) => {
+import { TimesContext } from "@/App"
+
+const TimerTable = () => {
+	const timeContext = useContext(TimesContext)
 	return (
 		<div className='container table'>
 			<div className='table-wrapper'>
@@ -12,9 +16,9 @@ const TimerTable = ({ times }) => {
 						</tr>
 					</thead>
 					<tbody>
-						{[...times].reverse().map((time, index) => (
+						{[...timeContext.times].reverse().map((time, index) => (
 							<tr key={time.timestamp}>
-								<td>{times.length - index}</td>
+								<td>{timeContext.times.length - index}</td>
 								<td>{timeToString(time)}</td>
 							</tr>
 						))}
