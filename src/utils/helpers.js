@@ -1,6 +1,7 @@
 export const timeToString = (time) => {
 	let milliseconds = time["value"];
 
+	console.log("hello?");
 	if (time["modifiers"] == "+2") {
 		milliseconds += 2000;
 		return formatMilliseconds(milliseconds) + "+";

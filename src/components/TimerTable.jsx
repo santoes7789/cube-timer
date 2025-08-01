@@ -1,3 +1,5 @@
+import { timeToString } from "@/utils/helpers"
+
 const TimerTable = ({ times }) => {
 	return (
 		<div className='container table'>
@@ -13,7 +15,7 @@ const TimerTable = ({ times }) => {
 						{times.map((time, index) => (
 							<tr key={time['timestamp']}>
 								<td>{index}</td>
-								<td>{time['value']}</td>
+								<td>{timeToString(time)}</td>
 							</tr>
 						))}
 					</tbody>
