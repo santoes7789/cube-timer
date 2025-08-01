@@ -13,7 +13,7 @@ const TimerTable = ({ times }) => {
 					</thead>
 					<tbody>
 						{[...times].reverse().map((time, index) => (
-							<tr key={time['timestamp']}>
+							<tr key={time.timestamp}>
 								<td>{times.length - index}</td>
 								<td>{timeToString(time)}</td>
 							</tr>

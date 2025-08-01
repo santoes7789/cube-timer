@@ -13,7 +13,7 @@ const TimerStates = {
 }
 
 const addTime = (time, setTimes) => {
-	const newTime = { "timestamp": Date.now(), "value": time, "modifiers": "" };
+	const newTime = { timestamp: Date.now(), value: time, modifier: "" };
 	setTimes(oldTimes => [...oldTimes, newTime])
 }
 
