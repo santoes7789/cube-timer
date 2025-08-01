@@ -1,0 +1,61 @@
+.timer {
+	font-family: 'Share Tech Mono';
+	color: white;
+}
+
+.timer.waiting {
+	color: red;
+}
+
+.timer.ready {
+	color: green;
+}
+
+.timer.running {
+	color: white;
+}
+
+.timer.stopped {
+	color: white;
+}
+
+.container {
+	position: fixed;
+	margin: 20px;
+	padding: 20px;
+}
+
+.container.table {
+	bottom: 0;
+	right: 0;
+
+	padding: 10px;
+
+	border-bottom: solid;
+	border-right: solid;
+}
+
+.table-wrapper {
+	overflow: auto;
+	max-height: 30vh;
+	padding: 0px 10px 10px 0px;
+}
+
+.container.stats {
+	bottom: 0;
+	left: 0;
+
+	border-bottom: solid;
+	border-left: solid;
+}
+
+.stats-headings {
+	display: inline-block;
+	text-align: right;
+}
+
+.stats-values {
+	margin-left: 0.7rem;
+	display: inline-block;
+	text-align: left;
+}
