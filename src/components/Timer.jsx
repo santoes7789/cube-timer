@@ -1,6 +1,7 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { formatMilliseconds } from "@/utils/helpers";
-import { TimesContext } from "../App";
+import { TimesContext } from "@/App";
+import { generateNewScramble } from "@/components/Scramble";
 
 const waitTime = 500;
 const updateTimeInterval = 10;
@@ -39,6 +40,7 @@ const Timer = () => {
 			const time = Date.now() - startTime.current;
 			setTime(time);
 			timesContext.addTime(time);
+			generateNewScramble();
 			setTimerState(TimerStates.STOPPED);
 		}
 	}, [timerState])
@@ -81,10 +83,7 @@ const Timer = () => {
 	}
 
 	return (
-		<main>
-			<h1
-				className={getTimerClasses()}>{formatMilliseconds(time)}</h1>
-		</main>
+		<h1 className={getTimerClasses()}>{formatMilliseconds(time)}</h1>
 	)
 }
 
