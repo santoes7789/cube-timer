@@ -2,6 +2,7 @@ import TimerText from '@/components/Timer'
 import TimerTable from '@/components/TimerTable'
 import TimerStats from '@/components/TimerStats'
 import Scramble from '@/components/Scramble'
+import SessionText from '@/components/SessionText'
 import { TimesContext } from "@/App";
 
 import { randomScrambleForEvent } from "cubing/scramble";
@@ -88,6 +89,7 @@ const Timer = () => {
 			<Scramble scramble={scramble} />
 			<TimerText text={time} timerState={timerState} />
 			<TimerTable />
+			<SessionText />
 			<TimerStats />
 		</main>
 	)

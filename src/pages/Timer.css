@@ -73,3 +73,8 @@
 	top: 0;
 	border-top: solid;
 }
+
+.container.session {
+	bottom: 0;
+	border-bottom: solid;
+}
