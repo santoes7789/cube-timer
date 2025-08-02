@@ -35,9 +35,24 @@ const App = () => {
 		setAllTimes(newArray);
 	}
 
+	const deleteTime = (time) => {
+		const newArray = { ...allTimes };
+		newArray[session] = newArray[session].filter(item => item != time);
+		setAllTimes(newArray);
+	}
+
+	const modifiyTime = (time) => {
+		const newArray = { ...allTimes };
+		const timeToModify = newArray[session].find(item => item.timestamp == timestamp);
+		if (timeToModify) {
+			Object.assign(timeToModify, time);
+			setAllTimes(newArray);
+		}
+	}
 	return (
 		<>
-			<TimesContext.Provider value={{ times, session, setSession, addTime }}>
+			<TimesContext.Provider
+				value={{ times, session, setSession, addTime, deleteTime, modifiyTime }}>
 				<BrowserRouter>
 					<Routes>
 						<Route path="/" element={<Layout />}>
