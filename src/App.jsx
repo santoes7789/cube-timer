@@ -29,6 +29,7 @@ const App = () => {
 	const times = allTimes[session] || [];
 
 	useEffect(() => localStorage.setItem(TIMES_KEY, JSON.stringify(allTimes)), [allTimes])
+	useEffect(() => localStorage.setItem(SESSION_KEY, JSON.stringify(session)), [session])
 	useEffect(() => localStorage.setItem(SESSIONLIST_KEY, JSON.stringify(sessionList)), [sessionList])
 
 	const addTime = (time) => {
