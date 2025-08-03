@@ -1,80 +1,13 @@
-.timer {
+#timer {
 	font-family: 'Share Tech Mono';
-	color: white;
-}
-
-.timer.waiting {
-	color: red;
-}
-
-.timer.ready {
-	color: green;
-}
-
-.timer.running {
-	color: white;
-}
-
-.timer.stopped {
-	color: white;
-}
-
-.container {
-	position: fixed;
-	margin: 20px;
-	padding: 20px;
-}
-
-.container.table {
-	bottom: 0;
-	right: 0;
-
-	padding: 10px;
-
-	border-bottom: solid;
-	border-right: solid;
 }
 
 .table-wrapper {
 	overflow: auto;
-	max-height: 30vh;
-	padding: 0px 10px 10px 0px;
+	max-height: 25vh;
+	scrollbar-width: none;
 }
 
-.container.stats {
-	bottom: 0;
-	left: 0;
-
-	border-bottom: solid;
-	border-left: solid;
-}
-
-.stats-headings {
-	display: inline-block;
-	text-align: right;
-}
-
-.stats-values {
-	margin-left: 0.7rem;
-	display: inline-block;
-	text-align: left;
-}
-
-.v-center {
-	position: fixed;
-	display: flex;
-	justify-content: center;
-	top: 0;
-	left: 0;
-	width: 100vw;
-}
-
-.container.scramble {
-	top: 0;
-	border-top: solid;
-}
-
-.container.session {
-	bottom: 0;
-	border-bottom: solid;
+.session-dropdown {
+	min-width: 200px;
 }

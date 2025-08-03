@@ -1,20 +1,20 @@
 import { formatMilliseconds } from "@/utils/helpers";
 import { TimerStates } from "@/pages/Timer";
 
-const Timer = ({ text, timerState }) => {
+const Timer = ({ time, timerState }) => {
 
 	const getTimerClasses = () => {
 		switch (timerState) {
-			case TimerStates.IDLE: return "timer";
-			case TimerStates.WAITING: return "timer waiting";
-			case TimerStates.READY: return "timer ready";
-			case TimerStates.RUNNING: return "timer running";
-			case TimerStates.STOPPED: return "timer stopped";
+			case TimerStates.IDLE: return "";
+			case TimerStates.WAITING: return "text-danger";
+			case TimerStates.READY: return "text-success";
+			case TimerStates.RUNNING: return "";
+			case TimerStates.STOPPED: return "";
 		}
 	}
 
 	return (
-		<h1 className={getTimerClasses()}>{formatMilliseconds(text)}</h1>
+		<h1 className={getTimerClasses()} id="timer">{formatMilliseconds(time)}</h1>
 	)
 }
 

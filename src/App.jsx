@@ -6,6 +6,7 @@ import './App.css'
 
 const TIMES_KEY = "times";
 const SESSION_KEY = "session";
+const SESSIONLIST_KEY = "sessionList"
 import { createContext, useEffect, useState } from "react";
 
 export const TimesContext = createContext();
@@ -18,12 +19,17 @@ const App = () => {
 	});
 	const [session, setSession] = useState(() => {
 		const saved = localStorage.getItem(SESSION_KEY);
-		return saved ? JSON.parse(saved) : "3x3";
+		return saved ? JSON.parse(saved) : 0;
 	});
+	const [sessionList, setSessionList] = useState(() => {
+		const saved = localStorage.getItem(SESSIONLIST_KEY);
+		return saved ? JSON.parse(saved) : { 0: "3x3" };
+	})
 
 	const times = allTimes[session] || [];
 
 	useEffect(() => localStorage.setItem(TIMES_KEY, JSON.stringify(allTimes)), [allTimes])
+	useEffect(() => localStorage.setItem(SESSIONLIST_KEY, JSON.stringify(sessionList)), [sessionList])
 
 	const addTime = (time) => {
 		const newTime = { timestamp: Date.now(), value: time, modifier: "" };
@@ -49,10 +55,17 @@ const App = () => {
 			setAllTimes(newArray);
 		}
 	}
+
+	const addSession = (sessionName) => {
+		const freeId = Math.max(-1, ...Object.keys(sessionList).map(Number)) + 1;
+		setSessionList(prev => ({ ...prev, [freeId]: sessionName }));
+		setSession(freeId);
+	}
+
 	return (
 		<>
 			<TimesContext.Provider
-				value={{ times, session, setSession, addTime, deleteTime, modifiyTime }}>
+				value={{ times, session, setSession, sessionList, addSession, addTime, deleteTime, modifiyTime }}>
 				<BrowserRouter>
 					<Routes>
 						<Route path="/" element={<Layout />}>

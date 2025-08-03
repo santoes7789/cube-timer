@@ -2,8 +2,8 @@ import TimerText from '@/components/Timer'
 import TimerTable from '@/components/TimerTable'
 import TimerStats from '@/components/TimerStats'
 import Scramble from '@/components/Scramble'
-import SessionText from '@/components/SessionText'
 import { TimesContext } from "@/App";
+import SessionDisplay from '@/components/SessionDisplay';
 
 import { randomScrambleForEvent } from "cubing/scramble";
 import { useEffect, useState, useCallback, useRef, useContext } from 'react'
@@ -87,10 +87,10 @@ const Timer = () => {
 	return (
 		<main>
 			<Scramble scramble={scramble} />
-			<TimerText text={time} timerState={timerState} />
-			<TimerTable />
-			<SessionText />
+			<TimerText time={time} timerState={timerState} />
 			<TimerStats />
+			<SessionDisplay />
+			<TimerTable />
 		</main>
 	)
 }

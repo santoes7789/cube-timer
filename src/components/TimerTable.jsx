@@ -6,13 +6,13 @@ import { TimesContext } from "@/App"
 const TimerTable = () => {
 	const timeContext = useContext(TimesContext)
 	return (
-		<div className='container table'>
+		<div className='position-fixed m-4 p-4 bottom-0 end-0 border-end border-bottom border-primary-subtle'>
 			<div className='table-wrapper'>
-				<table className='timer-table'>
-					<thead>
+				<table className='table table-sm table-hover m-0'>
+					<thead className="sticky-top">
 						<tr>
-							<th># &nbsp;</th>
-							<th>time</th>
+							<th>#</th>
+							<th>Time</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -29,4 +29,4 @@ const TimerTable = () => {
 	)
 }
 
-export default TimerTable
+export default TimerTable;
