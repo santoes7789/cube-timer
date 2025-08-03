@@ -5,7 +5,6 @@ import Scramble from '@/components/Scramble'
 import { TimesContext } from "@/App";
 import SessionDisplay from '@/components/SessionDisplay';
 
-import { randomScrambleForEvent } from "cubing/scramble";
 import { useEffect, useState, useCallback, useRef, useContext } from 'react'
 
 import './Timer.css'
@@ -31,7 +30,7 @@ const Timer = () => {
 	const timesContext = useContext(TimesContext);
 
 	const generateNewScramble = () => {
-		randomScrambleForEvent("333").then(s => setScramble(s.toString()))
+		setScramble("F2");
 	}
 	useEffect(generateNewScramble, []);
 
@@ -86,7 +85,6 @@ const Timer = () => {
 
 	return (
 		<main>
-			<Scramble scramble={scramble} />
 			<TimerText time={time} timerState={timerState} />
 			<TimerStats />
 			<SessionDisplay />

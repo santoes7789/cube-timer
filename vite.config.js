@@ -4,9 +4,6 @@ import svgr from 'vite-plugin-svgr';
 import path from 'path'
 
 export default defineConfig({
-	optimizeDeps: {
-		exclude: ["cubing", "cubing/search"]
-	},
 	plugins: [react(), svgr()],
 	resolve: {
 		alias: {
