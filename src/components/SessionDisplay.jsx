@@ -1,6 +1,8 @@
 import { TimesContext } from "@/App";
 import { useContext, useState } from "react";
 
+import TrashIcon from '@/assets/icons/trash.svg?react';
+
 const SessionDisplay = () => {
 	const [newSessionName, setNewSessionName] = useState("");
 	const timeContext = useContext(TimesContext);
@@ -17,12 +19,35 @@ const SessionDisplay = () => {
 						<li>
 							<div className="input-group">
 								<input type="text" className="form-control m-0" placeholder="New Session" onChange={e => setNewSessionName(e.target.value)} value={newSessionName} />
-								<button className="btn btn-outline-primary" type="button" onClick={() => timeContext.addSession(newSessionName)}>+</button>
+								<button className="btn btn-outline-primary" type="button" onClick={() => {
+									timeContext.addSession(newSessionName);
+									setNewSessionName("");
+								}}>+</button>
 							</div>
 						</li>
 						<li><hr className="dropdown-divider" /></li>
 						{Object.entries(timeContext.sessionList).map(([k, v]) => (
-							<li key={k} onClick={() => timeContext.setSession(k)}><p className="dropdown-item">{v}</p></li>
+							<li key={k} >
+								<div className="d-flex align-items-center">
+									<p
+										className="dropdown-item flex-grow-1 align-middle rounded me-1"
+										onClick={() => {
+											timeContext.setSession(k);
+										}}>
+										{v}
+									</p>
+
+									<button
+										className="btn btn-outline-danger btn-sm border-0"
+										type="button"
+										onClick={() => {
+											timeContext.deleteSession(k);
+											setNewSessionName("")
+										}} >
+										<TrashIcon />
+									</button>
+								</div>
+							</li>
 						))}
 					</ul>
 				</div>

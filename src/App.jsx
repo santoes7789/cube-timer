@@ -63,10 +63,17 @@ const App = () => {
 		setSession(freeId);
 	}
 
+	const deleteSession = (sessionId) => {
+		const { [sessionId]: _1, ...newSessionList } = sessionList;
+		const { [sessionId]: _2, ...newTimesList } = allTimes;
+		setSessionList(newSessionList);
+		setAllTimes(newTimesList);
+	}
+
 	return (
 		<>
 			<TimesContext.Provider
-				value={{ times, session, setSession, sessionList, addSession, addTime, deleteTime, modifiyTime }}>
+				value={{ times, session, setSession, sessionList, addSession, deleteSession, addTime, deleteTime, modifiyTime }}>
 				<BrowserRouter>
 					<Routes>
 						<Route path="/" element={<Layout />}>

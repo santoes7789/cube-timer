@@ -24,6 +24,7 @@ a:hover {
 }
 
 body {
+	font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
 	margin: 0;
 	display: flex;
 	place-items: center;
