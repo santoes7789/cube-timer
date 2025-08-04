@@ -74,7 +74,7 @@ const App = () => {
 		<>
 			<TimesContext.Provider
 				value={{ times, session, setSession, sessionList, addSession, deleteSession, addTime, deleteTime, modifiyTime }}>
-				<BrowserRouter>
+				<BrowserRouter basename="/cube-timer">
 					<Routes>
 						<Route path="/" element={<Layout />}>
 							<Route index element={<Timer />} />

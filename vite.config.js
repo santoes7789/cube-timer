@@ -4,6 +4,7 @@ import svgr from 'vite-plugin-svgr';
 import path from 'path'
 
 export default defineConfig({
+	base: '/cube-timer/',
 	plugins: [react(), svgr()],
 	resolve: {
 		alias: {
