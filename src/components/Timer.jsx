@@ -14,7 +14,11 @@ const Timer = ({ time, timerState }) => {
 	}
 
 	return (
-		<h1 className={getTimerClasses()} id="timer">{formatMilliseconds(time)}</h1>
+		<>
+			<div className={`position-fixed vw-100 vh-100 top-0 start-0 bg-body background-timer z-2 
+				${timerState == TimerStates.READY || timerState == TimerStates.RUNNING ? "show" : ""}`}></div>
+			<h1 className={`position-fixed z-3 top-50 start-50 translate-middle ${getTimerClasses()}`} id="timer">{formatMilliseconds(time)}</h1 >
+		</>
 	)
 }
 

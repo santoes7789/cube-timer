@@ -15,8 +15,19 @@
 
 .dropdown-item .btn-group {
 	opacity: 0;
+	transition: opacity 0.1s ease;
 }
 
 .dropdown-item:hover .btn-group {
+	opacity: 1;
+}
+
+.background-timer {
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	pointer-events: none;
+}
+
+.background-timer.show {
 	opacity: 1;
 }
