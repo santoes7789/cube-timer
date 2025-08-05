@@ -2,10 +2,11 @@
 	font-family: 'Share Tech Mono';
 	font-size: 4.5em;
 	transform: scale(1);
-
+	transition: transform 0.3s ease;
 }
 
 #timer.focused {
+	transition: transform 0s ease;
 	transform: scale(1.5);
 }
 
