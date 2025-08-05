@@ -4,6 +4,7 @@ import TimerStats from '@/components/TimerStats'
 import Scramble from '@/components/Scramble'
 import { TimesContext } from "@/App";
 import SessionDisplay from '@/components/SessionDisplay';
+import EditTimePopup from '@/components/EditTimePopup';
 
 import { useEffect, useState, useCallback, useRef, useContext } from 'react'
 
