@@ -21,6 +21,7 @@ const TimerTable = () => {
 						<tbody>
 							{[...timeContext.times].reverse().map((time, index) => (
 								<tr key={time.timestamp}
+									role="button"
 									data-bs-toggle="modal"
 									data-bs-target="#editTimePopup">
 									<td>{timeContext.times.length - index}</td>
