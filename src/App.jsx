@@ -64,16 +64,29 @@ const App = () => {
 	}
 
 	const deleteSession = (sessionId) => {
+		let sessionIds = Object.keys(sessionList);
+		console.log(sessionIds)
+		if (sessionIds.length <= 1) {
+			return;
+		}
 		const { [sessionId]: _1, ...newSessionList } = sessionList;
 		const { [sessionId]: _2, ...newTimesList } = allTimes;
 		setSessionList(newSessionList);
 		setAllTimes(newTimesList);
+
+		sessionIds = Object.keys(newSessionList);
+		if (sessionId == session) {
+			setSession(sessionIds[0]);
+		}
 	}
 
+	const editSession = (sessionId, sessionName) => {
+		setSessionList(prevData => ({ ...prevData, [sessionId]: sessionName }));
+	}
 	return (
 		<>
 			<TimesContext.Provider
-				value={{ times, session, setSession, sessionList, addSession, deleteSession, addTime, deleteTime, modifiyTime }}>
+				value={{ times, session, setSession, sessionList, addSession, deleteSession, editSession, addTime, deleteTime, modifiyTime }}>
 				<BrowserRouter basename="/cube-timer">
 					<Routes>
 						<Route path="/" element={<Layout />}>

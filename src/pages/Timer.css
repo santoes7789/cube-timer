@@ -11,3 +11,11 @@
 .session-dropdown {
 	min-width: 200px;
 }
+
+.list-group-item .btn-group {
+	opacity: 0;
+}
+
+.list-group-item:hover .btn-group {
+	opacity: 1;
+}

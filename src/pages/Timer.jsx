@@ -8,6 +8,7 @@ import SessionDisplay from '@/components/SessionDisplay';
 import { useEffect, useState, useCallback, useRef, useContext } from 'react'
 
 import './Timer.css'
+import { Scrambow } from 'scrambow';
 
 const waitTime = 500;
 const updateTimeInterval = 10;
@@ -28,9 +29,10 @@ const Timer = () => {
 	const updateTimerRef = useRef(null);
 	const startTime = useRef(null)
 	const timesContext = useContext(TimesContext);
+	const scramb = useRef(new Scrambow());
 
 	const generateNewScramble = () => {
-		setScramble("F2");
+		setScramble(scramb.current.get()[0].scramble_string);
 	}
 	useEffect(generateNewScramble, []);
 
@@ -85,6 +87,7 @@ const Timer = () => {
 
 	return (
 		<main>
+			<Scramble scramble={scramble} />
 			<TimerText time={time} timerState={timerState} />
 			<TimerStats />
 			<SessionDisplay />
