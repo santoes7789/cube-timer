@@ -4,71 +4,66 @@ import { useContext, useState } from "react";
 import TrashIcon from '@/assets/icons/trash.svg?react';
 import EditIcon from '@/assets/icons/pencil-square.svg?react';
 import EditSessionPopup from "@/components/EditSessionPopup";
+import { Button, ButtonGroup, Dropdown, Form, InputGroup } from 'react-bootstrap';
 
 const SessionDisplay = () => {
 	const [newSessionName, setNewSessionName] = useState("");
 	const [selectedSession, setSelectedSession] = useState({});
+	const [showPopup, setShowPopup] = useState(false);
 	const timeContext = useContext(TimesContext);
 
+	const handlePopupClose = () => setShowPopup(false);
+	const handlePopupOpen = () => setShowPopup(true);
 	return (
 		<>
-			<EditSessionPopup session={selectedSession} />
+			<EditSessionPopup session={selectedSession} show={showPopup} handleClose={handlePopupClose} handleOpen={handlePopupOpen} />
 			<div className="position-fixed bottom-0 start-0 end-0 my-4 d-flex justify-content-center">
 				<div className="border-bottom border-primary-subtle p-4">
-
-					<div className="dropup">
+					<Dropdown drop="up">
 						<p className="d-inline"> &nbsp;Session: &nbsp;</p>
-						<strong id="session-text" type="button" className="dropdown-toggle text-primary" data-bs-toggle="dropdown">{timeContext.sessionList[timeContext.session]}</strong>
-
-						<ul className="session-dropdown dropdown-menu no-min-width p-1">
-							<li>
-								<div className="input-group">
-									<input type="text" className="form-control m-0" placeholder="New Session" onChange={e => setNewSessionName(e.target.value)} value={newSessionName} />
-									<button className="btn btn-outline-primary" type="button" onClick={() => {
+						<Dropdown.Toggle as="strong" role="button" className="text-primary">
+							{timeContext.sessionList[timeContext.session]}
+						</Dropdown.Toggle>
+						<Dropdown.Menu className="session-dropdown">
+							<InputGroup className="px-1">
+								<Form.Control id="newSessionInput" placeholder="New Session" onChange={e => setNewSessionName(e.target.value)} value={newSessionName} />
+								<Button variant="outline-primary"
+									onClick={() => {
 										timeContext.addSession(newSessionName);
 										setNewSessionName("");
-									}}>+</button>
-								</div>
-							</li>
-							<li><hr className="dropdown-divider" /></li>
-
-							<div className="list-group">
-								{Object.entries(timeContext.sessionList).map(([k, v]) => (
-									<a key={k}
-										className="list-group-item p-1  list-group-item-action">
-										<div className="ms-1 d-flex align-items-center ">
-											<div className="flex-grow-1 align-middle rounded me-1"
-												onClick={() => {
-													timeContext.setSession(k);
-												}}>
-												{v}
-											</div>
-											<div className="btn-group">
-												<button
-													className="btn btn-outline-secondary btn-sm border-0"
-													type="button"
-													data-bs-toggle="modal" data-bs-target="#editSessionPopup"
-													onClick={() => {
-														setSelectedSession({ id: k, value: v })
-													}} >
-													<EditIcon />
-												</button>
-												<button
-													className="btn btn-outline-danger btn-sm border-0"
-													type="button"
-													onClick={() => {
-														timeContext.deleteSession(k);
-														setNewSessionName("")
-													}} >
-													<TrashIcon />
-												</button>
-											</div>
+									}} > + </Button>
+							</InputGroup>
+							<Dropdown.Divider />
+							{Object.entries(timeContext.sessionList).map(([k, v]) => (
+								<Dropdown.Item as="button" key={k} className="p-0" href="">
+									<div className="d-flex align-items-stretch ">
+										<div className="flex-grow-1 d-flex align-items-center align-middle rounded me-1"
+											onClick={() => { timeContext.setSession(k); }}>
+											<p className="ps-4">{v}</p>
 										</div>
-									</a>
-								))}
-							</div>
-						</ul>
-					</div>
+
+										<ButtonGroup>
+											<Button variant="outline-secondary" className="border-0" size="sm"
+												onClick={() => {
+													setSelectedSession({ id: k, value: v })
+													handlePopupOpen()
+												}} >
+												<EditIcon />
+											</Button>
+											<Button variant="outline-danger" className="border-0" size="sm"
+												onClick={() => {
+													timeContext.deleteSession(k);
+													setNewSessionName("")
+												}} >
+												<TrashIcon />
+											</Button>
+										</ButtonGroup>
+									</div>
+								</Dropdown.Item>
+							))
+							}
+						</Dropdown.Menu>
+					</Dropdown>
 				</div>
 			</div>
 		</>
@@ -76,3 +71,4 @@ const SessionDisplay = () => {
 
 }
 export default SessionDisplay;
+

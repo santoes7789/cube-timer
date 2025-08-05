@@ -13,10 +13,10 @@
 	min-width: 200px;
 }
 
-.list-group-item .btn-group {
+.dropdown-item .btn-group {
 	opacity: 0;
 }
 
-.list-group-item:hover .btn-group {
+.dropdown-item:hover .btn-group {
 	opacity: 1;
 }
