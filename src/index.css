@@ -81,3 +81,7 @@ button:focus-visible {
 .fs-7 {
 	font-size: 0.8rem;
 }
+
+.strike {
+	text-decoration: line-through;
+}

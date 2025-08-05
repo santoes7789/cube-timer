@@ -48,9 +48,9 @@ const App = () => {
 		setAllTimes(newArray);
 	}
 
-	const modifiyTime = (time) => {
+	const modifyTime = (time) => {
 		const newArray = { ...allTimes };
-		const timeToModify = newArray[session].find(item => item.timestamp == timestamp);
+		const timeToModify = newArray[session].find(item => item.timestamp == time.timestamp);
 		if (timeToModify) {
 			Object.assign(timeToModify, time);
 			setAllTimes(newArray);
@@ -86,7 +86,7 @@ const App = () => {
 	return (
 		<>
 			<TimesContext.Provider
-				value={{ times, session, setSession, sessionList, addSession, deleteSession, editSession, addTime, deleteTime, modifiyTime }}>
+				value={{ times, session, setSession, sessionList, addSession, deleteSession, editSession, addTime, deleteTime, modifyTime }}>
 				<BrowserRouter basename="/cube-timer">
 					<Routes>
 						<Route path="/" element={<Layout />}>

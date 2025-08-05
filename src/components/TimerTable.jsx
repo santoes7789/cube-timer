@@ -38,7 +38,7 @@ const TimerTable = () => {
 										handlePopupOpen()
 									}} >
 									<td>{timeContext.times.length - index}</td>
-									<td>{timeToString(time)}</td>
+									<td>{time.modifier == "dnf" ? "DNF" : timeToString(time)}</td>
 								</tr>
 							))}
 						</tbody>
