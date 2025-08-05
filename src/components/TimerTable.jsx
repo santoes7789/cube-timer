@@ -18,7 +18,6 @@ const TimerTable = () => {
 				timeInfo={selectedTime}
 				show={showPopup}
 				handleClose={handlePopupClose}
-				handleOpen={handlePopupOpen}
 			/>
 			<div className='position-fixed m-4 p-4 bottom-0 end-0 border-end border-bottom border-primary-subtle'>
 				<div className='table-wrapper'>

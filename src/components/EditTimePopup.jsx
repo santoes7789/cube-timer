@@ -44,8 +44,6 @@ const EditTimePopup = ({ timeInfo, show, handleClose }) => {
 			if (timeInfo.time.modifier == "dnf") return "strike"
 		}
 		return "";
-
-
 	}
 
 	return (
@@ -53,7 +51,7 @@ const EditTimePopup = ({ timeInfo, show, handleClose }) => {
 			<Modal.Header closeButton>
 				<div>
 					<h1 className="modal-title fs-5">Solve No. {timeInfo.index}</h1>
-					<p className="date-text fs-7">Session: {timeContext.sessionList[timeInfo.session]}</p>
+					<p className="date-text fs-7">Session: <strong>{timeContext.sessionList[timeInfo.session]}</strong></p>
 				</div>
 			</Modal.Header>
 
@@ -83,7 +81,12 @@ const EditTimePopup = ({ timeInfo, show, handleClose }) => {
 					<p className="date-text fs-7">{getDate()}</p>
 					<p className="time-text fs-7">{getTime()}</p>
 				</div>
-				<button type="button" className="btn btn-outline-danger">Delete</button>
+				<Button variant="outline-danger"
+					onClick={() => {
+						timeContext.deleteTime(timeInfo.time);
+						handleClose();
+					}}
+				>Delete</Button>
 			</Modal.Footer>
 		</Modal>
 	)
