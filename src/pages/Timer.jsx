@@ -89,7 +89,7 @@ const Timer = () => {
 	return (
 		<main>
 			<Scramble scramble={scramble} />
-			<TimerText time={time} timerState={timerState} />
+			<TimerText time={time} setTime={setTime} timerState={timerState} />
 			<TimerTable />
 			<TimerStats />
 			<SessionDisplay />

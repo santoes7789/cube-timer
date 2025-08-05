@@ -1,6 +1,12 @@
 #timer {
 	font-family: 'Share Tech Mono';
-	font-size: 5em;
+	font-size: 4.5em;
+	transform: scale(1);
+
+}
+
+#timer.focused {
+	transform: scale(1.5);
 }
 
 .table-wrapper {
@@ -33,28 +39,22 @@
 }
 
 .circle {
-	width: 100px;
-	height: 100px;
+	width: 200px;
+	height: 200px;
 	pointer-events: none;
 	background-color: #3498db;
 	border-radius: 50%;
-	animation: grow 0.4s forwards ease;
+	animation: grow 0.4s forwards ease-out;
 }
 
 
 @keyframes grow {
 	0% {
-		transform: scale(0);
-		opacity: 0;
-	}
-
-	5% {
-
 		opacity: 1;
 	}
 
 	100% {
-		transform: scale(10);
+		transform: scale(8);
 		opacity: 0;
 	}
 }
