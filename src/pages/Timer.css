@@ -31,3 +31,30 @@
 .background-timer.show {
 	opacity: 1;
 }
+
+.circle {
+	width: 100px;
+	height: 100px;
+	pointer-events: none;
+	background-color: #3498db;
+	border-radius: 50%;
+	animation: grow 0.4s forwards ease;
+}
+
+
+@keyframes grow {
+	0% {
+		transform: scale(0);
+		opacity: 0;
+	}
+
+	5% {
+
+		opacity: 1;
+	}
+
+	100% {
+		transform: scale(10);
+		opacity: 0;
+	}
+}
