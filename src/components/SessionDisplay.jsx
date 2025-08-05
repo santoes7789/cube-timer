@@ -17,7 +17,7 @@ const SessionDisplay = () => {
 	return (
 		<>
 			<EditSessionPopup session={selectedSession} show={showPopup} handleClose={handlePopupClose} handleOpen={handlePopupOpen} />
-			<div className="position-fixed bottom-0 start-0 end-0 my-4 d-flex justify-content-center">
+			<div className="position-fixed bottom-0 start-50 translate-middle-x my-4 d-flex justify-content-center">
 				<div className="border-bottom border-primary-subtle p-4">
 					<Dropdown drop="up">
 						<p className="d-inline"> &nbsp;Session: &nbsp;</p>
