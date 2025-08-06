@@ -14,10 +14,10 @@ const TimerStats = () => {
 				<p>Ao12:</p>
 			</div>
 			<div className='d-inline-block text-start ms-3'>
-				<p>{timeToString(getBestTime(timeContext.times))}</p>
-				<p>{formatMilliseconds(getAoX(timeContext.times, timeContext.times.length, undefined, 0))}</p>
-				<p>{formatMilliseconds(getAoX(timeContext.times, 5))}</p>
-				<p>{formatMilliseconds(getAoX(timeContext.times, 12))}</p>
+				<p><strong>{timeToString(getBestTime(timeContext.times))}</strong></p>
+				<p><strong>{formatMilliseconds(getAoX(timeContext.times, timeContext.times.length, undefined, 0))}</strong></p>
+				<p><strong>{formatMilliseconds(getAoX(timeContext.times, 5))}</strong></p>
+				<p><strong>{formatMilliseconds(getAoX(timeContext.times, 12))}</strong></p>
 			</div>
 		</div>
 	)
