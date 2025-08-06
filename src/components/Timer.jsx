@@ -3,7 +3,7 @@ import { TimerStates } from "@/pages/Timer";
 import { useState } from "react";
 import { useEffect } from "react";
 
-const Timer = ({ time, setTime, timerState }) => {
+const Timer = ({ time, setTime, timerState, onAnimationEnd }) => {
 	const [showCircle, setShowCircle] = useState(false);
 	const [classes, setClasses] = useState("");
 
@@ -25,6 +25,7 @@ const Timer = ({ time, setTime, timerState }) => {
 				setClasses("focused");
 				break;
 			case TimerStates.STOPPED:
+				setClasses("");
 				// setShowCircle(true);
 				break;
 		}
@@ -40,7 +41,7 @@ const Timer = ({ time, setTime, timerState }) => {
 				{showCircle && <div className="z-2 circle"></div >}
 			</div>
 			<div className="position-fixed translate-middle z-3">
-				<h1 className={classes} id="timer">{formatMilliseconds(time)}</h1 >
+				<h1 className={classes} id="timer" onTransitionEnd={onAnimationEnd}>{formatMilliseconds(time)}</h1 >
 			</div>
 		</>
 	)

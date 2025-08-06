@@ -3,12 +3,24 @@ export const getBestTime = (times) => {
 	let smallest = Infinity;
 	for (const t of times) {
 		const value = t.value + (t.modifier == "+2" ? 2 : 0);
-		if (value < smallest) {
+		if (value < smallest && t.modifier != "dnf") {
 			time = t;
 			smallest = value;
 		}
 	}
 	return time;
+}
+
+export const getMean = (times) => {
+	let count = 0;
+	let sum = 0;
+	for (let i = 0; i < times.length; i++) {
+		if (times[i].modifier != "dnf") {
+			sum += times[i].value + (times[i].modifier == "+2" ? 2000 : 0);
+			count++;
+		}
+	}
+	return sum / count;
 }
 
 export const getAoX = (times, x, index, exclude) => {
@@ -20,8 +32,13 @@ export const getAoX = (times, x, index, exclude) => {
 	}
 
 	let subset = times.slice(index - x + 1, index + 1).map((time) => {
-		const mod = (time["modifiers"] == "+2") ? 2000 : 0;
-		return time["value"] + mod;
+		if (time.modifier == "+2") {
+			return time.value + 2000;
+		}
+		else if (time.modifier == "dnf") {
+			return Infinity;
+		}
+		return time.value
 	});
 
 	subset.sort((a, b) => a - b);
@@ -49,7 +66,9 @@ export const timeToString = (time) => {
 }
 
 export const formatMilliseconds = (milli) => {
-	if (milli == null) return "--";
+	if (milli == Infinity) return "DNF";
+
+	else if (milli == null || Number.isNaN(milli)) return "--";
 
 	const milliseconds = Math.floor(milli % 1000);
 	const seconds = Math.floor(milli / 1000) % 60;

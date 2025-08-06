@@ -1,6 +1,7 @@
 import { getBestTime, timeToString, formatMilliseconds, getAoX } from "@/utils/helpers";
 import { useContext } from "react";
 import { TimesContext } from "@/App";
+import { getMean } from "../utils/helpers";
 
 const TimerStats = () => {
 	const timeContext = useContext(TimesContext);
@@ -15,7 +16,7 @@ const TimerStats = () => {
 			</div>
 			<div className='d-inline-block text-start ms-3'>
 				<p><strong>{timeToString(getBestTime(timeContext.times))}</strong></p>
-				<p><strong>{formatMilliseconds(getAoX(timeContext.times, timeContext.times.length, undefined, 0))}</strong></p>
+				<p><strong>{formatMilliseconds(getMean(timeContext.times))}</strong></p>
 				<p><strong>{formatMilliseconds(getAoX(timeContext.times, 5))}</strong></p>
 				<p><strong>{formatMilliseconds(getAoX(timeContext.times, 12))}</strong></p>
 			</div>
