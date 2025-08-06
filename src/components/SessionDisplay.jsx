@@ -21,9 +21,11 @@ const SessionDisplay = () => {
 				<div className="border-bottom border-primary-subtle p-4">
 					<Dropdown drop="up">
 						<p className="d-inline"> &nbsp;Session: &nbsp;</p>
+
 						<Dropdown.Toggle as="strong" role="button" className="text-primary">
 							{timeContext.sessionList[timeContext.session]}
 						</Dropdown.Toggle>
+
 						<Dropdown.Menu className="session-dropdown">
 							<InputGroup className="px-1">
 								<Form.Control id="newSessionInput" placeholder="New Session" onChange={e => setNewSessionName(e.target.value)} value={newSessionName} />
@@ -33,9 +35,10 @@ const SessionDisplay = () => {
 										setNewSessionName("");
 									}} > + </Button>
 							</InputGroup>
+
 							<Dropdown.Divider />
 							{Object.entries(timeContext.sessionList).map(([k, v]) => (
-								<Dropdown.Item as="button" key={k} className="p-0" href="">
+								<Dropdown.Item key={k} className="p-0" href="">
 									<div className="d-flex align-items-stretch ">
 										<div className="flex-grow-1 d-flex align-items-center align-middle rounded me-1"
 											onClick={() => { timeContext.setSession(k); }}>
@@ -50,6 +53,7 @@ const SessionDisplay = () => {
 												}} >
 												<EditIcon />
 											</Button>
+
 											<Button variant="outline-danger" className="border-0" size="sm"
 												onClick={() => {
 													timeContext.deleteSession(k);
@@ -57,6 +61,7 @@ const SessionDisplay = () => {
 												}} >
 												<TrashIcon />
 											</Button>
+
 										</ButtonGroup>
 									</div>
 								</Dropdown.Item>
