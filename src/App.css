@@ -8,3 +8,12 @@ main {
 	width: 100%;
 	height: 100%;
 }
+
+.hoverColor {
+	color: var(--bs-body-color);
+	transition: color 0.2s ease;
+}
+
+.hoverColor:hover {
+	color: var(--bs-primary);
+}

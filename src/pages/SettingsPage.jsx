@@ -9,7 +9,7 @@ const SettingsPage = () => {
 	const settingsContext = useSettings();
 	return (
 		<>
-			<Link to="/" className="start-0 position-fixed m-4 backButton" role="button">
+			<Link to="/" className="start-0 position-fixed m-4 hoverColor" role="button">
 				<BackIcon style={{ width: "50px", height: "50px" }} />
 			</Link>
 

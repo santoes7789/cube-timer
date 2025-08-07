@@ -1,8 +1,0 @@
-.backButton {
-	color: var(--bs-body-color);
-	transition: color 0.2s ease;
-}
-
-.backButton:hover {
-	color: var(--bs-primary);
-}
