@@ -1,11 +1,12 @@
 import SettingsIcon from '@/assets/icons/gear.svg?react';
 import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const SettingsButton = () => {
 	return (
-		<Button variant='outline-secondary' className='border-0 rounded-circle' href='settings'>
+		<Link to="/settings" className='border-0 rounded-circle text-body' href='settings'>
 			<SettingsIcon />
-		</Button>
+		</Link>
 	)
 }
 

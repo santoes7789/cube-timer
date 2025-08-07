@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TimerPage from "@/pages/TimerPage";
 import SettingsPage from "@/pages/SettingsPage";
 import Layout from "@/pages/Layout";
+import SettingsProvider from "@/context/SettingsContext";
 import './App.css'
 
 
@@ -86,17 +87,19 @@ const App = () => {
 	}
 	return (
 		<>
-			<TimesContext.Provider
-				value={{ times, session, setSession, sessionList, addSession, deleteSession, editSession, addTime, deleteTime, modifyTime }}>
-				<BrowserRouter basename="/cube-timer">
-					<Routes>
-						<Route path="/" element={<Layout />}>
-							<Route index element={<TimerPage />} />
-							<Route path="settings" element={<SettingsPage />} />
-						</Route>
-					</Routes>
-				</BrowserRouter>
-			</TimesContext.Provider>
+			<SettingsProvider>
+				<TimesContext.Provider
+					value={{ times, session, setSession, sessionList, addSession, deleteSession, editSession, addTime, deleteTime, modifyTime }}>
+					<BrowserRouter basename="/cube-timer">
+						<Routes>
+							<Route path="/" element={<Layout />}>
+								<Route index element={<TimerPage />} />
+								<Route path="settings" element={<SettingsPage />} />
+							</Route>
+						</Routes>
+					</BrowserRouter>
+				</TimesContext.Provider>
+			</SettingsProvider>
 		</>
 	)
 }
