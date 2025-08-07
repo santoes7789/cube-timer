@@ -4,11 +4,11 @@ import TimerStats from '@/components/TimerStats'
 import Scramble from '@/components/Scramble'
 import { TimesContext } from "@/App";
 import SessionDisplay from '@/components/SessionDisplay';
-import EditTimePopup from '@/components/EditTimePopup';
+import SettingsButton from '@/components/SettingsButton';
 
 import { useEffect, useState, useCallback, useRef, useContext } from 'react'
 
-import './Timer.css'
+import './TimerPage.css'
 import { Scrambow } from 'scrambow';
 
 const waitTime = 500;
@@ -22,7 +22,7 @@ export const TimerStates = {
 	STOPPED: "stopped",
 }
 
-const Timer = () => {
+const TimerPage = () => {
 	const [scramble, setScramble] = useState("Generating Scramble...")
 	const [timerState, setTimerState] = useState(TimerStates.IDLE);
 	const [time, setTime] = useState(0);
@@ -86,7 +86,14 @@ const Timer = () => {
 
 	return (
 		<main>
-			<Scramble scramble={scramble} />
+			<div className="position-fixed top-0 start-0 m-4 p-4 border-top border-start border-primary-subtle" style={{ width: "50px", height: "75px" }}></div>
+			<div className="d-flex justify-content-center w-100 p-4">
+				<Scramble scramble={scramble} />
+			</div>
+			<div className="position-fixed top-0 end-0 m-4 p-4 border-top border-end border-primary-subtle ">
+				<SettingsButton />
+			</div>
+
 			<TimerText time={time} setTime={setTime} onAnimationEnd={() => setTimerState(TimerStates.IDLE)} timerState={timerState} />
 			<TimerTable />
 			<TimerStats />
@@ -95,4 +102,4 @@ const Timer = () => {
 	)
 }
 
-export default Timer;
+export default TimerPage;

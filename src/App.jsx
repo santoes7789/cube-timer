@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Timer from './pages/Timer'
-import Layout from "./pages/Layout";
+import TimerPage from "@/pages/TimerPage";
+import SettingsPage from "@/pages/SettingsPage";
+import Layout from "@/pages/Layout";
 import './App.css'
 
 
@@ -90,7 +91,8 @@ const App = () => {
 				<BrowserRouter basename="/cube-timer">
 					<Routes>
 						<Route path="/" element={<Layout />}>
-							<Route index element={<Timer />} />
+							<Route index element={<TimerPage />} />
+							<Route path="settings" element={<SettingsPage />} />
 						</Route>
 					</Routes>
 				</BrowserRouter>
