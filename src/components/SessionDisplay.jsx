@@ -38,7 +38,7 @@ const SessionDisplay = () => {
 
 							<Dropdown.Divider />
 							{Object.entries(timeContext.sessionList).map(([k, v]) => (
-								<Dropdown.Item key={k} className="p-0" href="">
+								<Dropdown.Item as="div" role="button" key={k} className="p-0" href="">
 									<div className="d-flex align-items-stretch ">
 										<div className="flex-grow-1 d-flex align-items-center align-middle rounded me-1"
 											onClick={() => { timeContext.setSession(k); }}>

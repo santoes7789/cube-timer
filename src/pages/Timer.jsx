@@ -72,8 +72,6 @@ const Timer = () => {
 			setTimerState(TimerStates.IDLE);
 			clearTimeout(timeoutRef.current);
 
-		} else if (timerState == TimerStates.STOPPED) {
-			setTimerState(TimerStates.IDLE);
 		}
 	}, [timerState])
 
