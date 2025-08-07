@@ -80,3 +80,15 @@ button:focus-visible {
 .strike {
 	text-decoration: line-through;
 }
+
+@media (max-width: 768px) {
+	html {
+		font-size: 1rem;
+	}
+}
+
+@media (max-width: 576px) {
+	html {
+		font-size: 0.8rem;
+	}
+}
