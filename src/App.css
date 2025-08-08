@@ -17,3 +17,13 @@ main {
 .hoverColor:hover {
 	color: var(--bs-primary);
 }
+
+.tooltip .tooltip-inner {
+	background-color: var(--bs-secondary-bg);
+	color: var(--bs-body-color);
+	border-radius: 0.25rem;
+}
+
+.tooltip-arrow {
+	--bs-tooltip-bg: var(--bs-body-color);
+}

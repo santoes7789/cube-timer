@@ -1,14 +1,18 @@
-import { Button, Form, ListGroup } from "react-bootstrap";
+import { Button, Form, ListGroup, OverlayTrigger, Tooltip } from "react-bootstrap";
 import BackIcon from '@/assets/icons/arrow-left.svg?react';
 import { useSettings } from "@/context/SettingsContext";
+import { SettingsHeadingItem, SettingsItemSwitch, SettingsItemInputInt } from "@/components/SettingsItems";
 
 import "./SettingsPage.css"
 import { Link } from "react-router-dom";
-import SettingsItem from "@/components/SettingsItem";
-import SettingsHeadingItem from "../components/SettingsHeadingItem";
 
 const SettingsPage = () => {
 	const settingsContext = useSettings();
+	const renderTooltip = (txt) => (
+		<Tooltip className="ms-2">
+			{txt}
+		</Tooltip>
+	);
 	return (
 		<>
 			<Link to="/" className="start-0 position-fixed m-4 hoverColor" role="button">
@@ -25,26 +29,60 @@ const SettingsPage = () => {
 						<SettingsHeadingItem>
 							Appearance
 						</SettingsHeadingItem>
-						<SettingsItem text={"Dark mode"}
+						<SettingsItemSwitch
 							checked={settingsContext.darkMode}
-							onChange={(e) => settingsContext.setDarkMode(e.target.checked)} />
+							onChange={(v) => settingsContext.setDarkMode(v)}>
+							Dark mode
+						</SettingsItemSwitch>
 
+						<SettingsHeadingItem>
+							Timer
+						</SettingsHeadingItem>
+
+						<SettingsItemInputInt
+							value={settingsContext.timerSettings.waitTime}
+							onChange={(v) => settingsContext.setTimer("waitTime", v)}>
+
+							<OverlayTrigger
+								placement="right"
+								delay={{ show: 150, hide: 150 }}
+								overlay={renderTooltip("In milliseconds, how long spacebar needs to be held to turn timer green")} >
+								<p>Timer wait time</p>
+							</OverlayTrigger>
+						</SettingsItemInputInt>
+
+						<SettingsItemInputInt
+							value={settingsContext.timerSettings.updateInterval}
+							onChange={(v) => settingsContext.setTimer("updateInterval", v)}>
+							<OverlayTrigger
+								placement="right"
+								delay={{ show: 150, hide: 150 }}
+								overlay={renderTooltip("In milliseconds, how often running timer updates (recommended: 10) ")} >
+								<p>Timer update interval</p>
+							</OverlayTrigger>
+						</SettingsItemInputInt>
 
 						<SettingsHeadingItem>
 							Layout
 						</SettingsHeadingItem>
 
-						<SettingsItem text={"Show scramble"}
+						<SettingsItemSwitch
 							checked={settingsContext.layoutSettings.scramble}
-							onChange={(e) => settingsContext.setLayout("scramble", e.target.checked)} />
+							onChange={(v) => settingsContext.setLayout("scramble", v)}>
+							Show scramble
+						</SettingsItemSwitch>
 
-						<SettingsItem text={"Show statistics in corner"}
+						<SettingsItemSwitch
 							checked={settingsContext.layoutSettings.stats}
-							onChange={(e) => settingsContext.setLayout("stats", e.target.checked)} />
+							onChange={(v) => settingsContext.setLayout("stats", v)}>
+							Show Statistics in corner
+						</SettingsItemSwitch>
 
-						<SettingsItem text={"Show table"}
+						<SettingsItemSwitch
 							checked={settingsContext.layoutSettings.table}
-							onChange={(e) => settingsContext.setLayout("table", e.target.checked)} />
+							onChange={(v) => settingsContext.setLayout("table", v)}>
+							Show table
+						</SettingsItemSwitch>
 					</ListGroup>
 				</div>
 			</div>

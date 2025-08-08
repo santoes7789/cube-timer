@@ -12,9 +12,6 @@ import './TimerPage.css'
 import { Scrambow } from 'scrambow';
 import { useSettings } from '@/context/SettingsContext';
 
-const waitTime = 500;
-const updateTimeInterval = 10;
-
 export const TimerStates = {
 	IDLE: "idle",
 	WAITING: "waiting",
@@ -27,12 +24,14 @@ const TimerPage = () => {
 	const [scramble, setScramble] = useState("Generating Scramble...")
 	const [timerState, setTimerState] = useState(TimerStates.IDLE);
 	const [time, setTime] = useState(0);
+
 	const timeoutRef = useRef(null);
 	const updateTimerRef = useRef(null);
 	const startTime = useRef(null)
-	const timesContext = useContext(TimesContext);
+
 	const scramb = useRef(new Scrambow());
 
+	const timesContext = useContext(TimesContext);
 	const settingsContext = useSettings();
 
 	const generateNewScramble = () => {
@@ -45,7 +44,7 @@ const TimerPage = () => {
 			if (event.code == "Space") {
 				setTimerState(TimerStates.WAITING);
 				timeoutRef.current = setTimeout(
-					() => setTimerState(TimerStates.READY), waitTime);
+					() => setTimerState(TimerStates.READY), settingsContext.timerSettings.waitTime);
 			} else if (event.shiftKey && event.code == "Backspace") {
 				const length = timesContext.times.length;
 				if (length > 0) {
@@ -69,7 +68,7 @@ const TimerPage = () => {
 			startTime.current = Date.now();
 			updateTimerRef.current = setInterval(() => {
 				setTime(Date.now() - startTime.current)
-			}, updateTimeInterval)
+			}, settingsContext.timerSettings.updateInterval)
 
 		} else if (timerState == TimerStates.WAITING) {
 			setTimerState(TimerStates.IDLE);
