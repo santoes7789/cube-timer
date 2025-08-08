@@ -4,6 +4,8 @@ import { useSettings } from "@/context/SettingsContext";
 
 import "./SettingsPage.css"
 import { Link } from "react-router-dom";
+import SettingsItem from "@/components/SettingsItem";
+import SettingsHeadingItem from "../components/SettingsHeadingItem";
 
 const SettingsPage = () => {
 	const settingsContext = useSettings();
@@ -20,15 +22,29 @@ const SettingsPage = () => {
 
 				<div className="flex-grow-1 w-100 overflow-auto" style={{ maxWidth: "600px" }}>
 					<ListGroup>
-						<ListGroup.Item className="d-flex justify-content-between align-items-center">
-							Dark mode
-							<Form.Check
-								type="switch"
-								id="dark-mode-switch"
-								checked={settingsContext.darkMode}
-								onChange={(e) => settingsContext.setDarkMode(e.target.checked)}
-							/>
-						</ListGroup.Item>
+						<SettingsHeadingItem>
+							Appearance
+						</SettingsHeadingItem>
+						<SettingsItem text={"Dark mode"}
+							checked={settingsContext.darkMode}
+							onChange={(e) => settingsContext.setDarkMode(e.target.checked)} />
+
+
+						<SettingsHeadingItem>
+							Layout
+						</SettingsHeadingItem>
+
+						<SettingsItem text={"Show scramble"}
+							checked={settingsContext.layoutSettings.scramble}
+							onChange={(e) => settingsContext.setLayout("scramble", e.target.checked)} />
+
+						<SettingsItem text={"Show statistics in corner"}
+							checked={settingsContext.layoutSettings.stats}
+							onChange={(e) => settingsContext.setLayout("stats", e.target.checked)} />
+
+						<SettingsItem text={"Show table"}
+							checked={settingsContext.layoutSettings.table}
+							onChange={(e) => settingsContext.setLayout("table", e.target.checked)} />
 					</ListGroup>
 				</div>
 			</div>

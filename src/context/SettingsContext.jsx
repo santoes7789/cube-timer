@@ -11,14 +11,26 @@ const SettingsProvider = ({ children }) => {
 		return saved ? JSON.parse(saved) : true;
 	});
 
+	const [layoutSettings, setLayoutSettings] = useState(() => {
+		const saved = localStorage.getItem('layoutSettings');
+		return saved ? JSON.parse(saved) : { 'scramble': true, 'stats': true, 'table': true }
+	});
+
+	const setLayout = (k, v) => {
+		setLayoutSettings({ ...layoutSettings, [k]: v });
+	}
+
 	useEffect(() => {
-		console.log(darkMode)
+		localStorage.setItem('layoutSettings', JSON.stringify(layoutSettings));
+	}, [layoutSettings]);
+
+	useEffect(() => {
 		localStorage.setItem('darkMode', JSON.stringify(darkMode));
 		document.documentElement.setAttribute("data-bs-theme", darkMode ? "dark" : "light")
 	}, [darkMode]);
 
 	return (
-		<SettingsContext.Provider value={{ darkMode, setDarkMode }}>
+		<SettingsContext.Provider value={{ darkMode, setDarkMode, layoutSettings, setLayout }}>
 			{children}
 		</SettingsContext.Provider>
 	)

@@ -10,6 +10,7 @@ import { useEffect, useState, useCallback, useRef, useContext } from 'react'
 
 import './TimerPage.css'
 import { Scrambow } from 'scrambow';
+import { useSettings } from '@/context/SettingsContext';
 
 const waitTime = 500;
 const updateTimeInterval = 10;
@@ -32,10 +33,12 @@ const TimerPage = () => {
 	const timesContext = useContext(TimesContext);
 	const scramb = useRef(new Scrambow());
 
+	const settingsContext = useSettings();
+
 	const generateNewScramble = () => {
 		setScramble(scramb.current.get()[0].scramble_string);
 	}
-	useEffect(generateNewScramble, []);
+
 
 	const handleKeyDown = useCallback((event) => {
 		if (timerState == TimerStates.IDLE) {
@@ -84,19 +87,24 @@ const TimerPage = () => {
 		}
 	}, [handleKeyDown, handleKeyUp])
 
+	useEffect(generateNewScramble, []);
+
 	return (
 		<main>
-			<div className="position-fixed top-0 start-0 m-4 p-4 border-top border-start border-primary-subtle" style={{ width: "50px", height: "75px" }}></div>
-			<div className="d-flex justify-content-center w-100 p-4">
-				<Scramble scramble={scramble} />
-			</div>
+			{settingsContext.layoutSettings.scramble &&
+				<div className="d-flex justify-content-center w-100 p-4">
+					<Scramble scramble={scramble} />
+				</div>
+			}
 			<div className="position-fixed top-0 end-0 m-4 p-4 border-top border-end border-primary-subtle ">
 				<SettingsButton />
 			</div>
 
 			<TimerText time={time} setTime={setTime} onAnimationEnd={() => setTimerState(TimerStates.IDLE)} timerState={timerState} />
-			<TimerTable />
-			<TimerStats />
+			{settingsContext.layoutSettings.table &&
+				<TimerTable />}
+			{settingsContext.layoutSettings.stats &&
+				<TimerStats />}
 			<SessionDisplay />
 		</main>
 	)
