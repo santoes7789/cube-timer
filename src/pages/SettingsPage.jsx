@@ -5,9 +5,15 @@ import { SettingsHeadingItem, SettingsItemSwitch, SettingsItemInputInt } from "@
 
 import "./SettingsPage.css"
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const SettingsPage = () => {
 	const settingsContext = useSettings();
+
+	useEffect(() => {
+		document.title = "Settings"
+	}, [])
+
 	const renderTooltip = (txt) => (
 		<Tooltip className="ms-2">
 			{txt}

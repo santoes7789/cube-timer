@@ -86,7 +86,10 @@ const TimerPage = () => {
 		}
 	}, [handleKeyDown, handleKeyUp])
 
-	useEffect(generateNewScramble, []);
+	useEffect(() => {
+		generateNewScramble();
+		document.title = "Timer"
+	}, []);
 
 	return (
 		<main>
