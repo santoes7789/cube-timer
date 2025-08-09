@@ -1,10 +1,8 @@
-import { getBestTime, timeToString, formatMilliseconds, getAoX } from "@/utils/helpers";
-import { useContext } from "react";
-import { TimesContext } from "@/App";
-import { getMean } from "../utils/helpers";
+import { getBestTime, timeToString, formatMilliseconds, getAoX, getMean } from "@/utils/helpers";
+import { useTimes } from "@/App";
 
 const TimerStats = () => {
-	const timeContext = useContext(TimesContext);
+	const timeContext = useTimes();
 
 	return (
 		<div className="position-fixed m-4 p-4 bottom-0 start-0 border-start border-bottom border-primary-subtle">

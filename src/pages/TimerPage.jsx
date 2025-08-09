@@ -2,15 +2,16 @@ import TimerText from '@/components/Timer'
 import TimerTable from '@/components/TimerTable'
 import TimerStats from '@/components/TimerStats'
 import Scramble from '@/components/Scramble'
-import { TimesContext } from "@/App";
+
 import SessionDisplay from '@/components/SessionDisplay';
-import SettingsButton from '@/components/SettingsButton';
+
 
 import { useEffect, useState, useCallback, useRef, useContext } from 'react'
 
-import './TimerPage.css'
 import { Scrambow } from 'scrambow';
 import { useSettings } from '@/context/SettingsContext';
+import { Link } from 'react-router-dom';
+import { useTimes } from '@/App';
 
 export const TimerStates = {
 	IDLE: "idle",
@@ -31,7 +32,7 @@ const TimerPage = () => {
 
 	const scramb = useRef(new Scrambow());
 
-	const timesContext = useContext(TimesContext);
+	const timesContext = useTimes();
 	const settingsContext = useSettings();
 
 	const generateNewScramble = () => {
@@ -93,21 +94,27 @@ const TimerPage = () => {
 
 	return (
 		<main>
+			<div className="position-fixed top-0 start-0 m-4 p-4 border-top border-start border-primary-subtle ">
+				<Link to="/" className='border-0 rounded-circle hoverColor' href='settings'>
+					CubeTimer
+				</Link>
+			</div>
 			{settingsContext.layoutSettings.scramble &&
 				<div className="d-flex justify-content-center w-100 p-4">
 					<Scramble scramble={scramble} />
 				</div>
 			}
-			<div className="position-fixed top-0 end-0 m-4 p-4 border-top border-end border-primary-subtle ">
-				<SettingsButton />
-			</div>
 
 			<TimerText time={time} setTime={setTime} onAnimationEnd={() => setTimerState(TimerStates.IDLE)} timerState={timerState} />
 			{settingsContext.layoutSettings.table &&
 				<TimerTable />}
 			{settingsContext.layoutSettings.stats &&
 				<TimerStats />}
-			<SessionDisplay />
+			<div className="position-fixed bottom-0 start-50 translate-middle-x my-4 ">
+				<div className="border-bottom border-primary-subtle p-4">
+					<SessionDisplay />
+				</div>
+			</div>
 		</main>
 	)
 }

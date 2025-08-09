@@ -9,9 +9,14 @@ import './App.css'
 const TIMES_KEY = "times";
 const SESSION_KEY = "session";
 const SESSIONLIST_KEY = "sessionList"
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import StatsPage from "./pages/StatsPage";
 
-export const TimesContext = createContext();
+const TimesContext = createContext();
+
+export function useTimes() {
+	return useContext(TimesContext);
+}
 
 
 const App = () => {
@@ -95,6 +100,7 @@ const App = () => {
 							<Route path="/" element={<Layout />}>
 								<Route index element={<TimerPage />} />
 								<Route path="settings" element={<SettingsPage />} />
+								<Route path="statistics" element={<StatsPage />} />
 							</Route>
 						</Routes>
 					</BrowserRouter>

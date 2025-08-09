@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from "react";
-import { TimesContext } from "../App";
+import { useEffect, useState } from "react";
+import { useTimes } from "@/App";
 import { Button, Modal, ToggleButtonGroup, ToggleButton, ButtonGroup } from "react-bootstrap";
 import { timeToString } from "../utils/helpers";
 
 const EditTimePopup = ({ timeInfo, show, handleClose }) => {
-	const timeContext = useContext(TimesContext);
+	const timeContext = useTimes();
 	const [value, setValue] = useState(null);
 
 	useEffect(() => {

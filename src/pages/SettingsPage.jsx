@@ -3,12 +3,12 @@ import BackIcon from '@/assets/icons/arrow-left.svg?react';
 import { useSettings } from "@/context/SettingsContext";
 import { SettingsHeadingItem, SettingsItemSwitch, SettingsItemInputInt } from "@/components/SettingsItems";
 
-import "./SettingsPage.css"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 const SettingsPage = () => {
 	const settingsContext = useSettings();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		document.title = "Settings"
@@ -21,10 +21,12 @@ const SettingsPage = () => {
 	);
 	return (
 		<>
-			<Link to="/" className="start-0 position-fixed m-4 hoverColor" role="button">
-				<BackIcon style={{ width: "50px", height: "50px" }} />
-			</Link>
-
+			<div className="position-fixed top-0 start-0 m-4 p-4 border-top border-start border-primary-subtle ">
+				<div className="hoverColor" role="button"
+					onClick={() => navigate(-1)} >
+					<BackIcon style={{ width: "50px", height: "50px" }} />
+				</div>
+			</div >
 			<div className="d-flex flex-column align-items-center vh-100 mx-5" >
 				<div className="border-bottom border-primary-subtle mt-5 mb-4 py-3 px-5">
 					<h1>SETTINGS</h1>

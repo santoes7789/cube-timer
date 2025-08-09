@@ -1,13 +1,13 @@
 import { timeToString } from "@/utils/helpers"
-import { useContext, useState } from "react"
+import { useState } from "react"
 
-import { TimesContext } from "@/App"
 import EditTimePopup from "./EditTimePopup"
+import { useTimes } from "@/App"
 
 const TimerTable = () => {
 	const [showPopup, setShowPopup] = useState(false);
 	const [selectedTime, setSelectedTime] = useState({});
-	const timeContext = useContext(TimesContext)
+	const timeContext = useTimes();
 
 	const handlePopupClose = () => setShowPopup(false);
 	const handlePopupOpen = () => setShowPopup(true);

@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from "react";
-import { TimesContext } from "../App";
+import { useEffect, useState } from "react";
+import { useTimes } from "@/App";
 import { Button, Form, Modal } from "react-bootstrap";
 
 const EditSessionPopup = ({ session, show, handleClose, handleOpen }) => {
-	const timeContext = useContext(TimesContext);
+	const timeContext = useTimes;
 	const [newSessionName, setSessionName] = useState("");
 	useEffect(() => {
 		setSessionName(session.value || "");
