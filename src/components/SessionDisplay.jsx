@@ -37,7 +37,7 @@ const SessionDisplay = ({ dropDirection = "up", addButton = true }) => {
 						</InputGroup>
 					}
 					{Object.entries(timeContext.sessionList).map(([k, v]) => (
-						<Dropdown.Item as="div" role="button" key={k} className="p-0" href="">
+						<Dropdown.Item as="div" role="button" key={k} className="p-0">
 							<div className="d-flex align-items-stretch ">
 								<div className="flex-grow-1 d-flex align-items-center align-middle rounded me-1"
 									onClick={() => { timeContext.setSession(k); }}>
