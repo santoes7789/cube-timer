@@ -1,9 +1,12 @@
 import TimerText from '@/components/Timer'
 import TimerTable from '@/components/TimerTable'
 import TimerStats from '@/components/TimerStats'
+import NavButtons from '@/components/NavButtons'
 import Scramble from '@/components/Scramble'
 
 import SessionDisplay from '@/components/SessionDisplay';
+
+import { motion } from 'framer-motion';
 
 
 import { useEffect, useState, useCallback, useRef, useContext } from 'react'
@@ -93,34 +96,40 @@ const TimerPage = () => {
 	}, []);
 
 	return (
-		<main>
-			<div className="position-fixed top-0 start-0 m-4 p-4 border-top border-start border-primary-subtle ">
-				<Link to="/" className='border-0 rounded-circle hoverColor' href='settings'>
-					CubeTimer
-				</Link>
-			</div>
-			{settingsContext.layoutSettings.scramble &&
-				<div className="d-flex justify-content-center w-100 p-4">
-					<Scramble scramble={scramble} />
+		<>
+			<motion.main className="position-fixed top-0"
+				exit={{ opacity: 0.99 }}
+			>
+				<NavButtons />
+				<div className="position-fixed top-0 start-0 m-4 p-4 border-top border-start border-primary-subtle ">
+					<Link to="/" className='border-0 rounded-circle hoverColor' href='settings'>
+						CubeTimer
+					</Link>
 				</div>
-			}
 
-			<TimerText time={time} setTime={setTime} onAnimationEnd={() => setTimerState(TimerStates.IDLE)} timerState={timerState} />
-			{settingsContext.layoutSettings.table &&
-				<TimerTable />}
+				{settingsContext.layoutSettings.scramble &&
+					<div className="d-flex justify-content-center w-100 p-4">
+						<Scramble scramble={scramble} />
+					</div>
+				}
 
-			{settingsContext.layoutSettings.stats &&
-				<div className="position-fixed m-4 p-4 bottom-0 start-0 border-start border-bottom border-primary-subtle">
-					<TimerStats />
+				<TimerText time={time} setTime={setTime} onAnimationEnd={() => setTimerState(TimerStates.IDLE)} timerState={timerState} />
+				{settingsContext.layoutSettings.table &&
+					<TimerTable />}
+
+				{settingsContext.layoutSettings.stats &&
+					<div className="position-fixed m-4 p-4 bottom-0 start-0 border-start border-bottom border-primary-subtle">
+						<TimerStats />
+					</div>
+				}
+				<div className="position-fixed bottom-0 start-50 translate-middle-x my-4 ">
+					<div className="border-bottom border-primary-subtle p-4">
+						<span className="ps-2">Session:&nbsp;</span>
+						<SessionDisplay />
+					</div>
 				</div>
-			}
-			<div className="position-fixed bottom-0 start-50 translate-middle-x my-4 ">
-				<div className="border-bottom border-primary-subtle p-4">
-					<span className="ps-2">Session:&nbsp;</span>
-					<SessionDisplay />
-				</div>
-			</div>
-		</main>
+			</motion.main>
+		</>
 	)
 }
 

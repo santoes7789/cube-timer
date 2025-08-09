@@ -37,9 +37,11 @@ const Timer = ({ time, setTime, timerState, onAnimationEnd }) => {
 				${timerState == TimerStates.READY || timerState == TimerStates.RUNNING ? "show" : ""}`}>
 			</div>
 
-			<div className="position-fixed top-50 start-50 translate-middle z-3">
-				{showCircle && <div className="z-2 circle"></div >}
-			</div>
+			{showCircle &&
+				<div className="position-fixed top-50 start-50 translate-middle z-3">
+					<div className="z-2 circle"></div >
+				</div>
+			}
 			<div className="position-fixed top-50 start-50  translate-middle z-3">
 				<h1 className={classes} id="timer" onTransitionEnd={onAnimationEnd}>{formatMilliseconds(time)}</h1 >
 			</div>

@@ -4,9 +4,13 @@ import TimesChart from '@/components/TimesChart';
 import { useTimes } from "@/App";
 import { getBestTime, timeToString, formatMilliseconds, getAoX, getMean } from "@/utils/helpers";
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { useSettings } from '../context/SettingsContext';
+
 const StatsPage = () => {
 	const navigate = useNavigate();
 
+	const settingsContext = useSettings()
 	const timeContext = useTimes();
 
 	const label = [];
@@ -40,13 +44,23 @@ const StatsPage = () => {
 	const best_ao12 = ao12filtered.length == 0 ? null : Math.min(...ao12filtered);
 
 	return (
-		<>
-			<div className="position-fixed top-0 start-0 m-4 p-4 border-top border-start border-primary-subtle ">
-				<div className="hoverColor" role="button"
-					onClick={() => navigate(-1)} >
-					<BackIcon style={{ width: "50px", height: "50px" }} />
-				</div>
-			</div>
+		<motion.main
+			className='position-fixed bg-body z-1'
+			{...(settingsContext.appearanceSettings.pageAnimations ?
+				{
+					transition: {
+						ease: "easeInOut"
+					},
+					initial: { x: "100%" },
+					animate: { x: 0 },
+					exit: { x: "100%" }
+				} : {}
+			)}
+		>
+			<div className="position-fixed top-0 start-0 m-4 p-4 hoverColor" role="button"
+				onClick={() => navigate(-1)} >
+				<BackIcon style={{ width: "50px", height: "50px" }} />
+			</div >
 
 			<div className="d-flex flex-column align-items-center vh-100 mx-5" >
 				<div className="border-bottom border-primary-subtle mt-5 mb-4 py-3 px-5 fs-1">
@@ -86,7 +100,7 @@ const StatsPage = () => {
 					</div>
 				</div>
 			</div>
-		</>
+		</motion.main>
 	)
 }
 
