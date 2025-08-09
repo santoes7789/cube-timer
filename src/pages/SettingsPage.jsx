@@ -1,10 +1,11 @@
-import { Button, Form, ListGroup, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { ListGroup, OverlayTrigger, Tooltip } from "react-bootstrap";
 import BackIcon from '@/assets/icons/arrow-left.svg?react';
 import { useSettings } from "@/context/SettingsContext";
 import { SettingsHeadingItem, SettingsItemSwitch, SettingsItemInputInt } from "@/components/SettingsItems";
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 
 const SettingsPage = () => {
 	const settingsContext = useSettings();
@@ -19,13 +20,25 @@ const SettingsPage = () => {
 			{txt}
 		</Tooltip>
 	);
+
 	return (
-		<>
-			<div className="position-fixed top-0 start-0 m-4 p-4 border-top border-start border-primary-subtle ">
-				<div className="hoverColor" role="button"
-					onClick={() => navigate(-1)} >
-					<BackIcon style={{ width: "50px", height: "50px" }} />
-				</div>
+		<motion.main
+			className='position-fixed bg-body z-1'
+			{...(settingsContext.appearanceSettings.pageAnimations ?
+				{
+					transition: {
+						ease: "easeInOut"
+					},
+					initial: { x: "100%" },
+					animate: { x: 0 },
+					exit: { x: "100%" }
+				} : {}
+
+			)}
+		>
+			<div className="position-fixed top-0 start-0 m-4 p-4 hoverColor" role="button"
+				onClick={() => navigate(-1)} >
+				<BackIcon style={{ width: "50px", height: "50px" }} />
 			</div >
 
 			<div className="d-flex flex-column align-items-center vh-100 mx-5" >
@@ -39,9 +52,14 @@ const SettingsPage = () => {
 							Appearance
 						</SettingsHeadingItem>
 						<SettingsItemSwitch
-							checked={settingsContext.darkMode}
-							onChange={(v) => settingsContext.setDarkMode(v)}>
+							checked={settingsContext.appearanceSettings.darkMode}
+							onChange={(v) => settingsContext.setAppearance("darkMode", v)}>
 							Dark mode
+						</SettingsItemSwitch>
+						<SettingsItemSwitch
+							checked={settingsContext.appearanceSettings.pageAnimations}
+							onChange={(v) => settingsContext.setAppearance("pageAnimations", v)}>
+							Page animations
 						</SettingsItemSwitch>
 
 						<SettingsHeadingItem>
@@ -95,7 +113,7 @@ const SettingsPage = () => {
 					</ListGroup>
 				</div>
 			</div>
-		</>
+		</motion.main >
 	)
 }
 

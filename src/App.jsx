@@ -1,8 +1,6 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import TimerPage from "@/pages/TimerPage";
-import SettingsPage from "@/pages/SettingsPage";
-import Layout from "@/pages/Layout";
+import { BrowserRouter } from "react-router-dom";
 import SettingsProvider from "@/context/SettingsContext";
+import Routes from "@/components/Routes";
 import './App.css'
 
 
@@ -10,7 +8,6 @@ const TIMES_KEY = "times";
 const SESSION_KEY = "session";
 const SESSIONLIST_KEY = "sessionList"
 import { createContext, useContext, useEffect, useState } from "react";
-import StatsPage from "./pages/StatsPage";
 
 const TimesContext = createContext();
 
@@ -90,19 +87,14 @@ const App = () => {
 	const editSession = (sessionId, sessionName) => {
 		setSessionList(prevData => ({ ...prevData, [sessionId]: sessionName }));
 	}
+
 	return (
 		<>
 			<SettingsProvider>
 				<TimesContext.Provider
 					value={{ times, session, setSession, sessionList, addSession, deleteSession, editSession, addTime, deleteTime, modifyTime }}>
 					<BrowserRouter basename="/cube-timer">
-						<Routes>
-							<Route path="/" element={<Layout />}>
-								<Route index element={<TimerPage />} />
-								<Route path="settings" element={<SettingsPage />} />
-								<Route path="statistics" element={<StatsPage />} />
-							</Route>
-						</Routes>
+						<Routes />
 					</BrowserRouter>
 				</TimesContext.Provider>
 			</SettingsProvider>

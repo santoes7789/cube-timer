@@ -11,6 +11,11 @@ const SettingsProvider = ({ children }) => {
 		return saved ? JSON.parse(saved) : true;
 	});
 
+	const [appearanceSettings, setAppearanceSettings] = useState(() => {
+		const saved = localStorage.getItem('appearanceSettings');
+		return saved ? JSON.parse(saved) : { 'darkMode': true, 'pageAnimations': true, 'color': "#ffffff" }
+	});
+
 	const [layoutSettings, setLayoutSettings] = useState(() => {
 		const saved = localStorage.getItem('layoutSettings');
 		return saved ? JSON.parse(saved) : { 'scramble': true, 'stats': true, 'table': true }
@@ -29,21 +34,25 @@ const SettingsProvider = ({ children }) => {
 		setTimerSettings({ ...timerSettings, [k]: v });
 	}
 
+	const setAppearance = (k, v) => {
+		setAppearanceSettings({ ...appearanceSettings, [k]: v });
+	}
+
 	useEffect(() => {
 		localStorage.setItem('layoutSettings', JSON.stringify(layoutSettings));
 	}, [layoutSettings]);
 
 	useEffect(() => {
+		localStorage.setItem('appearanceSettings', JSON.stringify(appearanceSettings));
+		document.documentElement.setAttribute("data-bs-theme", appearanceSettings.darkMode ? "dark" : "light")
+	}, [appearanceSettings]);
+
+	useEffect(() => {
 		localStorage.setItem('timerSettings', JSON.stringify(timerSettings));
 	}, [timerSettings]);
 
-	useEffect(() => {
-		localStorage.setItem('darkMode', JSON.stringify(darkMode));
-		document.documentElement.setAttribute("data-bs-theme", darkMode ? "dark" : "light")
-	}, [darkMode]);
-
 	return (
-		<SettingsContext.Provider value={{ darkMode, setDarkMode, layoutSettings, setLayout, timerSettings, setTimer }}>
+		<SettingsContext.Provider value={{ appearanceSettings, setAppearance, layoutSettings, setLayout, timerSettings, setTimer }}>
 			{children}
 		</SettingsContext.Provider>
 	)
