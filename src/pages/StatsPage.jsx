@@ -43,6 +43,11 @@ const StatsPage = () => {
 	const best_ao5 = ao5filtered.length == 0 ? null : Math.min(...ao5filtered);
 	const best_ao12 = ao12filtered.length == 0 ? null : Math.min(...ao12filtered);
 
+	const success_rate = count / timeContext.times.length * 100;
+	const mean = getMean(timeContext.times);
+	const variance = data_single.reduce((sum, t) => sum + (t - mean) ** 2, 0) / data_single.length;
+	const stdDev = Math.sqrt(variance);
+	const consistency = stdDev / mean;
 	return (
 		<motion.main
 			className='position-fixed bg-body z-1'
@@ -67,40 +72,56 @@ const StatsPage = () => {
 					<h1 className='d-inline ps-4'>STATISTICS FOR &nbsp;</h1>
 					<SessionDisplay dropDirection={"down"} addButton={false} />
 				</div>
-				<div className="chart-container">
+				<div className="chart-container mb-5">
 					<TimesChart label={label} data_single={data_single} data_ao5={data_ao5} data_ao12={data_ao12} />
 				</div>
 
-				<div className="d-flex">
+				<div className="d-flex flex-wrap gap-3">
 					<div className="border border-primary-subtle rounded p-4">
-						<h4 className="text-start mb-2">Best</h4>
-						<div className="d-inline-block text-end">
-							<p>Single:</p>
-							<p>Ao5:</p>
-							<p>Ao12:</p>
-						</div>
-						<div className='d-inline-block text-start ms-3'>
-							<p><strong>{timeToString(getBestTime(timeContext.times))}</strong></p>
-							<p><strong>{formatMilliseconds(best_ao5)}</strong></p>
-							<p><strong>{formatMilliseconds(best_ao12)}</strong></p>
+						<h5 className="text-start mb-2 text-primary">Best</h5>
+						<div className='d-flex'>
+							<div className="text-end">
+								<p>Single:</p>
+								<p>Ao5:</p>
+								<p>Ao12:</p>
+							</div>
+							<div className='text-start ms-3'>
+								<p><strong>{timeToString(getBestTime(timeContext.times))}</strong></p>
+								<p><strong>{formatMilliseconds(best_ao5)}</strong></p>
+								<p><strong>{formatMilliseconds(best_ao12)}</strong></p>
+							</div>
 						</div>
 					</div>
 					<div className="border border-primary-subtle rounded p-4">
-						<h4 className="text-start mb-2">Current</h4>
-						<div className="d-inline-block text-end">
-							<p>Single:</p>
-							<p>Ao5:</p>
-							<p>Ao12:</p>
+						<h5 className="text-start mb-2 text-primary">Current</h5>
+						<div className='d-flex'>
+							<div className="text-end">
+								<p>Single:</p>
+								<p>Ao5:</p>
+								<p>Ao12:</p>
+							</div>
+							<div className='text-start ms-3'>
+								<p><strong>{timeToString(timeContext.times[timeContext.times.length - 1])}</strong></p>
+								<p><strong>{formatMilliseconds(getAoX(timeContext.times, 5))}</strong></p>
+								<p><strong>{formatMilliseconds(getAoX(timeContext.times, 12))}</strong></p>
+							</div>
 						</div>
-						<div className='d-inline-block text-start ms-3'>
-							<p><strong>{timeToString(timeContext.times[timeContext.times.length - 1])}</strong></p>
-							<p><strong>{formatMilliseconds(getAoX(timeContext.times, 5))}</strong></p>
-							<p><strong>{formatMilliseconds(getAoX(timeContext.times, 12))}</strong></p>
-						</div>
+					</div>
+					<div className="border border-primary-subtle rounded p-4">
+						<h5 className="text-start mb-2 text-primary">Mean</h5>
+						<h4>{formatMilliseconds(mean)}</h4>
+					</div>
+					<div className="border border-primary-subtle rounded p-4">
+						<h5 className="text-start mb-2 text-primary">Success rate</h5>
+						<h4>{success_rate.toFixed(2)}%</h4>
+					</div>
+					<div className="border border-primary-subtle rounded p-4">
+						<h5 className="text-start mb-2 text-primary">Consistency</h5>
+						<h4>{consistency.toFixed(3)}</h4>
 					</div>
 				</div>
 			</div>
-		</motion.main>
+		</motion.main >
 	)
 }
 
