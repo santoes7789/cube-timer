@@ -7,7 +7,7 @@ import EditSessionPopup from "@/components/EditSessionPopup";
 import { useState } from 'react';
 import { useTimes } from '@/App';
 
-const SessionDisplay = ({ text = "Session:", dropDirection = "up", addButton = true }) => {
+const SessionDisplay = ({ dropDirection = "up", addButton = true }) => {
 	const timeContext = useTimes();
 	const [newSessionName, setNewSessionName] = useState("");
 	const [selectedSession, setSelectedSession] = useState({});
@@ -17,9 +17,7 @@ const SessionDisplay = ({ text = "Session:", dropDirection = "up", addButton = t
 	const handlePopupOpen = () => setShowPopup(true);
 	return (
 		<>
-			<Dropdown drop={dropDirection}>
-				<p className="d-inline"> &nbsp;{text}&nbsp;</p>
-
+			<Dropdown drop={dropDirection} className="d-inline-block">
 				<Dropdown.Toggle as="strong" role="button" className="text-primary">
 					{timeContext.sessionList[timeContext.session]}
 				</Dropdown.Toggle>

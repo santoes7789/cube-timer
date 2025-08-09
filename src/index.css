@@ -73,8 +73,8 @@ button:focus-visible {
 	}
 }
 
-.fs-7 {
-	font-size: 0.8rem;
+.fs-1 {
+	line-height: 1.2;
 }
 
 .strike {

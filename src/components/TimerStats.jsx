@@ -5,7 +5,7 @@ const TimerStats = () => {
 	const timeContext = useTimes();
 
 	return (
-		<div className="position-fixed m-4 p-4 bottom-0 start-0 border-start border-bottom border-primary-subtle">
+		<div>
 			<div className="d-inline-block text-end">
 				<p>Best:</p>
 				<p>Mean:</p>

@@ -108,10 +108,15 @@ const TimerPage = () => {
 			<TimerText time={time} setTime={setTime} onAnimationEnd={() => setTimerState(TimerStates.IDLE)} timerState={timerState} />
 			{settingsContext.layoutSettings.table &&
 				<TimerTable />}
+
 			{settingsContext.layoutSettings.stats &&
-				<TimerStats />}
+				<div className="position-fixed m-4 p-4 bottom-0 start-0 border-start border-bottom border-primary-subtle">
+					<TimerStats />
+				</div>
+			}
 			<div className="position-fixed bottom-0 start-50 translate-middle-x my-4 ">
 				<div className="border-bottom border-primary-subtle p-4">
+					<span className="ps-2">Session:&nbsp;</span>
 					<SessionDisplay />
 				</div>
 			</div>

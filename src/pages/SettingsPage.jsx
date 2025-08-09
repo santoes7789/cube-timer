@@ -27,9 +27,10 @@ const SettingsPage = () => {
 					<BackIcon style={{ width: "50px", height: "50px" }} />
 				</div>
 			</div >
+
 			<div className="d-flex flex-column align-items-center vh-100 mx-5" >
 				<div className="border-bottom border-primary-subtle mt-5 mb-4 py-3 px-5">
-					<h1>SETTINGS</h1>
+					<h1 className="d-inline">SETTINGS</h1>
 				</div>
 
 				<div className="flex-grow-1 w-100 overflow-auto" style={{ maxWidth: "600px" }}>

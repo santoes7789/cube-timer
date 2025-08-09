@@ -94,3 +94,11 @@ main {
 	margin-left: 150px;
 	margin-right: 150px;
 }
+
+.chart-container {
+	width: 100%;
+	max-width: 800px;
+	margin: 0 auto;
+	aspect-ratio: 2 / 1;
+	/* width is 2x height */
+}
