@@ -33,7 +33,7 @@ const App = () => {
 	const [currentTimeIdx, setCurrentTimeIdx] = useState(null);
 
 	const times = allTimes[session] || [];
-	const currentTime = times[currentTimeIdx] || null;
+	const currentTime = times[currentTimeIdx] ? { ...times[currentTimeIdx] } : null;
 
 	useEffect(() => localStorage.setItem(TIMES_KEY, JSON.stringify(allTimes)), [allTimes])
 	useEffect(() => localStorage.setItem(SESSION_KEY, JSON.stringify(session)), [session])

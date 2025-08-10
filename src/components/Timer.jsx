@@ -9,10 +9,10 @@ import { timeToString } from "../utils/helpers";
 const Timer = ({ time, setTime, timerState, onAnimationEnd }) => {
 	const [showCircle, setShowCircle] = useState(false);
 	const [classes, setClasses] = useState("");
+	const [timerText, setTimerText] = useState(formatMilliseconds(time));
 	const timesContext = useTimes();
 
 	useEffect(() => {
-
 		switch (timerState) {
 			case TimerStates.IDLE:
 				setClasses("");
@@ -35,13 +35,28 @@ const Timer = ({ time, setTime, timerState, onAnimationEnd }) => {
 		}
 	}, [timerState])
 
-	const timerText = () => {
-		// IF not running, display the current time 
+	useEffect(() => {
+		setTimerText(formatMilliseconds(time));
+	}, [time])
+
+	useEffect(() => {
 		if (timerState == TimerStates.IDLE && timesContext.currentTime) {
-			return timeToString(timesContext.currentTime);
+			if (timesContext.currentTime.modifier == "dnf") {
+				setClasses("strike");
+			} else {
+				setClasses("");
+			}
+			setTimerText(timeToString(timesContext.currentTime));
 		}
-		return formatMilliseconds(time);
-	}
+	}, [timesContext.currentTime])
+
+	// const timerText = () => {
+	// 	// IF not running, display the current time 
+	// 	if (timerState == TimerStates.IDLE && timesContext.currentTime) {
+	// 		return timeToString(timesContext.currentTime);
+	// 	}
+	// 	return formatMilliseconds(time);
+	// }
 
 	return (
 		<>
@@ -55,7 +70,7 @@ const Timer = ({ time, setTime, timerState, onAnimationEnd }) => {
 				</div>
 			}
 			<div className="position-fixed top-50 start-50  translate-middle z-3">
-				<h1 className={classes} id="timer" onTransitionEnd={onAnimationEnd}>{timerText()}</h1 >
+				<h1 className={classes} id="timer" onTransitionEnd={onAnimationEnd}>{timerText}</h1 >
 			</div>
 			{timesContext.currentTime &&
 				<div className="position-fixed top-50 start-50 translate-middle timer-mod-buttons">
