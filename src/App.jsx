@@ -52,7 +52,7 @@ const App = () => {
 
 	const deleteTime = (time) => {
 		const newArray = { ...allTimes };
-		newArray[session] = newArray[session].filter(item => item != time);
+		newArray[session] = newArray[session].filter(item => item.timestamp != time.timestamp);
 		setAllTimes(newArray);
 	}
 
@@ -97,7 +97,7 @@ const App = () => {
 		<>
 			<SettingsProvider>
 				<TimesContext.Provider
-					value={{ times, currentTime, session, setSession, sessionList, addSession, deleteSession, editSession, addTime, deleteTime, modifyTime }}>
+					value={{ times, currentTime, setCurrentTimeIdx, session, setSession, sessionList, addSession, deleteSession, editSession, addTime, deleteTime, modifyTime }}>
 					<BrowserRouter basename="/cube-timer">
 						<Routes />
 					</BrowserRouter>

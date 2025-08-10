@@ -40,7 +40,10 @@ const SessionDisplay = ({ dropDirection = "up", addButton = true }) => {
 						<Dropdown.Item as="div" role="button" key={k} className="p-0">
 							<div className="d-flex align-items-stretch ">
 								<div className="flex-grow-1 d-flex align-items-center align-middle rounded me-1"
-									onClick={() => { timeContext.setSession(k); }}>
+									onClick={() => {
+										timeContext.setSession(k);
+										timeContext.setCurrentTimeIdx(null);
+									}}>
 									<p className="ps-4">{v}</p>
 								</div>
 
