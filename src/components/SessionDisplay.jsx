@@ -25,16 +25,18 @@ const SessionDisplay = ({ dropDirection = "up", addButton = true }) => {
 				<EditSessionPopup session={selectedSession} show={showPopup} handleClose={handlePopupClose} handleOpen={handlePopupOpen} />
 				<Dropdown.Menu className="session-dropdown">
 					{addButton &&
-						<InputGroup className="px-1">
-							<Form.Control id="newSessionInput" placeholder="New Session" onChange={e => setNewSessionName(e.target.value)} value={newSessionName} />
-							<Button variant="outline-primary"
-								onClick={() => {
-									timeContext.addSession(newSessionName);
-									setNewSessionName("");
-								}} > + </Button>
+						<>
+							<InputGroup className="px-1">
+								<Form.Control id="newSessionInput" placeholder="New Session" onChange={e => setNewSessionName(e.target.value)} value={newSessionName} />
+								<Button variant="outline-primary"
+									onClick={() => {
+										timeContext.addSession(newSessionName);
+										setNewSessionName("");
+									}} > + </Button>
 
+							</InputGroup>
 							<Dropdown.Divider />
-						</InputGroup>
+						</>
 					}
 					{Object.entries(timeContext.sessionList).map(([k, v]) => (
 						<Dropdown.Item as="div" role="button" key={k} className="p-0">
