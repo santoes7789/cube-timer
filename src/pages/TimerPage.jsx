@@ -95,6 +95,12 @@ const TimerPage = () => {
 		document.title = "Timer"
 	}, []);
 
+	useEffect(() => {
+		if (timesContext.currentTime == null) {
+			setTime(0);
+		}
+	}, [timesContext.currentTime])
+
 	return (
 		<>
 			<motion.main className="position-fixed top-0"
@@ -114,6 +120,8 @@ const TimerPage = () => {
 				}
 
 				<TimerText time={time} setTime={setTime} onAnimationEnd={() => setTimerState(TimerStates.IDLE)} timerState={timerState} />
+
+
 				{settingsContext.layoutSettings.table &&
 					<TimerTable />}
 

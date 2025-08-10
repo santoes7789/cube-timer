@@ -14,7 +14,8 @@ const EditTimePopup = ({ timeInfo, show, handleClose }) => {
 	const handleClick = (val) => {
 		if (val === value) {
 			setValue(null);
-			timeContext.modifyTime({ ...timeInfo.time, modifier: "" });
+			const { modifier: _, ...deletedMod } = timeInfo.time;
+			timeContext.modifyTime(deletedMod);
 		} else {
 			setValue(val);
 			timeContext.modifyTime({ ...timeInfo.time, modifier: val });

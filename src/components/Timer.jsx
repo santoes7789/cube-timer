@@ -2,10 +2,14 @@ import { formatMilliseconds } from "@/utils/helpers";
 import { TimerStates } from "@/pages/TimerPage";
 import { useState } from "react";
 import { useEffect } from "react";
+import TimerModButtons from '@/components/TimerModButtons'
+import { useTimes } from "@/App";
+import { timeToString } from "../utils/helpers";
 
 const Timer = ({ time, setTime, timerState, onAnimationEnd }) => {
 	const [showCircle, setShowCircle] = useState(false);
 	const [classes, setClasses] = useState("");
+	const timesContext = useTimes();
 
 	useEffect(() => {
 
@@ -31,6 +35,14 @@ const Timer = ({ time, setTime, timerState, onAnimationEnd }) => {
 		}
 	}, [timerState])
 
+	const timerText = () => {
+		// IF not running, display the current time 
+		if (timerState == TimerStates.IDLE && timesContext.currentTime) {
+			return timeToString(timesContext.currentTime);
+		}
+		return formatMilliseconds(time);
+	}
+
 	return (
 		<>
 			<div className={`position-fixed vw-100 vh-100 top-0 start-0 bg-body background-timer z-1 
@@ -43,8 +55,12 @@ const Timer = ({ time, setTime, timerState, onAnimationEnd }) => {
 				</div>
 			}
 			<div className="position-fixed top-50 start-50  translate-middle z-3">
-				<h1 className={classes} id="timer" onTransitionEnd={onAnimationEnd}>{formatMilliseconds(time)}</h1 >
+				<h1 className={classes} id="timer" onTransitionEnd={onAnimationEnd}>{timerText()}</h1 >
 			</div>
+			{timesContext.currentTime &&
+				<div className="position-fixed top-50 start-50 translate-middle timer-mod-buttons">
+					<TimerModButtons />
+				</div>}
 		</>
 	)
 }

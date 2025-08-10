@@ -30,20 +30,24 @@ const App = () => {
 		return saved ? JSON.parse(saved) : { 0: "3x3" };
 	})
 
+	const [currentTimeIdx, setCurrentTimeIdx] = useState(null);
+
 	const times = allTimes[session] || [];
+	const currentTime = times[currentTimeIdx] || null;
 
 	useEffect(() => localStorage.setItem(TIMES_KEY, JSON.stringify(allTimes)), [allTimes])
 	useEffect(() => localStorage.setItem(SESSION_KEY, JSON.stringify(session)), [session])
 	useEffect(() => localStorage.setItem(SESSIONLIST_KEY, JSON.stringify(sessionList)), [sessionList])
 
 	const addTime = (time) => {
-		const newTime = { timestamp: Date.now(), value: time, modifier: "" };
+		const newTime = { timestamp: Date.now(), value: time };
 		const newArray = { ...allTimes };
 		if (!newArray[session]) {
 			newArray[session] = [];
 		}
 		newArray[session].push(newTime);
 		setAllTimes(newArray);
+		setCurrentTimeIdx(times.length - 1);
 	}
 
 	const deleteTime = (time) => {
@@ -56,6 +60,7 @@ const App = () => {
 		const newArray = { ...allTimes };
 		const timeToModify = newArray[session].find(item => item.timestamp == time.timestamp);
 		if (timeToModify) {
+			Object.keys(timeToModify).forEach(key => delete timeToModify[key]);
 			Object.assign(timeToModify, time);
 			setAllTimes(newArray);
 		}
@@ -92,7 +97,7 @@ const App = () => {
 		<>
 			<SettingsProvider>
 				<TimesContext.Provider
-					value={{ times, session, setSession, sessionList, addSession, deleteSession, editSession, addTime, deleteTime, modifyTime }}>
+					value={{ times, currentTime, session, setSession, sessionList, addSession, deleteSession, editSession, addTime, deleteTime, modifyTime }}>
 					<BrowserRouter basename="/cube-timer">
 						<Routes />
 					</BrowserRouter>
