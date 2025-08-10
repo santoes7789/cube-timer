@@ -57,6 +57,20 @@ const Timer = ({ time, setTime, timerState, onAnimationEnd }) => {
 	// 	}
 	// 	return formatMilliseconds(time);
 	// }
+	//
+	const formatText = () => {
+		return (
+			<>
+				{timerText.split("").map((char) => {
+					if (char >= '0' && char <= '9') {
+						return char;
+					} else {
+						return <span className="text-primary">{char}</span>
+					}
+				})}
+			</>
+		)
+	}
 
 	return (
 		<>
@@ -70,7 +84,7 @@ const Timer = ({ time, setTime, timerState, onAnimationEnd }) => {
 				</div>
 			}
 			<div className="position-fixed top-50 start-50  translate-middle z-3">
-				<h1 className={classes} id="timer" onTransitionEnd={onAnimationEnd}>{timerText}</h1 >
+				<h1 className={classes} id="timer" onTransitionEnd={onAnimationEnd}>{formatText()}</h1 >
 			</div>
 			{timesContext.currentTime &&
 				<div className="position-fixed top-50 start-50 translate-middle timer-mod-buttons">
