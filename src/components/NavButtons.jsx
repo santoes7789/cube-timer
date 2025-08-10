@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const NavButtons = () => {
 	return (
 		<>
-			<div className="position-fixed top-0 end-0 m-4 p-4 border-top border-end border-primary-subtle ">
+			<div className="position-fixed top-0 end-0 m-4 p-4 border-top border-end border-primary">
 				<Link to="/" className='border-0 rounded-circle hoverColor' href='settings'>
 					<StopwatchIcon style={{ width: "20px", height: "20px" }} />
 				</Link>

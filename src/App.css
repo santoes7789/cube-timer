@@ -15,7 +15,7 @@ main {
 }
 
 .hoverColor:hover {
-	color: var(--bs-primary);
+	color: var(--primary);
 }
 
 .tooltip .tooltip-inner {
@@ -107,4 +107,17 @@ main {
 	margin: 0 auto;
 	aspect-ratio: 2 / 1;
 	/* width is 2x height */
+}
+
+.text-primary {
+	color: var(--primary) !important;
+}
+
+.border-primary {
+	border-color: var(--primary-border) !important;
+}
+
+.form-check-input {
+	background-color: var(--primary) !important;
+	border-color: var(--primary) !important;
 }

@@ -107,11 +107,13 @@ const TimerPage = () => {
 				exit={{ opacity: 0.99 }}
 			>
 				<NavButtons />
-				<div className="position-fixed top-0 start-0 m-4 p-4 border-top border-start border-primary-subtle ">
-					<Link to="/" className='border-0 rounded-circle hoverColor' href='settings'>
-						CubeTimer
-					</Link>
-				</div>
+				{settingsContext.layoutSettings.logo &&
+					<div className="position-fixed top-0 start-0 m-4 p-4 border-top border-start border-primary ">
+						<Link to="/" className='border-0 rounded-circle hoverColor' href='settings'>
+							CubeTimer
+						</Link>
+					</div>
+				}
 
 				{settingsContext.layoutSettings.scramble &&
 					<div className="d-flex justify-content-center w-100 p-4">
@@ -126,12 +128,12 @@ const TimerPage = () => {
 					<TimerTable />}
 
 				{settingsContext.layoutSettings.stats &&
-					<div className="position-fixed m-4 p-4 bottom-0 start-0 border-start border-bottom border-primary-subtle">
+					<div className="position-fixed m-4 p-4 bottom-0 start-0 border-start border-bottom border-primary">
 						<TimerStats />
 					</div>
 				}
 				<div className="position-fixed bottom-0 start-50 translate-middle-x my-4 ">
-					<div className="border-bottom border-primary-subtle p-4">
+					<div className="border-bottom border-primary p-4">
 						<span className="ps-2">Session:&nbsp;</span>
 						<SessionDisplay />
 					</div>

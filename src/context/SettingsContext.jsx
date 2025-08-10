@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { darken } from "../utils/helpers";
 
 const SettingsContext = createContext();
 
@@ -6,19 +7,14 @@ export function useSettings() {
 	return useContext(SettingsContext);
 }
 const SettingsProvider = ({ children }) => {
-	const [darkMode, setDarkMode] = useState(() => {
-		const saved = localStorage.getItem('darkMode');
-		return saved ? JSON.parse(saved) : true;
-	});
-
 	const [appearanceSettings, setAppearanceSettings] = useState(() => {
 		const saved = localStorage.getItem('appearanceSettings');
-		return saved ? JSON.parse(saved) : { 'darkMode': true, 'pageAnimations': true, 'color': "#ffffff" }
+		return saved ? JSON.parse(saved) : { 'darkMode': true, 'pageAnimations': true, 'color': "#0d6efd" }
 	});
 
 	const [layoutSettings, setLayoutSettings] = useState(() => {
 		const saved = localStorage.getItem('layoutSettings');
-		return saved ? JSON.parse(saved) : { 'scramble': true, 'stats': true, 'table': true }
+		return saved ? JSON.parse(saved) : { 'scramble': true, 'stats': true, 'table': true, 'logo': true }
 	});
 
 	const [timerSettings, setTimerSettings] = useState(() => {
@@ -45,6 +41,8 @@ const SettingsProvider = ({ children }) => {
 	useEffect(() => {
 		localStorage.setItem('appearanceSettings', JSON.stringify(appearanceSettings));
 		document.documentElement.setAttribute("data-bs-theme", appearanceSettings.darkMode ? "dark" : "light")
+		document.documentElement.style.setProperty('--primary', appearanceSettings.color);
+		document.documentElement.style.setProperty('--primary-border', darken(appearanceSettings.color, 35));
 	}, [appearanceSettings]);
 
 	useEffect(() => {

@@ -58,3 +58,17 @@ export const SettingsItemInputInt = ({ children, value, onChange }) => {
 		</ListGroup.Item>
 	)
 }
+
+export const SettingsItemColorPicker = ({ children, value, onChange }) => {
+	return (
+		<ListGroup.Item className="d-flex justify-content-between align-items-center">
+			{children}
+			<div>
+				<Form.Control
+					type="color"
+					value={value}
+					onChange={(e) => onChange(e.target.value)} />
+			</div>
+		</ListGroup.Item>
+	)
+}

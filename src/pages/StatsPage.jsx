@@ -68,7 +68,7 @@ const StatsPage = () => {
 			</div >
 
 			<div className="d-flex flex-column align-items-center vh-100 mx-5" >
-				<div className="border-bottom border-primary-subtle mt-5 mb-4 py-3 px-5 fs-1">
+				<div className="border-bottom border-primary mt-5 mb-4 py-3 px-5 fs-1">
 					<h1 className='d-inline ps-4'>STATISTICS FOR &nbsp;</h1>
 					<SessionDisplay dropDirection={"down"} addButton={false} />
 				</div>
@@ -77,7 +77,7 @@ const StatsPage = () => {
 				</div>
 
 				<div className="d-flex flex-wrap gap-3">
-					<div className="border border-primary-subtle rounded p-4">
+					<div className="border border-primary rounded p-4">
 						<h5 className="text-start mb-2 text-primary">Best</h5>
 						<div className='d-flex'>
 							<div className="text-end">
@@ -92,7 +92,7 @@ const StatsPage = () => {
 							</div>
 						</div>
 					</div>
-					<div className="border border-primary-subtle rounded p-4">
+					<div className="border border-primary rounded p-4">
 						<h5 className="text-start mb-2 text-primary">Current</h5>
 						<div className='d-flex'>
 							<div className="text-end">
@@ -107,15 +107,15 @@ const StatsPage = () => {
 							</div>
 						</div>
 					</div>
-					<div className="border border-primary-subtle rounded p-4">
+					<div className="border border-primary rounded p-4">
 						<h5 className="text-start mb-2 text-primary">Mean</h5>
 						<h4>{formatMilliseconds(mean)}</h4>
 					</div>
-					<div className="border border-primary-subtle rounded p-4">
+					<div className="border border-primary rounded p-4">
 						<h5 className="text-start mb-2 text-primary">Success rate</h5>
 						<h4>{success_rate.toFixed(2)}%</h4>
 					</div>
-					<div className="border border-primary-subtle rounded p-4">
+					<div className="border border-primary rounded p-4">
 						<h5 className="text-start mb-2 text-primary">Consistency</h5>
 						<h4>{consistency.toFixed(3)}</h4>
 					</div>

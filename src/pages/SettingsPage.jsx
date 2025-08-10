@@ -6,6 +6,7 @@ import { SettingsHeadingItem, SettingsItemSwitch, SettingsItemInputInt } from "@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
+import { SettingsItemColorPicker } from "../components/SettingsItems";
 
 const SettingsPage = () => {
 	const settingsContext = useSettings();
@@ -42,7 +43,7 @@ const SettingsPage = () => {
 			</div >
 
 			<div className="d-flex flex-column align-items-center vh-100 mx-5" >
-				<div className="border-bottom border-primary-subtle mt-5 mb-4 py-3 px-5">
+				<div className="border-bottom border-primary mt-5 mb-4 py-3 px-5">
 					<h1 className="d-inline">SETTINGS</h1>
 				</div>
 
@@ -56,6 +57,13 @@ const SettingsPage = () => {
 							onChange={(v) => settingsContext.setAppearance("darkMode", v)}>
 							Dark mode
 						</SettingsItemSwitch>
+
+						<SettingsItemColorPicker
+							value={settingsContext.appearanceSettings.color}
+							onChange={(v) => settingsContext.setAppearance("color", v)}>
+							Color theme
+						</SettingsItemColorPicker>
+
 						<SettingsItemSwitch
 							checked={settingsContext.appearanceSettings.pageAnimations}
 							onChange={(v) => settingsContext.setAppearance("pageAnimations", v)}>
@@ -102,13 +110,18 @@ const SettingsPage = () => {
 						<SettingsItemSwitch
 							checked={settingsContext.layoutSettings.stats}
 							onChange={(v) => settingsContext.setLayout("stats", v)}>
-							Show Statistics in corner
+							Show statistics
 						</SettingsItemSwitch>
 
 						<SettingsItemSwitch
 							checked={settingsContext.layoutSettings.table}
 							onChange={(v) => settingsContext.setLayout("table", v)}>
 							Show table
+						</SettingsItemSwitch>
+						<SettingsItemSwitch
+							checked={settingsContext.layoutSettings.logo}
+							onChange={(v) => settingsContext.setLayout("logo", v)}>
+							Show logo
 						</SettingsItemSwitch>
 					</ListGroup>
 				</div>

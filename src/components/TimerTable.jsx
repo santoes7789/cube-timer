@@ -19,7 +19,7 @@ const TimerTable = () => {
 				show={showPopup}
 				handleClose={handlePopupClose}
 			/>
-			<div className='position-fixed m-4 p-4 bottom-0 end-0 border-end border-bottom border-primary-subtle'>
+			<div className='position-fixed m-4 p-4 bottom-0 end-0 border-end border-bottom border-primary'>
 				<div className='table-wrapper'>
 					<table className='table table-sm table-hover m-0'>
 						<thead className="sticky-top">
