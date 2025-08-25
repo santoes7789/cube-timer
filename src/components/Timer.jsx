@@ -61,11 +61,11 @@ const Timer = ({ time, setTime, timerState, onAnimationEnd }) => {
 	const formatText = () => {
 		return (
 			<>
-				{timerText.split("").map((char) => {
+				{timerText.split("").map((char, index) => {
 					if (char >= '0' && char <= '9') {
 						return char;
 					} else {
-						return <span className="text-primary">{char}</span>
+						return <span className="text-primary" key={index}>{char}</span>
 					}
 				})}
 			</>

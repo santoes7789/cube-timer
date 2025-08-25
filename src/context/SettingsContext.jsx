@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { darken } from "../utils/helpers";
+import { lighten } from "../utils/helpers";
 
 const SettingsContext = createContext();
 
@@ -42,7 +42,7 @@ const SettingsProvider = ({ children }) => {
 		localStorage.setItem('appearanceSettings', JSON.stringify(appearanceSettings));
 		document.documentElement.setAttribute("data-bs-theme", appearanceSettings.darkMode ? "dark" : "light")
 		document.documentElement.style.setProperty('--primary', appearanceSettings.color);
-		document.documentElement.style.setProperty('--primary-border', darken(appearanceSettings.color, 35));
+		document.documentElement.style.setProperty('--primary-border', lighten(appearanceSettings.color, 5));
 	}, [appearanceSettings]);
 
 	useEffect(() => {

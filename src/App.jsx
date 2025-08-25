@@ -39,8 +39,11 @@ const App = () => {
 	useEffect(() => localStorage.setItem(SESSION_KEY, JSON.stringify(session)), [session])
 	useEffect(() => localStorage.setItem(SESSIONLIST_KEY, JSON.stringify(sessionList)), [sessionList])
 
-	const addTime = (time) => {
+	const addTime = (time, scramble) => {
 		const newTime = { timestamp: Date.now(), value: time };
+		if (scramble) {
+			newTime["scramble"] = scramble;
+		}
 		const newArray = { ...allTimes };
 		if (!newArray[session]) {
 			newArray[session] = [];
