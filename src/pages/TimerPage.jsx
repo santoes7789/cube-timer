@@ -3,6 +3,8 @@ import TimerTable from '@/components/TimerTable'
 import TimerStats from '@/components/TimerStats'
 import NavButtons from '@/components/NavButtons'
 import Scramble from '@/components/Scramble'
+import RubiksCubeDisplay from '@/components/RubiksCubeDisplay'
+import { generateScramble } from 'react-rubiks-cube-utils';
 
 import SessionDisplay from '@/components/SessionDisplay';
 
@@ -11,7 +13,6 @@ import { motion } from 'framer-motion';
 
 import { useEffect, useState, useCallback, useRef, useContext } from 'react'
 
-import { Scrambow } from 'scrambow';
 import { useSettings } from '@/context/SettingsContext';
 import { Link } from 'react-router-dom';
 import { useTimes } from '@/App';
@@ -25,7 +26,7 @@ export const TimerStates = {
 }
 
 const TimerPage = () => {
-	const [scramble, setScramble] = useState("Generating Scramble...")
+	const [scramble, setScramble] = useState("")
 	const [timerState, setTimerState] = useState(TimerStates.IDLE);
 	const [time, setTime] = useState(0);
 
@@ -33,13 +34,11 @@ const TimerPage = () => {
 	const updateTimerRef = useRef(null);
 	const startTime = useRef(null)
 
-	const scramb = useRef(new Scrambow());
-
 	const timesContext = useTimes();
 	const settingsContext = useSettings();
 
 	const generateNewScramble = () => {
-		setScramble(scramb.current.get()[0].scramble_string);
+		setScramble(generateScramble({ type: '3x3' }));
 	}
 
 
@@ -60,7 +59,11 @@ const TimerPage = () => {
 			clearInterval(updateTimerRef.current);
 			const time = Date.now() - startTime.current;
 			setTime(time);
-			timesContext.addTime(time);
+			if (settingsContext.layoutSettings.scramble) {
+				timesContext.addTime(time, scramble);
+			} else {
+				timesContext.addTime(time);
+			}
 			generateNewScramble();
 			setTimerState(TimerStates.STOPPED);
 		}
@@ -109,9 +112,7 @@ const TimerPage = () => {
 				<NavButtons />
 				{settingsContext.layoutSettings.logo &&
 					<div className="position-fixed top-0 start-0 m-4 p-4 border-top border-start border-primary ">
-						<Link to="/" className='border-0 rounded-circle hoverColor' href='settings'>
-							CubeTimer
-						</Link>
+						<RubiksCubeDisplay scramble={scramble} />
 					</div>
 				}
 

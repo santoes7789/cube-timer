@@ -121,3 +121,8 @@ main {
 	background-color: var(--primary) !important;
 	border-color: var(--primary) !important;
 }
+
+#cube-display div[style*="background-color"] {
+	margin: 1px !important;
+	border-radius: 1px !important;
+}
