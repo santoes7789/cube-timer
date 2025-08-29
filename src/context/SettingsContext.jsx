@@ -14,7 +14,7 @@ const SettingsProvider = ({ children }) => {
 
 	const [layoutSettings, setLayoutSettings] = useState(() => {
 		const saved = localStorage.getItem('layoutSettings');
-		return saved ? JSON.parse(saved) : { 'scramble': true, 'stats': true, 'table': true, 'logo': true }
+		return saved ? JSON.parse(saved) : { 'scramble': true, 'stats': true, 'table': true, 'logo': true, 'scrambledCube': true }
 	});
 
 	const [timerSettings, setTimerSettings] = useState(() => {

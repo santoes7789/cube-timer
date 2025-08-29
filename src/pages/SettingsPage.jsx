@@ -119,9 +119,9 @@ const SettingsPage = () => {
 							Show table
 						</SettingsItemSwitch>
 						<SettingsItemSwitch
-							checked={settingsContext.layoutSettings.logo}
-							onChange={(v) => settingsContext.setLayout("logo", v)}>
-							Show logo
+							checked={settingsContext.layoutSettings.scrambledCube}
+							onChange={(v) => settingsContext.setLayout("scrambledCube", v)}>
+							Show scramble preview
 						</SettingsItemSwitch>
 					</ListGroup>
 				</div>

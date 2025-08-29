@@ -110,7 +110,7 @@ const TimerPage = () => {
 				exit={{ opacity: 0.99 }}
 			>
 				<NavButtons />
-				{settingsContext.layoutSettings.logo &&
+				{settingsContext.layoutSettings.scrambledCube &&
 					<div className="position-fixed top-0 start-0 m-4 p-4 border-top border-start border-primary ">
 						<RubiksCubeDisplay scramble={scramble} />
 					</div>
