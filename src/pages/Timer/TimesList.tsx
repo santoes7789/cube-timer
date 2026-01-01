@@ -3,27 +3,27 @@ import { formatMilliseconds } from "@/utils/time";
 import { useLayoutEffect, useRef, useState } from "react";
 
 export default function TimesList({ times } : { times?: TimeType[]}) {
-  if(!times) return;
+  if(!times || times.length === 0) return;
 
-  const [isOverflowing, setIsOverflowing] = useState(false);
+  // const [isOverflowing, setIsOverflowing] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
-    const checkOverflow = () => {
-      const element = scrollRef.current;
-      if (element) {
-        const hasOverflow = element.scrollHeight > element.clientHeight;
-        setIsOverflowing(hasOverflow);
-      }
-    };
-
-    checkOverflow();
-
-    const observer = new ResizeObserver(checkOverflow);
-    if (scrollRef.current) observer.observe(scrollRef.current);
-
-    return () => observer.disconnect();
-  }, []);
+  // useLayoutEffect(() => {
+  //   const checkOverflow = () => {
+  //     const element = scrollRef.current;
+  //     if (element) {
+  //       const hasOverflow = element.scrollHeight > element.clientHeight;
+  //       setIsOverflowing(hasOverflow);
+  //     }
+  //   };
+  //
+  //   checkOverflow();
+  //
+  //   const observer = new ResizeObserver(checkOverflow);
+  //   if (scrollRef.current) observer.observe(scrollRef.current);
+  //
+  //   return () => observer.disconnect();
+  // }, []);
 
   return (
     <>

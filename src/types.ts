@@ -5,3 +5,9 @@ export type TimeType = {
   modifier: string;
   comment: string;
 }
+
+export type SessionType = {
+  id: string;
+  name: string;
+  timestamp: number;
+}

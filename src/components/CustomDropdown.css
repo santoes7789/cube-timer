@@ -1,0 +1,7 @@
+.trigger {
+  display: inline-block;
+}
+.dropdown {
+  position: fixed;
+  bottom: 0;
+}
