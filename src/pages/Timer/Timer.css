@@ -51,7 +51,7 @@
 
 .times-list-element {
   display: block;
-  border: 1px solid #c4c4c444;
+  border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   padding: 3px 10px;
   min-width: 50px;
@@ -69,7 +69,7 @@
 .session-display-container {
   bottom: var(--main-padding);
   left: 50%;
-  transform: translate(-50%, 0);
+  transform: translate(round(-50%, 1px), 0);
   position: absolute; 
 }
 

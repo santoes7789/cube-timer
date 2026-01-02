@@ -29,9 +29,8 @@ export function CustomDropdown({ options, defaultValue, onClick }: {options: Dro
   return (
     <>
       <div ref={dropdownRef} className="dropdown-container">
-        <div className="bold" onClick={() => setOpen(o => !o)}>
-
-          {value ?? "Select an option"}
+        <div className="text bold" onClick={() => setOpen(o => !o)}>
+          {value ?? "Select an option"} 
           <span className={`arrow ${open ? "arrow-flipped" : ""}`}>
             &#9662;
           </span>
@@ -39,7 +38,7 @@ export function CustomDropdown({ options, defaultValue, onClick }: {options: Dro
         {open && (
           <div className="popout-container dropdown">
             {options.map(option => (
-              <button
+              <div
                 className="option"
                 key={option.value}
                 onClick={() => {
@@ -51,7 +50,7 @@ export function CustomDropdown({ options, defaultValue, onClick }: {options: Dro
                 <div>
                   {option.label}
                 </div>
-              </button>
+              </div>
             ))}
           </div>
         )}

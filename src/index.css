@@ -3,6 +3,7 @@
   --highlight-color: #0081ff;
   --border-radius: 10px;
   --main-padding: 15px;
+  --border-color: rgba(255,255,255,0.25);
 
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
