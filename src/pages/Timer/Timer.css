@@ -25,36 +25,28 @@
   bottom: var(--main-padding);
   left: var(--main-padding);
   position: fixed;
+  padding: 0 !important;
 }
+
+.times-list-inner-container {
+  padding: 0 var(--main-padding);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black calc(var(--main-padding) + 5px),
+    black calc(100% - var(--main-padding) - 5px),
+    transparent 100%
+    );
+}
+
+
 
 .times-list-scroll-container {
   max-height: 230px;
   overflow-y: auto;
   scrollbar-width: none;
-}
-
-.top-fade {
-  position: absolute;
-  box-sizing: border-box;
-  margin: var(--main-padding);
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 40px;
-  background: linear-gradient(to top, transparent, var(--bg-color));
-  pointer-events: none; 
-}
-
-.bottom-fade {
-  position: absolute;
-  box-sizing: border-box;
-  margin: var(--main-padding);
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 40px;
-  /* background-color: red; */
-  pointer-events: none; 
+  padding-top: var(--main-padding);
+  padding-bottom: var(--main-padding);
 }
 
 .times-list-element {
@@ -62,9 +54,16 @@
   border: 1px solid #c4c4c444;
   border-radius: var(--border-radius);
   padding: 3px 10px;
-  margin: 4px 0px;
   min-width: 50px;
-  /* box-shadow: 1px 1px 2px rgba(0,0,0); */
+  cursor: pointer;
+}
+.times-list-element:hover {
+  border-color: var(--highlight-color);
+}
+.times-list-element-container {
+  gap: 4px;
+  display: flex;
+  flex-direction: column;
 }
 
 .session-display-container {
@@ -96,6 +95,6 @@
 }
 
 #cube-display div[style*="background-color"] {
-	margin: 1px !important;
-	border-radius: 1px !important;
+  margin: 1px !important;
+  border-radius: 1px !important;
 }

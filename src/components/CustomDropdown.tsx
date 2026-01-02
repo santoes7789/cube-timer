@@ -29,7 +29,7 @@ export function CustomDropdown({ options, defaultValue, onClick }: {options: Dro
   return (
     <>
       <div ref={dropdownRef} className="dropdown-container">
-        <div onClick={() => setOpen(o => !o)}>
+        <div className="bold" onClick={() => setOpen(o => !o)}>
 
           {value ?? "Select an option"}
           <span className={`arrow ${open ? "arrow-flipped" : ""}`}>

@@ -1,7 +1,6 @@
 .dropdown-container {
   display: inline-block;
   position: relative;
-  font-weight: bold;
   cursor: pointer;
 }
 
