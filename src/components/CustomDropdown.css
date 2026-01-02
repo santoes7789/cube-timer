@@ -1,7 +1,39 @@
-.trigger {
+.dropdown-container {
   display: inline-block;
+  position: relative;
+  font-weight: bold;
+  cursor: pointer;
 }
+
+.dropdown-container:hover {
+  color: var(--highlight-color);
+}
+
 .dropdown {
-  position: fixed;
-  bottom: 0;
+  position: absolute;
+  right: calc(var(--main-padding) * -1);
+  bottom: calc(100% + var(--main-padding));
+  margin-bottom: 4px;
+  padding: 0 !important;
+  z-index: 10;
 }
+
+.option {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border-width: 2px;
+  white-space: nowrap;
+}
+
+.arrow {
+  font-size: 1em;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.arrow-flipped {
+  display: inline-block;
+  transform: rotate(180deg)
+}
+

@@ -10,12 +10,6 @@ select {
 select option {
   background-color: var(--bg-color);
 }
-.dropdown {
-  border: none;
-  /* background-color: var(--bg-color); */
-  font: inherit;
-  color: lightblue;
-}
 
 .popout-container {
   padding: var(--main-padding);

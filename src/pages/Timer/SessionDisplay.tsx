@@ -6,14 +6,21 @@ export default function SessionDisplay() {
 
   return (
     <div className="session-display-container popout-container">
-      Session:  
-      {/* <CustomDropdown options={times ? times.sessionData.map(t => ( { value: t.id, label: t.name})) : []}/> */}
-      <CustomDropdown options={[
-        { value: "one", label: "1"},
-        { value: "two", label: "2"},
-        { value: "three", label: "3"},
-        { value: "four", label: "4"},
-      ]}/>
+      Session: {" "} 
+      <CustomDropdown 
+        defaultValue={times?.activeSessionName ?? null}
+        onClick={(id) => {
+          if(id == "new") {
+
+          } else {
+            times?.setActiveSession(id)
+          }
+        }}
+        options={times ? 
+          [
+            ...times.sessionData.map(t => ( { value: t.id, label: t.name})), 
+            {value: "new", label: "Create New"}
+          ] : []}/>
     </div>
   )
 }

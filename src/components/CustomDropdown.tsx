@@ -1,39 +1,62 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./CustomDropdown.css"
+
 type DropdownOption = {
   value: string;
   label: string;
 }
-export function CustomDropdown({ options }: {options: DropdownOption[]}) {
+
+export function CustomDropdown({ options, defaultValue, onClick }: {options: DropdownOption[], defaultValue: string | null, onClick: (value: string) => void}) {
   if(!options) return;
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState<string | null>(null);
+  const [value, setValue] = useState<string | null>(defaultValue);
 
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <>
-      <div className="trigger" onClick={() => setOpen(o => !o)}>
-        {value ?? "Select an option"}
-      </div>
+      <div ref={dropdownRef} className="dropdown-container">
+        <div onClick={() => setOpen(o => !o)}>
 
-      {open && (
-        <div className="dropdown">
-          <ul>
+          {value ?? "Select an option"}
+          <span className={`arrow ${open ? "arrow-flipped" : ""}`}>
+            &#9662;
+          </span>
+        </div>
+        {open && (
+          <div className="popout-container dropdown">
             {options.map(option => (
-              <li
+              <button
                 className="option"
                 key={option.value}
                 onClick={() => {
-                  setValue(option.value);
+                  setValue(option.label)
                   setOpen(false);
+                  onClick(option.value);
                 }}
-                
               >
-                {option.label}
-              </li>
+                <div>
+                  {option.label}
+                </div>
+              </button>
             ))}
-          </ul>
-        </div>
-      )}
+          </div>
+        )}
+      </div>
+
     </>
   );
 }
