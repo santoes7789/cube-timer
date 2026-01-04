@@ -4,6 +4,7 @@
   --border-radius: 10px;
   --main-padding: 15px;
   --border-color: rgba(255,255,255,0.25);
+  --border-default: 1px solid var(--border-color);
 
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -36,9 +37,9 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-image: url("./assets/background-default.jpg");
-  background-size: cover;
-  background-position: center;
+  /* background-image: url("./assets/background-default.jpg"); */
+  /* background-size: cover; */
+  /* background-position: center; */
 }
 
 h1 {

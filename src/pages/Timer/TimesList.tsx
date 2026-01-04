@@ -3,7 +3,6 @@ import { formatMilliseconds } from "@/utils/time";
 import { useLayoutEffect, useRef, useState } from "react";
 
 export default function TimesList({ times } : { times?: TimeType[]}) {
-  if(!times || times.length === 0) return;
 
   const [isOverflowing, setIsOverflowing] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -25,23 +24,21 @@ export default function TimesList({ times } : { times?: TimeType[]}) {
     return () => observer.disconnect();
   }, []);
 
+  if(!times || times.length === 0) return;
   return (
     <>
       <div className="times-list-container popout-container">
-        {/* <div className="top-fade"></div> */}
-
         <div className="times-list-inner-container">
           <div ref={scrollRef} className="times-list-scroll-container">
             <div className="times-list-element-container">
               {[...times].reverse().map((t) => (
-                <div className="times-list-element" key={t.timestamp_start}>
+                <div className="times-list-element" key={t.time}>
                   {formatMilliseconds(t.time)}
                 </div>
               ))}
             </div>
           </div>
         </div>
-        {/* {isOverflowing && <div className="bottom-fade"></div>} */}
       </div>
     </>
   );

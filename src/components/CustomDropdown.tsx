@@ -6,10 +6,8 @@ type DropdownOption = {
   label: string;
 }
 
-export function CustomDropdown({ options, defaultValue, onClick }: {options: DropdownOption[], defaultValue: string | null, onClick: (value: string) => void}) {
-  if(!options) return;
+export function CustomDropdown({ options, value, onClick }: {options: DropdownOption[], value: string | null, onClick: (value: string) => void}) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState<string | null>(defaultValue);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -26,6 +24,9 @@ export function CustomDropdown({ options, defaultValue, onClick }: {options: Dro
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  if(!options) return;
+
   return (
     <>
       <div ref={dropdownRef} className="dropdown-container">
@@ -42,7 +43,6 @@ export function CustomDropdown({ options, defaultValue, onClick }: {options: Dro
                 className="option"
                 key={option.value}
                 onClick={() => {
-                  setValue(option.label)
                   setOpen(false);
                   onClick(option.value);
                 }}

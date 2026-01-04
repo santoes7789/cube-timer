@@ -11,6 +11,11 @@ select option {
   background-color: var(--bg-color);
 }
 
+input {
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+}
+
 .popout-container {
   padding: var(--main-padding);
   border-radius: var(--border-radius);

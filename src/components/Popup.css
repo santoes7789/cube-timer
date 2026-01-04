@@ -1,0 +1,20 @@
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  place-items: center;
+  justify-content: center;
+
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.45);
+}
+
+.popup-container-child {
+  display: flex;
+  flex-direction: column;
+  gap: var(--main-padding);
+}

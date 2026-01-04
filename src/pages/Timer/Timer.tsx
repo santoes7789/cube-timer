@@ -6,6 +6,7 @@ import TimesList from "./TimesList";
 import SessionDisplay from "./SessionDisplay";
 import Scramble, { generateNewScramble } from "./Scramble";
 import RubiksCubeDisplay from "./RubiksCubeDisplay";
+import Popup from "@/components/Popup";
 
 type TimerState = "idle" | "waiting" | "ready" | "running" | "stopped";
 
@@ -21,6 +22,8 @@ function Timer() {
   const times = useTimes();
 
   const [scramble, setScramble] = useState(() => generateNewScramble());
+
+  const [popupTEST, setPopup] = useState(true);
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (state === "idle" && event.code === "Space") {
