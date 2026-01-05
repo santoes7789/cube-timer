@@ -1,10 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { formatMilliseconds } from "@/utils/time";
+
 import "./Timer.css";
+
 import TimesList from "./TimesList";
 import SessionDisplay from "./SessionDisplay";
 import Scramble, { generateNewScramble } from "./Scramble";
 import RubiksCubeDisplay from "./RubiksCubeDisplay";
+import TimesStats from "./TimesStats";
+
 import { addTime } from "@/db/times";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "@/db/db";
@@ -17,15 +21,12 @@ function Timer() {
 
   const timeoutRef = useRef(0);
   const updateTimerRef = useRef(0);
-
   const startTime = useRef(0);
 
   const [scramble, setScramble] = useState(() => generateNewScramble());
 
   const sessions = useLiveQuery(() => db.session.toArray()); 
-
   const [currentSession, setCurrentSession] = useState(sessions?.at(0)?.id ?? 1);
-
   const times = useLiveQuery(() => db.times.where("session").equals(currentSession).toArray(), [currentSession]);
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
@@ -97,6 +98,7 @@ function Timer() {
       <SessionDisplay sessions={sessions} currentSession={currentSession} setSession={setCurrentSession}/>
       <Scramble scramble={scramble}/>
       <RubiksCubeDisplay scramble={scramble} />
+      <TimesStats times={times}/>
     </div>
   );
 }

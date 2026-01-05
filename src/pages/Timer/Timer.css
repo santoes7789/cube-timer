@@ -103,4 +103,24 @@
 .new-session-popup-buttons {
   display: flex;
   justify-content: space-between;
+  gap: 5px;
 }
+
+.times-popup-content {
+  text-align: left;
+  min-width: 300px;
+}
+
+.times-popup-content .heading {
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+
+.times-popup-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+

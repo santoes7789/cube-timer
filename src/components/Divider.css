@@ -1,0 +1,4 @@
+.divider {
+  border-top: var(--border-default);
+  height: 0;
+}

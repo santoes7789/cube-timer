@@ -32,3 +32,9 @@ input {
 .bold {
   font-weight: 800;
 }
+
+.button-danger:hover {
+  border-color: red;
+
+}
+

@@ -30,7 +30,7 @@ export default function SessionDisplay({ sessions, currentSession, setSession} :
           options={sessions ?
             [
               ...sessions.map(t => ({ value: t.id.toString(), label: t.name })),
-              { value: "new", label: "Create New" }
+              { value: "new", label: "+" }
             ] : []} />
       </div>
       <Popup show={popup} onClose={closePopup}>
