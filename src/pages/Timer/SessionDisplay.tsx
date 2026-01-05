@@ -1,13 +1,15 @@
 import { CustomDropdown } from "@/components/CustomDropdown";
 import Popup from "@/components/Popup";
-import { useTimes } from "@/contexts/TimesContext"
-import { useState } from "react";
+import { addSession } from "@/db/session";
+import type { SessionType } from "@/types";
+import { useState, type Dispatch, type SetStateAction } from "react";
 
-export default function SessionDisplay() {
+export default function SessionDisplay({ sessions, currentSession, setSession} :
+  {sessions?: SessionType[], currentSession: number, setSession: Dispatch<SetStateAction<number>>}) {
   const [popup, setPopup] = useState(false);
   const [newSessionName, setNewSessionName] = useState("");
-  const times = useTimes();
 
+  const currentSessionName = sessions?.find(s => s.id === currentSession)?.name;
   function closePopup() {
     setPopup(false);
     setNewSessionName("");
@@ -17,17 +19,17 @@ export default function SessionDisplay() {
       <div className="session-display-container popout-container">
         Session: {" "}
         <CustomDropdown
-          value={times?.activeSessionName ?? null}
+          value={currentSessionName}
           onClick={(id) => {
             if (id == "new") {
               setPopup(true);
             } else {
-              times?.sessionDispatch({ type: "set", id: id })
+              setSession(!isNaN(+id) ? +id : 0);
             }
           }}
-          options={times ?
+          options={sessions ?
             [
-              ...times.sessionData.sessions.map(t => ({ value: t.id, label: t.name })),
+              ...sessions.map(t => ({ value: t.id.toString(), label: t.name })),
               { value: "new", label: "Create New" }
             ] : []} />
       </div>
@@ -39,8 +41,12 @@ export default function SessionDisplay() {
             Cancel</button>
           <button
             disabled={newSessionName.trim() === ""}
-            onClick={() => {
-              times?.sessionDispatch({ type: "add", name: newSessionName, setSession: true, id: crypto.randomUUID() });
+            onClick={async () => {
+              const id = await addSession({
+                name: newSessionName,
+                timestamp: Date.now()
+              })
+              setSession(id);
               closePopup();
             }}>
             YES!

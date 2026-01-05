@@ -6,7 +6,7 @@ type DropdownOption = {
   label: string;
 }
 
-export function CustomDropdown({ options, value, onClick }: {options: DropdownOption[], value: string | null, onClick: (value: string) => void}) {
+export function CustomDropdown({ options, value, onClick }: {options: DropdownOption[], value?: string, onClick: (value: string) => void}) {
   const [open, setOpen] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null);

@@ -1,28 +1,9 @@
-import type { TimeType } from "@/types";
+import type { Timetype } from "@/types";
 import { formatMilliseconds } from "@/utils/time";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useRef } from "react";
 
-export default function TimesList({ times } : { times?: TimeType[]}) {
-
-  const [isOverflowing, setIsOverflowing] = useState(false);
+export default function TimesList({ times } : { times?: Timetype[]}) {
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  useLayoutEffect(() => {
-    const checkOverflow = () => {
-      const element = scrollRef.current;
-      if (element) {
-        const hasOverflow = element.scrollHeight > element.clientHeight;
-        setIsOverflowing(hasOverflow);
-      }
-    };
-
-    checkOverflow();
-
-    const observer = new ResizeObserver(checkOverflow);
-    if (scrollRef.current) observer.observe(scrollRef.current);
-
-    return () => observer.disconnect();
-  }, []);
 
   if(!times || times.length === 0) return;
   return (

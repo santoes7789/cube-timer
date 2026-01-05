@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { formatMilliseconds } from "@/utils/time";
-import { useTimes } from "@/contexts/TimesContext";
 import "./Timer.css";
 import TimesList from "./TimesList";
 import SessionDisplay from "./SessionDisplay";
 import Scramble, { generateNewScramble } from "./Scramble";
 import RubiksCubeDisplay from "./RubiksCubeDisplay";
-import Popup from "@/components/Popup";
+import { addTime } from "@/db/times";
+import { useLiveQuery } from "dexie-react-hooks";
+import { db } from "@/db/db";
 
 type TimerState = "idle" | "waiting" | "ready" | "running" | "stopped";
 
@@ -19,11 +20,13 @@ function Timer() {
 
   const startTime = useRef(0);
 
-  const times = useTimes();
-
   const [scramble, setScramble] = useState(() => generateNewScramble());
 
-  const [popupTEST, setPopup] = useState(true);
+  const sessions = useLiveQuery(() => db.session.toArray()); 
+
+  const [currentSession, setCurrentSession] = useState(sessions?.at(0)?.id ?? 1);
+
+  const times = useLiveQuery(() => db.times.where("session").equals(currentSession).toArray(), [currentSession]);
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (state === "idle" && event.code === "Space") {
@@ -37,23 +40,22 @@ function Timer() {
     } else if (state === "running") {
       //STOP TIMER
       const endTime = Date.now();
+      const time = endTime - startTime.current;
       setState("stopped");
       clearInterval(updateTimerRef.current);
-      setTime(endTime - startTime.current);
-      times?.timesDispatch({
-        type: "add",
-        time: {
-          timestamp_start: startTime.current,
-          timestamp_end: endTime,
-          time: endTime - startTime.current,
-          modifier: "",
-          comment: "",
-        }
+      setTime(time);
+
+      addTime({
+        timestamp: startTime.current,
+        time: time,
+        modifier: "",
+        comment: "",
+        session: currentSession,
       })
 
       setScramble(generateNewScramble());
     }
-  }, [state]);
+  }, [state, currentSession]);
 
   const handleKeyUp = useCallback((event: KeyboardEvent) => {
     if (state === "ready" && event.code === "Space") {
@@ -91,8 +93,8 @@ function Timer() {
       <h1 className={`timer-text timer-text--${state}`} onTransitionEnd={onFinish}>
         {formatMilliseconds(time)}
       </h1>
-      <TimesList times={times?.times}/>
-      <SessionDisplay />
+      <TimesList times={times}/>
+      <SessionDisplay sessions={sessions} currentSession={currentSession} setSession={setCurrentSession}/>
       <Scramble scramble={scramble}/>
       <RubiksCubeDisplay scramble={scramble} />
     </div>
