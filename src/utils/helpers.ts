@@ -25,29 +25,6 @@ import type { Timetype } from "@/types";
 // 	return sum / count;
 // }
 
-export const getAoX = (times: Timetype[], x: number, index=times.length - 1, exclude=1) => {
-	if (times.length < x || index - x + 1 < 0 || times.length <= 0) {
-		return null;
-	}
-
-	let subset = times.slice(index - x + 1, index + 1).map((time) => {
-		if (time.modifier == "+2") {
-			return time.time + 2000;
-		}
-		else if (time.modifier == "dnf") {
-			return Infinity;
-		}
-		return time.time;
-	});
-
-	subset.sort((a, b) => a - b);
-
-	let sum = 0;
-	for (let i = exclude; i < (x - exclude); i++) {
-		sum += subset[i];
-	}
-	return sum / (x - (exclude * 2));
-}
 
 
 

@@ -11,6 +11,7 @@ interface Timetype {
   modifier: string;
   comment: string;
   session: number;
+  scramble: string;
 }
 
 export type { Timetype, SessionType };

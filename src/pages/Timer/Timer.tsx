@@ -52,11 +52,12 @@ function Timer() {
         modifier: "",
         comment: "",
         session: currentSession,
+        scramble: scramble,
       })
 
       setScramble(generateNewScramble());
     }
-  }, [state, currentSession]);
+  }, [state, currentSession, scramble]);
 
   const handleKeyUp = useCallback((event: KeyboardEvent) => {
     if (state === "ready" && event.code === "Space") {
@@ -95,10 +96,10 @@ function Timer() {
         {formatMilliseconds(time)}
       </h1>
       <TimesList times={times}/>
+      <TimesStats times={times}/>
       <SessionDisplay sessions={sessions} currentSession={currentSession} setSession={setCurrentSession}/>
       <Scramble scramble={scramble}/>
       <RubiksCubeDisplay scramble={scramble} />
-      <TimesStats times={times}/>
     </div>
   );
 }

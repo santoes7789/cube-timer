@@ -7,7 +7,7 @@ const db = new Dexie("timesDatabase") as Dexie & {
 }
 
 db.version(1).stores({
-  times: "++id, time, session, timestamp, modifier, comment",
+  times: "++id, time, session, timestamp, modifier, comment, scramble",
   session: "++id, name, timestamp"
 })
 

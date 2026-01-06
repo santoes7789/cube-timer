@@ -12,7 +12,7 @@ export default function TimesList({ times } : { times?: Timetype[]}) {
   if(!times || times.length === 0) return;
   return (
     <>
-      <div className="times-list-container popout-container">
+      <div className="times-list-container popout-container bottom-right">
         <div className="times-list-inner-container">
           <div ref={scrollRef} className="times-list-scroll-container">
             <div className="times-list-element-container">
