@@ -26,9 +26,11 @@
   border-radius: var(--border-radius);
   white-space: nowrap;
   padding: 5px 7px;
+  transition: background-color 0.1s;
 }
 .option:hover {
-  border-color: var(--highlight-color);
+  background-color: var(--highlight-color);
+
 }
 
 .arrow {

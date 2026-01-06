@@ -1,5 +1,8 @@
 .timer-text {
-  font-size: 4em;
+  font-size: 6em;
+  font-family: 'Share Tech Mono', monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 1px;
 }
 
 .timer-text--waiting {
