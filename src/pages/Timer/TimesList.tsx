@@ -4,10 +4,12 @@ import { deleteTime } from "@/db/times";
 import type { Timetype } from "@/types";
 import { formatMilliseconds } from "@/utils/time";
 import { useRef, useState } from "react";
+import { applyScramble, DisplayCube } from "react-rubiks-cube-utils";
 
 export default function TimesList({ times } : { times?: Timetype[]}) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [selectedTime, setSelectedTime] = useState<Timetype | null>(null);
+  const myCube = selectedTime ? applyScramble({ type: '3x3', scramble: selectedTime.scramble }) : null
 
   if(!times || times.length === 0) return;
   return (
@@ -35,6 +37,21 @@ export default function TimesList({ times } : { times?: Timetype[]}) {
             <Divider/>
 
             <div className="times-popup-content">
+              <div className="row">
+                <div>
+                  <div className="heading">Scramble</div>
+                  <div className="content" style={{ maxWidth: 200, marginRight: 15}}>
+                    {selectedTime.scramble}
+                  </div>
+                </div>
+
+                {myCube && 
+                  <div>
+                    <DisplayCube  cube={myCube} size={8}/>
+                  </div>
+                }
+              </div>
+
               <div className="heading">Timestamp:</div>
               <div className="content">
                 {new Date(selectedTime.timestamp).toLocaleString()}

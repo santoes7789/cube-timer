@@ -6,6 +6,13 @@
   --border-color: rgba(255,255,255,0.25);
   --border-default: 1px solid var(--border-color);
 
+  --cube-red: #ff0000;
+  --cube-blue: #0050ff;
+  --cube-yellow: #fef200;
+  --cube-green: #00d800;
+  --cube-white: #ffffff;
+  --cube-orange: #ff6b00;
+
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;

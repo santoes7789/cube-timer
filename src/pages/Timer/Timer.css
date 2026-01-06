@@ -89,6 +89,29 @@
   border-radius: 1px !important;
 }
 
+#cube-display div[style*="background-color: red"] {
+  background-color: var(--cube-red) !important;
+}
+
+#cube-display div[style*="background-color: blue"] {
+  background-color: var(--cube-blue) !important;
+}
+
+#cube-display div[style*="background-color: yellow"] {
+  background-color: var(--cube-yellow) !important;
+}
+
+#cube-display div[style*="background-color: green"] {
+  background-color: var(--cube-green) !important;
+}
+
+#cube-display div[style*="background-color: white"] {
+  background-color: var(--cube-white) !important;
+}
+
+#cube-display div[style*="background-color: orange"] {
+  background-color: var(--cube-orange) !important;
+}
 
 /* POPUP */
 .new-session-popup-buttons {
@@ -100,6 +123,12 @@
 .times-popup-content {
   text-align: left;
   min-width: 300px;
+}
+
+.times-popup-content .row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .times-popup-content .heading {
