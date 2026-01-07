@@ -186,6 +186,21 @@
   right: 0;
 }
 
+.session-popup-content {
+  text-align: left;
+}
+
+.session-popup-content .row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.session-popup-content .heading {
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
 
 
 

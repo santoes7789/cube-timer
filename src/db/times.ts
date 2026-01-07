@@ -5,7 +5,7 @@ export async function addTime(time: Omit<Timetype, "id">) {
   return await db.times.add(time)
 }
 
-export async function updateFriend(id: number, updates: Partial<Timetype>) {
+export async function updateTime(id: number, updates: Partial<Timetype>) {
   return await db.times.update(id, { ...updates })
 }
 

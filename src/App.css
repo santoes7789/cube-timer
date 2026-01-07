@@ -14,6 +14,7 @@ select option {
 input {
   border: 1px solid var(--border-color);
   border-radius: 5px;
+  padding: 3px;
 }
 
 .popout-container {
