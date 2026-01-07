@@ -15,3 +15,6 @@ interface Timetype {
 }
 
 export type { Timetype, SessionType };
+
+
+export type formStates = "idle" | "submitting" | "loading";

@@ -49,4 +49,34 @@ input {
   text-decoration: underline;
   cursor: pointer;
   display: inline;
+  text-underline-offset: 3px;
+}
+
+/* POSITIONING */
+.bottom-left {
+  position: absolute;
+  margin: var(--main-padding);
+  bottom: 0;
+  left: 0;
+}
+
+.top-left {
+  position: absolute;
+  margin: var(--main-padding);
+  top: 0;
+  left: 0;
+}
+
+.bottom-right {
+  position: absolute;
+  margin: var(--main-padding);
+  bottom: 0;
+  right: 0;
+}
+
+.top-right {
+  position: absolute;
+  margin: var(--main-padding);
+  top: 0;
+  right: 0;
 }

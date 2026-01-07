@@ -1,6 +1,6 @@
 .auth-block {
   text-align: left;
-  min-width: 300px;
+  min-width: 350px;
 
 }
 
@@ -15,11 +15,3 @@
   margin-top: 10px;
 }
 
-.auth-block {
-  text-align: left;
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-
-}

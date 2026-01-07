@@ -12,6 +12,7 @@ import TimesStats from "./TimesStats";
 import { addTime } from "@/db/times";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "@/db/db";
+import NavButtons from "@/components/NavButtons";
 
 type TimerState = "idle" | "waiting" | "ready" | "running" | "stopped";
 
@@ -26,7 +27,7 @@ function Timer() {
   const [scramble, setScramble] = useState(() => generateNewScramble());
 
   const sessions = useLiveQuery(() => db.session.toArray()); 
-  const [currentSession, setCurrentSession] = useState(sessions?.at(0)?.id ?? 1);
+  const [currentSession, setCurrentSession] = useState(1); // need to fix so inital session is one from the db
   const times = useLiveQuery(() => db.times.where("session").equals(currentSession).toArray(), [currentSession]);
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
@@ -90,6 +91,8 @@ function Timer() {
     }
   },[state])
 
+
+
   return (
     <div>
       <h1 className={`timer-text timer-text--${state}`} onTransitionEnd={onFinish}>
@@ -100,6 +103,7 @@ function Timer() {
       <SessionDisplay sessions={sessions} currentSession={currentSession} setSession={setCurrentSession}/>
       <Scramble scramble={scramble}/>
       <RubiksCubeDisplay scramble={scramble} />
+      <NavButtons />
     </div>
   );
 }
