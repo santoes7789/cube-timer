@@ -12,9 +12,11 @@ select option {
 }
 
 input {
+  width: 100%;
   border: 1px solid var(--border-color);
   border-radius: 5px;
-  padding: 3px;
+  padding: 5px;
+  box-sizing: border-box;
 }
 
 .popout-container {
@@ -39,3 +41,12 @@ input {
 
 }
 
+.text-center {
+  text-align: center;
+}
+
+.link {
+  text-decoration: underline;
+  cursor: pointer;
+  display: inline;
+}

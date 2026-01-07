@@ -1,0 +1,25 @@
+.auth-block {
+  text-align: left;
+  min-width: 300px;
+
+}
+
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.signup-button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.auth-block {
+  text-align: left;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+}
