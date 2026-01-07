@@ -103,7 +103,6 @@ function Timer() {
       <SessionDisplay sessions={sessions} currentSession={currentSession} setSession={setCurrentSession}/>
       <Scramble scramble={scramble}/>
       <RubiksCubeDisplay scramble={scramble} />
-      <NavButtons />
     </div>
   );
 }
