@@ -5,7 +5,7 @@ import { useState, type ChangeEvent, type FormEvent } from "react";
 import supabase from "@/utils/supabase";
 import { type formStates } from "@/types";
 
-function Signup() {
+function Login() {
   const [formData, setFormData] = useState({ email: "", password: ""})
   const [state, setState] = useState<formStates>()
 
@@ -80,4 +80,4 @@ function Signup() {
   )
 }
 
-export default Signup;
+export default Login;

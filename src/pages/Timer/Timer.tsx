@@ -12,7 +12,6 @@ import TimesStats from "./TimesStats";
 import { addTime } from "@/db/times";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "@/db/db";
-import NavButtons from "@/components/NavButtons";
 
 type TimerState = "idle" | "waiting" | "ready" | "running" | "stopped";
 

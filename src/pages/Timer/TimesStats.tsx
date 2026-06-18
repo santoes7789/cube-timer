@@ -8,6 +8,7 @@ function TimesStats({ times } : {times?: Timetype[]}) {
   const ao5 = useMemo(() => getAoX(times, 5), [times]);
   const ao12 = useMemo(() => getAoX(times, 12), [times]);
   const best = useMemo(() => getBestTime(times)?.time, [times]);
+
   return (
     <div className="times-stats popout-container bottom-left">
       <div className="times-stats-row">

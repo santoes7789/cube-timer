@@ -18,7 +18,7 @@ export default function SessionDisplay({ sessions, currentSession, setSession} :
   return (
     <>
       <div className="session-display-container popout-container">
-        Session: {" "}
+        <div style={{ display: "inline", marginRight: 10}}> Session: </div>
         <CustomDropdown
           value={currentSessionName}
           onClick={(id) => {

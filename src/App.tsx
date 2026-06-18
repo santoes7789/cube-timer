@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate, Route, RouterProvider, Routes } from 're
 import Timer from '@/pages/Timer/Timer';
 import Login from '@/pages/Auth/Login';
 import Signup from '@/pages/Auth/Signup';
+import AuthProvider from '@/contexts/AuthContext';
 import './App.css'
 import Layout from './Layout';
 
@@ -18,7 +19,14 @@ const router = createBrowserRouter([
   },
 ]);
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </>
+
+  )
 }
 
 export default App;

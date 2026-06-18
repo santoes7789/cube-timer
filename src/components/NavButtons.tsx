@@ -2,9 +2,11 @@ import {CircleUser, Settings, Timer } from "lucide-react";
 import "./NavButtons.css"
 import { IconButton } from "./IconButton";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 function NavButtons() {
   const navigate = useNavigate();
+  const auth = useAuth();
 
   return (
     <div className="popout-container nav-buttons top-right">

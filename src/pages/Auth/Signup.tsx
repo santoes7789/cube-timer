@@ -1,6 +1,6 @@
 import Divider from "@/components/Divider";
 import "./Auth.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import supabase from "@/utils/supabase";
 import { type formStates } from "@/types";
@@ -8,6 +8,8 @@ import { type formStates } from "@/types";
 function Signup() {
   const [formData, setFormData] = useState({ email: "", password: "", repeatPassword: ""})
   const [state, setState] = useState<formStates>()
+
+  const navigate = useNavigate()
 
   const handleSignup = async (e: FormEvent) => {
     e.preventDefault();
@@ -18,6 +20,11 @@ function Signup() {
       password: formData.password
     })
 
+    if(error) {
+      console.log(error);
+    } else {
+      navigate("/");
+    }
     setState("loading")
   }
 
