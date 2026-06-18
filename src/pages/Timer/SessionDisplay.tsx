@@ -76,19 +76,8 @@ export default function SessionDisplay({ sessions, currentSession, setSession} :
                 <input value={newSessionName} onChange={e => setNewSessionName(e.target.value)} />
               </div>
 
-
-              <div className="heading" style={{marginTop: 5}}>Timestamp</div>
-              <div className="content">
-                {new Date(selectedSession?.timestamp).toLocaleString()}
-              </div>
-
-
-
             </div>
             <div className="new-session-popup-buttons">
-              <button onClick={() => setSelectedSession(null)}>
-                Close
-              </button>
               <button
                 className="button-danger"
                 disabled={sessions ? sessions.length <= 1 : false}

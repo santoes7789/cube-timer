@@ -68,11 +68,11 @@ export default function TimesList({ times } : { times?: Timetype[]}) {
             </div>
 
             <div className="times-popup-buttons">
-              <button onClick={() => setSelectedTime(null)}>close</button>
+              <button onClick={() => setSelectedTime(null)}>Close</button>
               <button className="button-danger" onClick={() => {
                 deleteTime(selectedTime.id);
                 setSelectedTime(null);
-              }}>delete</button>
+              }}>Delete</button>
             </div>
           </>}
       </Popup>
