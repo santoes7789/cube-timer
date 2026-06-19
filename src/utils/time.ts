@@ -1,10 +1,10 @@
-import type { Timetype } from "@/types";
+import type { Time } from "@/db/times";
 
 export function formatMilliseconds(time: number) {
   return (time/1000).toFixed(3);
 }
 
-export const getAoX = (times: Timetype[], x: number, index=times.length - 1, exclude=1) => {
+export const getAoX = (times: Time[], x: number, index=times.length - 1, exclude=1) => {
 	if (times.length < x || index - x + 1 < 0 || times.length <= 0) {
 		return null;
 	}
@@ -28,7 +28,7 @@ export const getAoX = (times: Timetype[], x: number, index=times.length - 1, exc
 	return sum / (x - (exclude * 2));
 }
 
-export const getBestTime = (times: Timetype[]) => {
+export const getBestTime = (times: Time[]) => {
 	let time = null;
 	let smallest = Infinity;
 	for (const t of times) {

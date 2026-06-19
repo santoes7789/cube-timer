@@ -1,9 +1,9 @@
-import type { Timetype } from "@/types";
+import type { Time } from "@/db/times";
 import { getAoX, getBestTime } from "@/utils/time";
 import { formatMilliseconds } from "@/utils/time";
 import { useMemo } from "react";
 
-function TimesStats({ times } : {times?: Timetype[]}) {
+function TimesStats({ times } : {times?: Time[]}) {
   if(!times) return;
   const ao5 = useMemo(() => getAoX(times, 5), [times]);
   const ao12 = useMemo(() => getAoX(times, 12), [times]);

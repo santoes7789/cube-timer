@@ -9,9 +9,8 @@ import Scramble, { generateNewScramble } from "./Scramble";
 import RubiksCubeDisplay from "./RubiksCubeDisplay";
 import TimesStats from "./TimesStats";
 
-import { addTime } from "@/db/times";
-import { useLiveQuery } from "dexie-react-hooks";
-import { db } from "@/db/db";
+import { useDB } from "@/contexts/DBContext";
+import supabase from "@/utils/supabase";
 
 type TimerState = "idle" | "waiting" | "ready" | "running" | "stopped";
 
@@ -25,9 +24,7 @@ function Timer() {
 
   const [scramble, setScramble] = useState(() => generateNewScramble());
 
-  const sessions = useLiveQuery(() => db.session.toArray()); 
-  const [currentSession, setCurrentSession] = useState(1); // need to fix so inital session is one from the db
-  const times = useLiveQuery(() => db.times.where("session").equals(currentSession).toArray(), [currentSession]);
+  const db = useDB();
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (state === "idle" && event.code === "Space") {
@@ -46,18 +43,18 @@ function Timer() {
       clearInterval(updateTimerRef.current);
       setTime(time);
 
-      addTime({
+      db.addTime({
         timestamp: startTime.current,
         time: time,
         modifier: "",
         comment: "",
-        session: currentSession,
-        scramble: scramble,
+        session_id: db.currentSession,
+        scramble: scramble
       })
 
       setScramble(generateNewScramble());
     }
-  }, [state, currentSession, scramble]);
+  }, [state, db.currentSession, scramble]);
 
   const handleKeyUp = useCallback((event: KeyboardEvent) => {
     if (state === "ready" && event.code === "Space") {
@@ -90,6 +87,9 @@ function Timer() {
     }
   },[state])
 
+  supabase.functions.invoke('super-processor', {
+    body: { name: 'Functions' }
+  }).then((data) => console.log(data));
 
 
   return (
@@ -97,11 +97,12 @@ function Timer() {
       <h1 className={`timer-text timer-text--${state}`} onTransitionEnd={onFinish}>
         {formatMilliseconds(time)}
       </h1>
-      <TimesList times={times}/>
-      <TimesStats times={times}/>
-      <SessionDisplay sessions={sessions} currentSession={currentSession} setSession={setCurrentSession}/>
+      <TimesList/>
+      <TimesStats times={db.times}/>
+      <SessionDisplay/>
       <Scramble scramble={scramble}/>
       <RubiksCubeDisplay scramble={scramble} />
+      <button className="top-right" style={{marginRight: 200}}>Update</button>
     </div>
   );
 }

@@ -1,15 +1,14 @@
-import type { Timetype } from "@/types";
-import { db } from "./db";
+import Database from "./db";
+import { Entity } from "dexie";
 
-export async function addTime(time: Omit<Timetype, "id">) {
-  return await db.times.add(time)
-}
-
-export async function updateTime(id: number, updates: Partial<Timetype>) {
-  return await db.times.update(id, { ...updates })
-}
-
-export async function deleteTime(id: number) {
-  return await db.times.delete(id);
+export class Time extends Entity<Database> {
+  id!: number;
+  time!: number;
+  timestamp!: number;
+  updated_at!: number;
+  session_id!: number;
+  modifier?: string;
+  comment?: string;
+  scramble?: string;
 }
 

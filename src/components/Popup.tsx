@@ -1,5 +1,5 @@
 import type { MouseEvent, ReactNode } from "react";
-import "./Popup.css"
+import "./Popup.css";
 
 function Popup({children, show, onClose} : {children?: ReactNode, show: boolean, onClose: () => void}) {
   const handleChildClick = (e: MouseEvent<HTMLDivElement>) => {

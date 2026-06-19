@@ -1,15 +1,17 @@
 import Divider from "@/components/Divider";
 import Popup from "@/components/Popup";
-import { deleteTime } from "@/db/times";
-import type { Timetype } from "@/types";
+import { useDB } from "@/contexts/DBContext";
+import { Time } from "@/db/times";
 import { formatMilliseconds } from "@/utils/time";
 import { useRef, useState } from "react";
 import { applyScramble, DisplayCube } from "react-rubiks-cube-utils";
 
-export default function TimesList({ times } : { times?: Timetype[]}) {
+export default function TimesList() {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [selectedTime, setSelectedTime] = useState<Timetype | null>(null);
-  const myCube = selectedTime ? applyScramble({ type: '3x3', scramble: selectedTime.scramble }) : null
+  const [selectedTime, setSelectedTime] = useState<Time | null>(null);
+  const myCube = selectedTime?.scramble ? applyScramble({ type: '3x3', scramble: selectedTime.scramble }) : null
+
+  const {times, deleteTime} = useDB();
 
   if(!times || times.length === 0) return;
   return (
@@ -68,11 +70,11 @@ export default function TimesList({ times } : { times?: Timetype[]}) {
             </div>
 
             <div className="times-popup-buttons">
-              <button onClick={() => setSelectedTime(null)}>Close</button>
+              <button onClick={() => setSelectedTime(null)}>close</button>
               <button className="button-danger" onClick={() => {
                 deleteTime(selectedTime.id);
                 setSelectedTime(null);
-              }}>Delete</button>
+              }}>delete</button>
             </div>
           </>}
       </Popup>

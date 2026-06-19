@@ -1,14 +1,15 @@
 import { CustomDropdown } from "@/components/CustomDropdown";
 import Popup from "@/components/Popup";
-import { addSession, deleteSession, updateSession } from "@/db/session";
-import type { SessionType } from "@/types";
+import { useDB } from "@/contexts/DBContext";
+import { Session  } from "@/db/session";
 import { useState, type Dispatch, type SetStateAction } from "react";
 
-export default function SessionDisplay({ sessions, currentSession, setSession} :
-  {sessions?: SessionType[], currentSession: number, setSession: Dispatch<SetStateAction<number>>}) {
+export default function SessionDisplay() {
   const [newNamePopup, setNewNamePopup] = useState(false);
-  const [selectedSession, setSelectedSession] = useState<SessionType | null>(null);
+  const [selectedSession, setSelectedSession] = useState<Session | null>(null);
   const [newSessionName, setNewSessionName] = useState("");
+
+  const {sessions, currentSession, setCurrentSession, addSession, deleteSession, updateSession} = useDB();
 
 
   const currentSessionName = sessions?.find(s => s.id === currentSession)?.name;
@@ -26,7 +27,7 @@ export default function SessionDisplay({ sessions, currentSession, setSession} :
               setNewSessionName("");
               setNewNamePopup(true);
             } else {
-              setSession(!isNaN(+id) ? +id : 0);
+              setCurrentSession(!isNaN(+id) ? +id : 0);
             }
           }}
 
@@ -53,9 +54,9 @@ export default function SessionDisplay({ sessions, currentSession, setSession} :
             onClick={async () => {
               const id = await addSession({
                 name: newSessionName,
-                timestamp: Date.now()
+                created_at: Date.now()
               })
-              setSession(id);
+              setCurrentSession(id);
               closePopup();
             }}>
             YES!
@@ -84,7 +85,7 @@ export default function SessionDisplay({ sessions, currentSession, setSession} :
                 onClick={async () => {
                   await deleteSession(selectedSession.id)
                   if(currentSession === selectedSession.id && sessions) {
-                    setSession(sessions[0].id);
+                    setCurrentSession(sessions[0].id);
                   }
                   setSelectedSession(null);
                 }}>
