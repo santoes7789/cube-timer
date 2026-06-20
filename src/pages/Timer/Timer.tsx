@@ -26,51 +26,46 @@ function Timer() {
 
   const db = useDB();
 
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    if (state === "idle" && event.code === "Space") {
-      //READY TIMER
-      setState("waiting");
-      timeoutRef.current = setTimeout(() => {
-        setState("ready");
-        setTime(0);
-      }, 400);
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (state === "idle" && event.code === "Space") {
+        //READY TIMER
+        setState("waiting");
+        timeoutRef.current = setTimeout(() => {
+          setState("ready");
+          setTime(0);
+        }, 400);
+      } else if (state === "running") {
+        //STOP TIMER
+        const endTime = Date.now();
+        const time = endTime - startTime.current;
+        setState("stopped");
+        clearInterval(updateTimerRef.current);
+        setTime(time);
+        db.addTime(new Date(startTime.current).toISOString(), time, scramble);
+        setScramble(generateNewScramble());
+      }
+    },
+    [state, db.currentSession, scramble],
+  );
 
-    } else if (state === "running") {
-      //STOP TIMER
-      const endTime = Date.now();
-      const time = endTime - startTime.current;
-      setState("stopped");
-      clearInterval(updateTimerRef.current);
-      setTime(time);
-
-      db.addTime({
-        timestamp: startTime.current,
-        time: time,
-        modifier: "",
-        comment: "",
-        session_id: db.currentSession,
-        scramble: scramble
-      })
-
-      setScramble(generateNewScramble());
-    }
-  }, [state, db.currentSession, scramble]);
-
-  const handleKeyUp = useCallback((event: KeyboardEvent) => {
-    if (state === "ready" && event.code === "Space") {
-      //START TIMER
-      setState("running");
-      startTime.current = Date.now();
-      updateTimerRef.current = setInterval(() => { 
-        setTime(Date.now() - startTime.current); 
-      }, 1)
-
-    } else if (state === "waiting") {
-      //RESET TIMER
-      setState("idle");
-      clearTimeout(timeoutRef.current);
-    }
-  }, [state]);
+  const handleKeyUp = useCallback(
+    (event: KeyboardEvent) => {
+      if (state === "ready" && event.code === "Space") {
+        //START TIMER
+        setState("running");
+        startTime.current = Date.now();
+        updateTimerRef.current = setInterval(() => {
+          setTime(Date.now() - startTime.current);
+        }, 1);
+      } else if (state === "waiting") {
+        //RESET TIMER
+        setState("idle");
+        clearTimeout(timeoutRef.current);
+      }
+    },
+    [state],
+  );
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
@@ -85,24 +80,21 @@ function Timer() {
     if (state === "stopped") {
       setState("idle");
     }
-  },[state])
-
-  supabase.functions.invoke('super-processor', {
-    body: { name: 'Functions' }
-  }).then((data) => console.log(data));
-
+  }, [state]);
 
   return (
     <div>
       <h1 className={`timer-text timer-text--${state}`} onTransitionEnd={onFinish}>
         {formatMilliseconds(time)}
       </h1>
-      <TimesList/>
-      <TimesStats times={db.times}/>
-      <SessionDisplay/>
-      <Scramble scramble={scramble}/>
+      <TimesList />
+      <TimesStats times={db.times} />
+      <SessionDisplay />
+      <Scramble scramble={scramble} />
       <RubiksCubeDisplay scramble={scramble} />
-      <button className="top-right" style={{marginRight: 200}}>Update</button>
+      <button className="top-right" style={{ marginRight: 200 }}>
+        Update
+      </button>
     </div>
   );
 }
