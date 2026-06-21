@@ -3,7 +3,6 @@ import { Entity } from "dexie";
 
 export class Time extends Entity<Database> {
   id!: number;
-  remote_id?: number;
   time!: number;
   timestamp!: string;
   updated_at!: string;
@@ -12,4 +11,5 @@ export class Time extends Entity<Database> {
   comment?: string;
   scramble?: string;
   user_id!: string;
+  synced!: boolean;
 }
