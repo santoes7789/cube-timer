@@ -42,6 +42,7 @@ function Timer() {
         setState("stopped");
         clearInterval(updateTimerRef.current);
         setTime(time);
+
         db.addTime(new Date(startTime.current).toISOString(), time, scramble);
         setScramble(generateNewScramble());
       }

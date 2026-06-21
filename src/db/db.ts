@@ -10,8 +10,8 @@ export class Database extends Dexie {
     super(name);
     this.version(1).stores({
       times:
-        "++id, time, user_id, session_id, timestamp, modifier, comment, scramble, updated_at, [user_id+session_id]",
-      sessions: "++id, name, created_at, updated_at, user_id",
+        "++id, time, user_id, session_uuid, timestamp, modifier, comment, scramble, updated_at, [user_id+session_uuid]",
+      sessions: "++id, uuid, name, created_at, updated_at, user_id",
     });
     this.on("populate", () => {
       this.addDefaultSession("default");
@@ -21,14 +21,17 @@ export class Database extends Dexie {
   }
 
   addDefaultSession(user_id: string) {
+    console.log("adding ", user_id);
     const now = new Date().toISOString();
-    const id = this.sessions.add({
+    const randUUID = crypto.randomUUID();
+    this.sessions.add({
       name: "3x3",
+      uuid: randUUID,
       created_at: now,
       updated_at: now,
       user_id: user_id,
     });
-    return id;
+    return randUUID;
   }
 
   async lastUpdated(user_id: string) {
@@ -37,7 +40,29 @@ export class Database extends Dexie {
       .equals(user_id)
       .reverse()
       .sortBy("updated_at");
-    return last_updated[0].updated_at;
+    if (last_updated.length > 0) {
+      return last_updated[0].updated_at;
+    } else {
+      return null;
+    }
+  }
+}
+export function dbLastSynced(id: string) {
+  try {
+    return localStorage.getItem(`lastUpdated${id}`);
+  } catch (err) {
+    console.warn("localStorage failed:", err);
+    return null;
+  }
+}
+
+export function setDbLastSynced(id: string, timestamp: string) {
+  try {
+    localStorage.setItem(`lastUpdated${id}`, timestamp);
+    return true;
+  } catch (err) {
+    console.warn("localStorage failed:", err);
+    return false;
   }
 }
 

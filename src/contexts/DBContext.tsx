@@ -8,20 +8,18 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 type DBContextType = {
   sessions: Session[];
   times: Time[];
-  currentSession: number;
+  currentSession: string | null;
 
-  setCurrentSession: (session: number) => void;
+  setCurrentSession: (session: string) => void;
   setCurrentUser: (user: string) => void;
 
-  addTime: (startTime: string, time: number, scramble: string) => Promise<number>;
+  addTime: (startTime: string, time: number, scramble: string) => Promise<number | null>;
   updateTime: (id: number, updates: Partial<Time>) => Promise<number>;
   deleteTime: (id: number) => Promise<void>;
 
-  addSession: (
-    session: Omit<Session, "id" | "table" | "updated_at" | "user_id">,
-  ) => Promise<number>;
+  addSession: (name: string) => Promise<string>;
   updateSession: (id: number, updates: Partial<Session>) => Promise<number>;
-  deleteSession: (id: number) => Promise<void>;
+  deleteSession: (uuid: string) => Promise<void>;
 };
 
 const DBContext = createContext<DBContextType | null>(null);
@@ -34,7 +32,18 @@ export const useDB = () => {
 
 export default function DBProvider({ children }: { children: ReactNode }) {
   const [currentUser, currentUserSetter] = useState("default");
-  const [currentSession, setCurrentSession] = useState(1); // need to fix so inital session is one from the db
+  const [currentSession, setCurrentSession] = useState<string | null>(null);
+
+  // set initial session to be first on in db
+  useEffect(() => {
+    async function loadId() {
+      const session = await db.sessions.where("user_id").equals("default").first();
+      if (session) {
+        setCurrentSession(session.uuid);
+      }
+    }
+    loadId();
+  }, []);
 
   const sessions = useLiveQuery(
     () => db.sessions.where("user_id").equals(currentUser).toArray(),
@@ -42,19 +51,24 @@ export default function DBProvider({ children }: { children: ReactNode }) {
     [],
   );
   const times = useLiveQuery(
-    () => db.times.where("[user_id+session_id]").equals([currentUser, currentSession]).toArray(),
+    () =>
+      db.times
+        .where("[user_id+session_uuid]")
+        .equals([currentUser, currentSession ?? ""])
+        .toArray(),
     [currentSession, currentUser],
     [],
   );
 
   async function addTime(startTime: string, time: number, scramble: string) {
+    if (currentSession === null) return null;
     return await db.times.add({
       timestamp: startTime,
       time: time,
       scramble: scramble,
       updated_at: new Date().toISOString(),
       user_id: currentUser,
-      session_id: currentSession,
+      session_uuid: currentSession,
     });
   }
   async function updateTime(id: number, updates: Partial<Time>) {
@@ -65,22 +79,27 @@ export default function DBProvider({ children }: { children: ReactNode }) {
     return await db.times.delete(id);
   }
 
-  async function addSession(session: Omit<Session, "id" | "table" | "updated_at" | "user_id">) {
-    return await db.sessions.add({
-      ...session,
+  async function addSession(name: string) {
+    const randUUID = crypto.randomUUID();
+    await db.sessions.add({
+      name: name,
+      uuid: randUUID,
       updated_at: new Date().toISOString(),
+      created_at: new Date().toISOString(),
       user_id: currentUser,
     });
+
+    return randUUID;
   }
 
   async function updateSession(id: number, updates: Partial<Session>) {
     return await db.sessions.update(id, { ...updates, updated_at: new Date().toISOString() });
   }
 
-  async function deleteSession(id: number) {
-    console.log("Deleting session: ", id);
-    await db.times.where("[user_id+session_id]").equals([currentSession, id]).delete();
-    return await db.sessions.delete(id);
+  async function deleteSession(uuid: string) {
+    console.log("Deleting session: ", uuid);
+    await db.times.where("[user_id+session_uuid]").equals([currentUser, uuid]).delete();
+    await db.sessions.where("uuid").equals(uuid).delete();
   }
 
   async function setCurrentUser(user_id: string) {
@@ -90,7 +109,7 @@ export default function DBProvider({ children }: { children: ReactNode }) {
       const sessionId = await db.addDefaultSession(user_id);
       setCurrentSession(sessionId);
     } else {
-      setCurrentSession(userSessions[0].id);
+      setCurrentSession(userSessions[0].uuid);
     }
   }
   return (
@@ -99,7 +118,7 @@ export default function DBProvider({ children }: { children: ReactNode }) {
         sessions,
         times,
         currentSession,
-        setCurrentSession: (session: number) => setCurrentSession(session),
+        setCurrentSession: (session: string) => setCurrentSession(session),
 
         addTime,
         updateTime,
