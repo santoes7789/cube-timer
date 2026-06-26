@@ -1,9 +1,9 @@
 import db from "@/db/db";
 import type { Session } from "@/db/session";
 import type { Time } from "@/db/times";
-import { updateSupabase } from "@/utils/supabase";
 import { useLiveQuery } from "dexie-react-hooks";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { useAuth } from "./AuthContext";
 
 type DBContextType = {
   sessions: Session[];
@@ -13,16 +13,24 @@ type DBContextType = {
   setCurrentSession: (session: string) => void;
   setCurrentUser: (user: string) => void;
 
-  addTime: (startTime: string, time: number, scramble: string) => Promise<number | null>;
-  updateTime: (id: number, updates: Partial<Time>) => Promise<number>;
-  deleteTime: (id: number) => Promise<void>;
+  addTime: (startTime: string, time: number, scramble: string) => void;
+  updateTime: (id: number, updates: Partial<Time>) => void;
+  deleteTime: (id: number) => void;
 
-  addSession: (name: string) => Promise<string>;
-  updateSession: (id: number, updates: Partial<Session>) => Promise<number>;
-  deleteSession: (uuid: string) => Promise<void>;
+  addSession: (name: string) => void;
+  updateSession: (id: number, updates: Partial<Session>) => void;
+  deleteSession: (uuid: string) => void;
 };
 
 const DBContext = createContext<DBContextType | null>(null);
+
+
+const dbWorker = new Worker(
+  new URL("../db-worker.ts", import.meta.url),
+  { type: "module"}
+);
+
+
 
 export const useDB = () => {
   const ctx = useContext(DBContext);
@@ -34,8 +42,20 @@ export default function DBProvider({ children }: { children: ReactNode }) {
   const [currentUser, currentUserSetter] = useState("default");
   const [currentSession, setCurrentSession] = useState<string | null>(null);
 
-  // set initial session to be first on in db
+  const authSession = useAuth();
+
+
   useEffect(() => {
+    if (!authSession) {
+      setCurrentUser("default");
+    } else if (authSession.user.id !== currentUser) {
+      setCurrentUser(authSession.user.id);
+    }
+  }, [authSession])
+
+  // Start up code
+  useEffect(() => {
+    // set initial session to be first on in db
     async function loadId() {
       const session = await db.sessions.where("user_id").equals("default").first();
       if (session) {
@@ -43,6 +63,17 @@ export default function DBProvider({ children }: { children: ReactNode }) {
       }
     }
     loadId();
+
+    // add event listener to db worker
+    dbWorker.onmessage = function(event) {
+      const { type, success, message, data } = event.data;
+      console.log("Received from db-worker:", message );
+
+      if(type === "ADD_SESSION") {
+        setCurrentSession(data);
+      }
+
+    };
   }, []);
 
   const sessions = useLiveQuery(
@@ -50,6 +81,7 @@ export default function DBProvider({ children }: { children: ReactNode }) {
     [currentUser],
     [],
   );
+
   const times = useLiveQuery(
     () =>
       db.times
@@ -60,46 +92,49 @@ export default function DBProvider({ children }: { children: ReactNode }) {
     [],
   );
 
-  async function addTime(startTime: string, time: number, scramble: string) {
+
+  // functions to edit times table //
+  function addTime(startTime: string, time: number, scramble: string) {
     if (currentSession === null) return null;
-    return await db.times.add({
+    const timeObj = {
       timestamp: startTime,
       time: time,
       scramble: scramble,
       updated_at: new Date().toISOString(),
       user_id: currentUser,
       session_uuid: currentSession,
-    });
-  }
-  async function updateTime(id: number, updates: Partial<Time>) {
-    return await db.times.update(id, { ...updates, updated_at: new Date().toISOString() });
+    }
+    dbWorker.postMessage({ type: "ADD_TIME", data: timeObj, auth: currentUser })
   }
 
-  async function deleteTime(id: number) {
-    return await db.times.delete(id);
+
+  function updateTime(id: number, updates: Partial<Time>) {
+    dbWorker.postMessage({ type: "UPDATE_TIME", data: { id, updates }, auth: currentUser })
   }
 
-  async function addSession(name: string) {
-    const randUUID = crypto.randomUUID();
-    await db.sessions.add({
+  function deleteTime(id: number) {
+    dbWorker.postMessage({ type: "DELETE_TIME", data: id, auth: currentUser});
+  }
+
+
+  // functions to edit sessions table //
+  function addSession(name: string) {
+    const sessionObj = {
       name: name,
-      uuid: randUUID,
       updated_at: new Date().toISOString(),
       created_at: new Date().toISOString(),
       user_id: currentUser,
-    });
+    }
 
-    return randUUID;
+    dbWorker.postMessage({ type: "ADD_SESSION", data: sessionObj, auth: currentUser })
   }
 
-  async function updateSession(id: number, updates: Partial<Session>) {
-    return await db.sessions.update(id, { ...updates, updated_at: new Date().toISOString() });
+  function updateSession(id: number, updates: Partial<Session>) {
+    dbWorker.postMessage({ type: "UPDATE_SESSION", data: { id, updates }, auth: currentUser })
   }
 
-  async function deleteSession(uuid: string) {
-    console.log("Deleting session: ", uuid);
-    await db.times.where("[user_id+session_uuid]").equals([currentUser, uuid]).delete();
-    await db.sessions.where("uuid").equals(uuid).delete();
+  function deleteSession(uuid: string) {
+    dbWorker.postMessage({ type: "DELETE_SESSION", data: { uuid: uuid }, auth: currentUser})
   }
 
   async function setCurrentUser(user_id: string) {

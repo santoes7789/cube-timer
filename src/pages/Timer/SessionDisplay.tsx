@@ -57,9 +57,8 @@ export default function SessionDisplay() {
           <button onClick={closePopup}>Cancel</button>
           <button
             disabled={newSessionName.trim() === ""}
-            onClick={async () => {
-              const id = await addSession(newSessionName);
-              setCurrentSession(id);
+            onClick={() => {
+              addSession(newSessionName);
               closePopup();
             }}>
             YES!
@@ -80,8 +79,8 @@ export default function SessionDisplay() {
               <button
                 className="button-danger"
                 disabled={sessions ? sessions.length <= 1 : false}
-                onClick={async () => {
-                  await deleteSession(selectedSession.uuid);
+                onClick={() => {
+                  deleteSession(selectedSession.uuid);
                   if (currentSession === selectedSession.uuid && sessions) {
                     setCurrentSession(sessions[0].uuid);
                   }

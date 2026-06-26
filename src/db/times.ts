@@ -1,4 +1,4 @@
-import { Database } from "./db";
+import db, { Database } from "./db";
 import { Entity } from "dexie";
 
 export class Time extends Entity<Database> {
@@ -11,5 +11,5 @@ export class Time extends Entity<Database> {
   comment?: string;
   scramble?: string;
   user_id!: string;
-  synced!: boolean;
+  synced!: number;
 }

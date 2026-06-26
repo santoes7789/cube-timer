@@ -93,9 +93,6 @@ function Timer() {
       <SessionDisplay />
       <Scramble scramble={scramble} />
       <RubiksCubeDisplay scramble={scramble} />
-      <button className="top-right" style={{ marginRight: 200 }}>
-        Update
-      </button>
     </div>
   );
 }

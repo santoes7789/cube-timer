@@ -30,23 +30,12 @@ export class Database extends Dexie {
       created_at: now,
       updated_at: now,
       user_id: user_id,
+      synced: 0,
     });
     return randUUID;
   }
-
-  async lastUpdated(user_id: string) {
-    const last_updated = await this.times
-      .where("user_id")
-      .equals(user_id)
-      .reverse()
-      .sortBy("updated_at");
-    if (last_updated.length > 0) {
-      return last_updated[0].updated_at;
-    } else {
-      return null;
-    }
-  }
 }
+
 export function dbLastSynced(id: string) {
   try {
     return localStorage.getItem(`lastUpdated${id}`);

@@ -8,5 +8,5 @@ export class Session extends Entity<Database> {
   created_at!: string;
   updated_at!: string;
   user_id!: string;
-  synced!: boolean;
+  synced!: number;
 }

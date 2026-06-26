@@ -1,9 +1,7 @@
 import supabase from "@/utils/supabase";
 import type { Session } from "@supabase/supabase-js";
-import type { Session as SessionType } from "@/db/session";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { useDB } from "./DBContext";
-import db, { dbLastSynced, setDbLastSynced } from "@/db/db";
+import { dbLastSynced } from "@/db/db";
 
 const AuthContext = createContext<Session | null>(null);
 
@@ -11,7 +9,6 @@ export const useAuth = () => useContext(AuthContext);
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
-  const { setCurrentUser } = useDB();
 
   async function getFromSupabase() {
     const sessionData = await supabase.from("sessions").select();
@@ -37,6 +34,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       modifier: row["modifier"],
       comment: row["commment"],
       scramble: row["scramble"],
+      
     }));
     return { sessionData: sess, timesData: times };
   }
@@ -59,20 +57,43 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     const localTime = new Date(localLastUpdated ?? 0);
 
     if (supabaseTime > localTime) {
-      console.log("server has updates");
+      console.log("Server has updates");
 
       // pull changes
-      const { data, error } = await supabase
+      const { data: timeData, error: timeError } = await supabase
         .from("times")
         .select()
         .gt("updated_at ", localTime.toISOString());
 
-      if (error) return;
+      const { data: sessionData, error: sessionError } = await supabase
+        .from("sessions")
+        .select()
+        .gt("updated_at ", localTime.toISOString());
 
-      console.log(data);
+      if (timeError || sessionError) return;
 
       //apply changes
-      db.times.bulkAdd(data);
+      const sess = sessionData.map((row) => ({
+        uuid: row["uuid"],
+        name: row["name"],
+        created_at: row["created_at"],
+        updated_at: row["updated_at"],
+        user_id: row["user_id"],
+        synced: 1,
+      }));
+
+      const times = timeData.map((row) => ({
+        time: row["time"],
+        timestamp: row["timestamp"],
+        updated_at: row["updated_at"],
+        session_uuid: row["session_uuid"],
+        user_id: row["user_id"],
+        modifier: row["modifier"],
+        comment: row["commment"],
+        scramble: row["scramble"],
+      }));
+
+      // db.times.bulkAdd(data);
       // setDbLastSynced(id, supabaseLastUpdated);
     } else {
       console.log("local db is up to date");
@@ -88,12 +109,8 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       setSession(session);
       if (session) {
         if (event === "SIGNED_IN") {
-          setCurrentUser(session.user.id);
           updateDatabase(session.user.id);
         }
-      } else {
-        // if user is logged out
-        setCurrentUser("default");
       }
     });
     return () => subscription.unsubscribe();

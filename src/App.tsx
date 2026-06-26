@@ -25,11 +25,11 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-      <DBProvider>
-        <AuthProvider>
+      <AuthProvider>
+        <DBProvider>
           <RouterProvider router={router} />
-        </AuthProvider>
-      </DBProvider>
+        </DBProvider>
+      </AuthProvider>
     </>
 
   )
