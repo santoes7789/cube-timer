@@ -10,7 +10,7 @@ export class Database extends Dexie {
     super(name);
     this.version(1).stores({
       times:
-        "++id, time, user_id, session_uuid, timestamp, modifier, comment, scramble, updated_at, [user_id+session_uuid], synced",
+        "++id, time, user_id, session_uuid, timestamp, modifier, comment, scramble, updated_at, [user_id+session_uuid], synced, &uuid",
       sessions: "++id, uuid, name, created_at, updated_at, user_id, synced",
     });
     this.on("populate", () => {

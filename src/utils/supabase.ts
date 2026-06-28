@@ -7,7 +7,7 @@ const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export async function updateSupabase(user_id: string) {
+export async function updateLocalDB(user_id: string) {
   const unsyncedSessions = await db.sessions.where("synced").equals(0).filter(row => row.user_id === user_id).toArray();
   const unsyncedTimes = await db.times.where("synced").equals(0).filter(row => row.user_id === user_id).toArray();
 

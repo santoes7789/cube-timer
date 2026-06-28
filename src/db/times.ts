@@ -12,4 +12,6 @@ export class Time extends Entity<Database> {
   scramble?: string;
   user_id!: string;
   synced!: number;
+  uuid!: string;
 }
+

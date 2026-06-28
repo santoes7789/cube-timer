@@ -4,6 +4,7 @@ import type { Time } from "@/db/times";
 import { useLiveQuery } from "dexie-react-hooks";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { useAuth } from "./AuthContext";
+import { dbWorker } from "@/App";
 
 type DBContextType = {
   sessions: Session[];
@@ -23,14 +24,6 @@ type DBContextType = {
 };
 
 const DBContext = createContext<DBContextType | null>(null);
-
-
-const dbWorker = new Worker(
-  new URL("../db-worker.ts", import.meta.url),
-  { type: "module"}
-);
-
-
 
 export const useDB = () => {
   const ctx = useContext(DBContext);
@@ -65,7 +58,7 @@ export default function DBProvider({ children }: { children: ReactNode }) {
     loadId();
 
     // add event listener to db worker
-    dbWorker.onmessage = function(event) {
+    dbWorker.addEventListener("message", (event) => {
       const { type, success, message, data } = event.data;
       console.log("Received from db-worker:", message );
 
@@ -73,7 +66,7 @@ export default function DBProvider({ children }: { children: ReactNode }) {
         setCurrentSession(data);
       }
 
-    };
+    });
   }, []);
 
   const sessions = useLiveQuery(
