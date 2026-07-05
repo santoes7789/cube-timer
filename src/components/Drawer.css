@@ -1,0 +1,24 @@
+.drawer-background {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.drawer-popup {
+  background-color: var(--bg-color);
+  width: 500px;
+  height: 100%;
+}
+
+.drawer-right {
+  position: absolute;
+  right: 0;
+}
+
+.drawer-left {
+  position: absolute;
+  left: 0;
+}

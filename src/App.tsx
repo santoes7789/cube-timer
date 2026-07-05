@@ -7,6 +7,8 @@ import AuthProvider from '@/contexts/AuthContext';
 import './App.css'
 import Layout from './Layout';
 import DBProvider from './contexts/DBContext';
+import { TimerSettings } from './pages/Timer/TimerSettings';
+import SettingsProvider from './contexts/SettingsContext';
 
 const router = createBrowserRouter([
   {
@@ -14,18 +16,26 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <Navigate to="/timer" replace /> },
-      { path: "timer", element: <Timer /> },
+      {
+        path: "timer",
+        element: <Timer />,
+        children: [
+          {
+            path: "settings",
+            element: <TimerSettings />
+          }
+        ]
+      },
       { path: "login", element: <Login /> },
       { path: "signup", element: <Signup /> },
       { path: "profile", element: <Profile /> },
-      { path: "settings", element: <Timer /> },
     ],
   },
 ]);
 
 export const dbWorker = new Worker(
   new URL("./db-worker.ts", import.meta.url),
-  { type: "module"}
+  { type: "module" }
 );
 
 function App() {
@@ -33,7 +43,9 @@ function App() {
     <>
       <AuthProvider>
         <DBProvider>
-          <RouterProvider router={router} />
+          <SettingsProvider>
+            <RouterProvider router={router} />
+          </SettingsProvider>
         </DBProvider>
       </AuthProvider>
     </>

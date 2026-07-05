@@ -1,11 +1,14 @@
-import { CircleUser, Settings, Timer } from "lucide-react";
+import { CircleUser, Settings, Timer, UserLock } from "lucide-react";
 import "./NavButtons.css"
 import { IconButton } from "./IconButton";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 
 function NavButtons() {
   const navigate = useNavigate();
+  const location = useLocation();
+      
+
   const auth = useAuth();
 
   return (
@@ -17,8 +20,9 @@ function NavButtons() {
           navigate("/login")
         }
       }} />
-      <IconButton icon={Settings} size={25} onClick={() => navigate("/settings")} />
-      <IconButton icon={Timer} size={25} onClick={() => navigate("/timer")} />
+
+      <IconButton icon={Settings} size={25} onClick={() => navigate(`${location.pathname}/settings`)}/>
+      <IconButton icon={Timer} size={25} onClick={() => navigate("/timer")}/>
     </div>
   )
 }

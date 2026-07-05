@@ -11,6 +11,8 @@ import TimesStats from "./TimesStats";
 
 import { useDB } from "@/contexts/DBContext";
 import supabase from "@/utils/supabase";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useSettings } from "@/contexts/SettingsContext";
 
 type TimerState = "idle" | "waiting" | "ready" | "running" | "stopped";
 
@@ -25,6 +27,9 @@ function Timer() {
   const [scramble, setScramble] = useState(() => generateNewScramble());
 
   const db = useDB();
+  
+  const settings = useSettings();
+
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
@@ -34,7 +39,7 @@ function Timer() {
         timeoutRef.current = setTimeout(() => {
           setState("ready");
           setTime(0);
-        }, 400);
+        }, settings.timerWaitTime);
       } else if (state === "running") {
         //STOP TIMER
         const endTime = Date.now();
@@ -47,7 +52,7 @@ function Timer() {
         setScramble(generateNewScramble());
       }
     },
-    [state, db.currentSession, scramble],
+    [state, db.currentSession, scramble, settings],
   );
 
   const handleKeyUp = useCallback(
@@ -58,14 +63,14 @@ function Timer() {
         startTime.current = Date.now();
         updateTimerRef.current = setInterval(() => {
           setTime(Date.now() - startTime.current);
-        }, 1);
+        }, settings.timerUpdateInterval);
       } else if (state === "waiting") {
         //RESET TIMER
         setState("idle");
         clearTimeout(timeoutRef.current);
       }
     },
-    [state],
+    [state, settings],
   );
 
   useEffect(() => {
@@ -93,6 +98,7 @@ function Timer() {
       <SessionDisplay />
       <Scramble scramble={scramble} />
       <RubiksCubeDisplay scramble={scramble} />
+      <Outlet/>
     </div>
   );
 }
