@@ -24,7 +24,7 @@ input {
   backdrop-filter: blur(14px) saturate(1.2); */
   background-color: var(--bg-color);
   border: 1px solid var(--border-color);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
 .bold {
@@ -33,7 +33,6 @@ input {
 
 .button-danger:hover {
   border-color: red;
-
 }
 
 .text-center {
@@ -79,29 +78,4 @@ input {
 .table-row {
   display: flex;
   justify-content: space-between;
-}
-
-.toast-container {
-  z-index: 10;
-  bottom: var(--main-padding);
-  left: var(--main-padding);
-  right: var(--main-padding);
-  position: fixed;
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 10px;
-}
-
-.toast {
-  background-color: var(--bg-color);
-  border-radius: var(--border-radius);
-  border: var(--border-default);
-  max-width: 800px;
-  padding: var(--main-padding);
-  box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.12),
-    0 12px 32px rgba(0, 0, 0, 0.18);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }

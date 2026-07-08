@@ -1,19 +1,13 @@
+import ToastComponent, { type Toast, type ToastType } from "@/components/Toast";
 import { createContext, useContext, useState, type ReactNode } from "react";
 
-type ToastType = "success" | "error" | "info";
-
-type Toast = {
-  id: string,
-  message: string,
-  type: ToastType,
-}
-
 type ToastContextType = {
-  success: (message: string) => void,
-  error: (message: string) => void,
-  info: (message: string) => void,
+  success: (message: string) => void;
+  error: (message: string) => void;
+  info: (message: string) => void;
 };
 
+const toastTimeout = 5000;
 
 const ToastContext = createContext<ToastContextType>({
   success: () => {},
@@ -27,13 +21,20 @@ export const useToast = () => {
   return ctx;
 };
 
-export default function ToastProvider({ children } : { children: ReactNode}) {
+export default function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
-  
+
   const addToast = (type: ToastType, message: string) => {
     const id = crypto.randomUUID();
-    setToasts(prev => [...prev, { id, message, type}]);
-  }
+    setToasts((prev) => [...prev, { id, message, type }]);
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((e) => e.id !== id));
+    }, toastTimeout);
+  };
+
+  const onClose = (id: string) => {
+    setToasts((prev) => prev.filter((e) => e.id !== id));
+  };
 
   const value = {
     success: (message: string) => addToast("success", message),
@@ -45,13 +46,10 @@ export default function ToastProvider({ children } : { children: ReactNode}) {
     <ToastContext value={value}>
       <div className="toast-container">
         {toasts.map((toast) => (
-          <div className="toast">
-            {toast.message}
-            <button>X</button>
-          </div>
+          <ToastComponent toast={toast} onClose={onClose} />
         ))}
       </div>
       {children}
     </ToastContext>
-  )
+  );
 }
