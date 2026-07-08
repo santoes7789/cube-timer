@@ -9,6 +9,7 @@ import Layout from './Layout';
 import DBProvider from './contexts/DBContext';
 import { TimerSettings } from './pages/Timer/TimerSettings';
 import SettingsProvider from './contexts/SettingsContext';
+import ToastProvider from './contexts/ToastContext';
 
 const router = createBrowserRouter([
   {
@@ -41,13 +42,15 @@ export const dbWorker = new Worker(
 function App() {
   return (
     <>
-      <AuthProvider>
-        <DBProvider>
-          <SettingsProvider>
-            <RouterProvider router={router} />
-          </SettingsProvider>
-        </DBProvider>
-      </AuthProvider>
+      <ToastProvider>
+        <AuthProvider>
+          <DBProvider>
+            <SettingsProvider>
+              <RouterProvider router={router} />
+            </SettingsProvider>
+          </DBProvider>
+        </AuthProvider>
+      </ToastProvider>
     </>
 
   )
