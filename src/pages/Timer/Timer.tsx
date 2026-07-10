@@ -28,10 +28,8 @@ function Timer() {
   const [scramble, setScramble] = useState(() => generateNewScramble());
 
   const db = useDB();
-  
-  const settings = useSettings();
 
-  const toast = useToast();
+  const settings = useSettings();
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
@@ -49,8 +47,6 @@ function Timer() {
         setState("stopped");
         clearInterval(updateTimerRef.current);
         setTime(time);
-
-        toast.success("added time");
 
         db.addTime(new Date(startTime.current).toISOString(), time, scramble);
         setScramble(generateNewScramble());
@@ -94,8 +90,6 @@ function Timer() {
 
   return (
     <div>
-
-
       <h1 className={`timer-text timer-text--${state}`} onTransitionEnd={onFinish}>
         {formatMilliseconds(time)}
       </h1>
@@ -104,7 +98,7 @@ function Timer() {
       <SessionDisplay />
       <Scramble scramble={scramble} />
       <RubiksCubeDisplay scramble={scramble} />
-      <Outlet/>
+      <Outlet />
     </div>
   );
 }
