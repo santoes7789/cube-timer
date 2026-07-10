@@ -46,7 +46,7 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
     <ToastContext value={value}>
       <div className="toast-container">
         {toasts.map((toast) => (
-          <ToastComponent toast={toast} onClose={onClose} />
+          <ToastComponent toast={toast} onClose={onClose} key={toast.id} />
         ))}
       </div>
       {children}
