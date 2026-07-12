@@ -1,0 +1,11 @@
+.backIcon {
+  width: 50px;
+  height: 50px;
+  transition: 0.2s;
+  cursor: pointer;
+  padding: 30px 30px;
+}
+
+.backIcon:hover {
+  color: var(--highlight-color);
+}

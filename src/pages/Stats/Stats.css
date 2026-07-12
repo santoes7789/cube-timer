@@ -1,12 +1,10 @@
 .stats-page-container {
   max-width: 1000px;
-  margin: 0 auto;
+  margin: 75px auto;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-top: calc(var(--main-padding) * 2);
-
 }
 .stats-chart-container {
   width: 100%;

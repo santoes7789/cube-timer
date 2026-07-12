@@ -1,9 +1,12 @@
 import { Line, Scatter } from "react-chartjs-2";
 import { Chart as ChartJS, registerables } from 'chart.js';
 import { useDB } from "@/contexts/DBContext";
-import "./Stats.css";
 import { CustomDropdown } from "@/components/CustomDropdown";
 import { getAoX } from "@/utils/time";
+import "./Stats.css";
+import { BackIcon } from "@/components/BackIcon";
+import { useNavigate } from "react-router-dom";
+import Divider from "@/components/Divider";
 
 ChartJS.register(...registerables);
 
@@ -13,8 +16,8 @@ const options = {
 
 
 function Stats() {
-  const { sessions, times, setCurrentSession, currentSessionName } =
-    useDB();
+  const { sessions, times, setCurrentSession, currentSessionName } = useDB();
+  const navigate = useNavigate();
 
   const labels = [];
   for (let i = 1; i <= times.length; i++) {
@@ -68,25 +71,33 @@ function Stats() {
 
   return (
     <div className="stats-page-container">
-      <div>
+      <div className="top-left">
+        <BackIcon onClick={() => navigate("/timer")} />
+      </div>
 
-        <h3 style={{ display: "inline", marginRight: "10px" }}>
-          Statistics for:
-        </h3>
-        <CustomDropdown
-          below
-          value={currentSessionName}
-          onClick={(id) => {
-            setCurrentSession(id);
-          }}
-          options={
-            sessions
-              ? [
-                ...sessions.map((t) => ({ value: t.uuid, label: t.name })),
-              ]
-              : []
-          }
-        />
+      <div style={{ marginTop: "50px", marginBottom: "30px" }}>
+        <div style={{ paddingRight: "50px", paddingLeft: "50px" }}>
+          <h2 style={{ display: "inline", marginRight: "30px", fontSize: "40px" }}>
+            STATISTICS FOR:
+          </h2>
+          <div style={{ display: "inline", fontSize: "40px" }}>
+            <CustomDropdown
+              below
+              value={currentSessionName}
+              onClick={(id) => {
+                setCurrentSession(id);
+              }}
+              options={
+                sessions
+                  ? [
+                    ...sessions.map((t) => ({ value: t.uuid, label: t.name })),
+                  ]
+                  : []
+              }
+            />
+          </div>
+        </div>
+        <Divider />
       </div>
       <Line data={data} options={options} />
     </div>

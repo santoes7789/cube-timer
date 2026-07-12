@@ -14,6 +14,7 @@
   bottom: 100%;
   padding: 5px !important;
   z-index: 10;
+  font-size: medium;
 }
 
 .dropdown.below {
