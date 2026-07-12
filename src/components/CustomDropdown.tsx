@@ -7,8 +7,8 @@ type DropdownOption = {
   label: string;
 }
 
-export function CustomDropdown({ options, value, onClick, onRightClick }:
-  { options: DropdownOption[], value?: string, onClick: (value: string) => void , onRightClick?: (value: string) => void}) {
+export function CustomDropdown({ options, value, onClick, onRightClick, below = false }:
+  { options: DropdownOption[], value?: string, onClick: (value: string) => void, onRightClick?: (value: string) => void, below?: boolean }) {
 
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -35,14 +35,15 @@ export function CustomDropdown({ options, value, onClick, onRightClick }:
         >
           {value ?? "NO SESSION"}
           <span className={`arrow ${open ? "arrow-flipped" : ""}`}>
-            &#9662;
+
+            {below ? "▴" : "▾"}
           </span>
         </div>
         {open && (
-          <div className="popout-container dropdown">
+          <div className={`popout-container dropdown ${below ? "below" : ""}`}>
             {options.map((option, i) => {
-              if(option.value === "/divider/" && option.label === "/divider/") {
-                return <Divider key={"divider"+i}/>
+              if (option.value === "/divider/" && option.label === "/divider/") {
+                return <Divider key={"divider" + i} />
               }
               return (
                 <div
@@ -54,7 +55,7 @@ export function CustomDropdown({ options, value, onClick, onRightClick }:
                   }}
                   onContextMenu={e => {
                     e.preventDefault();
-                    if(onRightClick) {
+                    if (onRightClick) {
                       setOpen(false);
                       onRightClick(option.value);
                     }
@@ -65,7 +66,8 @@ export function CustomDropdown({ options, value, onClick, onRightClick }:
                     {option.label}
                   </div>
                 </div>
-              )}
+              )
+            }
             )}
           </div>
         )}

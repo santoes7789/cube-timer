@@ -11,11 +11,15 @@
 .dropdown {
   position: absolute;
   right: calc(var(--main-padding) * -1);
-  bottom: calc(100% + var(--main-padding));
-  margin-bottom: 4px;
+  bottom: 100%;
   padding: 5px !important;
   z-index: 10;
 }
+
+.dropdown.below {
+  bottom: auto;
+}
+
 
 .option {
   display: block;

@@ -9,10 +9,9 @@ export default function SessionDisplay() {
   const [selectedSession, setSelectedSession] = useState<Session | null>(null);
   const [newSessionName, setNewSessionName] = useState("");
 
-  const { sessions, currentSession, setCurrentSession, addSession, deleteSession, updateSession } =
+  const { sessions, currentSession, setCurrentSession, addSession, deleteSession, updateSession, currentSessionName } =
     useDB();
 
-  const currentSessionName = sessions?.find((s) => s.uuid === currentSession)?.name;
   function closePopup() {
     setNewNamePopup(false);
   }
@@ -38,10 +37,10 @@ export default function SessionDisplay() {
           options={
             sessions
               ? [
-                  ...sessions.map((t) => ({ value: t.uuid, label: t.name })),
-                  { value: "/divider/", label: "/divider/" },
-                  { value: "new", label: "New Session" },
-                ]
+                ...sessions.map((t) => ({ value: t.uuid, label: t.name })),
+                { value: "/divider/", label: "/divider/" },
+                { value: "new", label: "New Session" },
+              ]
               : []
           }
         />

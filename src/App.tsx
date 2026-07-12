@@ -1,15 +1,16 @@
 import { createBrowserRouter, Navigate, Route, RouterProvider, Routes } from 'react-router-dom';
 import Timer from '@/pages/Timer/Timer';
+import Stats from '@/pages/Stats/Stats';
 import Login from '@/pages/Auth/Login';
 import Signup from '@/pages/Auth/Signup';
 import Profile from '@/pages/Profile/Profile';
+import { TimerSettings } from '@/pages/Timer/TimerSettings';
 import AuthProvider from '@/contexts/AuthContext';
 import './App.css'
 import Layout from './Layout';
-import DBProvider from './contexts/DBContext';
-import { TimerSettings } from './pages/Timer/TimerSettings';
-import SettingsProvider from './contexts/SettingsContext';
-import ToastProvider from './contexts/ToastContext';
+import DBProvider from '@/contexts/DBContext';
+import SettingsProvider from '@/contexts/SettingsContext';
+import ToastProvider from '@/contexts/ToastContext';
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
           }
         ]
       },
+      { path: "stats", element: <Stats /> },
       { path: "login", element: <Login /> },
       { path: "signup", element: <Signup /> },
       { path: "profile", element: <Profile /> },

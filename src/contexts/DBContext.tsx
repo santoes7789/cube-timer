@@ -10,6 +10,7 @@ type DBContextType = {
   sessions: Session[];
   times: Time[];
   currentSession: string | null;
+  currentSessionName: string;
 
   setCurrentSession: (session: string) => void;
   setCurrentUser: (user: string) => void;
@@ -60,9 +61,9 @@ export default function DBProvider({ children }: { children: ReactNode }) {
     // add event listener to db worker
     dbWorker.addEventListener("message", (event) => {
       const { type, success, message, data } = event.data;
-      console.log("Received from db-worker:", message );
+      console.log("Received from db-worker:", message);
 
-      if(type === "ADD_SESSION") {
+      if (type === "ADD_SESSION") {
         setCurrentSession(data);
       }
 
@@ -86,6 +87,8 @@ export default function DBProvider({ children }: { children: ReactNode }) {
   );
 
 
+  const currentSessionName = sessions.find((s) => s.uuid === currentSession)?.name ?? "";
+
   // functions to edit times table //
   function addTime(startTime: string, time: number, scramble: string) {
     if (currentSession === null) return null;
@@ -106,7 +109,7 @@ export default function DBProvider({ children }: { children: ReactNode }) {
   }
 
   function deleteTime(id: number) {
-    dbWorker.postMessage({ type: "DELETE_TIME", data: id, auth: currentUser});
+    dbWorker.postMessage({ type: "DELETE_TIME", data: id, auth: currentUser });
   }
 
 
@@ -127,7 +130,7 @@ export default function DBProvider({ children }: { children: ReactNode }) {
   }
 
   function deleteSession(uuid: string) {
-    dbWorker.postMessage({ type: "DELETE_SESSION", data: { uuid: uuid }, auth: currentUser})
+    dbWorker.postMessage({ type: "DELETE_SESSION", data: { uuid: uuid }, auth: currentUser })
   }
 
   async function setCurrentUser(user_id: string) {
@@ -146,6 +149,7 @@ export default function DBProvider({ children }: { children: ReactNode }) {
         sessions,
         times,
         currentSession,
+        currentSessionName,
         setCurrentSession: (session: string) => setCurrentSession(session),
 
         addTime,

@@ -11,7 +11,7 @@ export default function TimesList() {
   const [selectedTime, setSelectedTime] = useState<Time | null>(null);
   const myCube = selectedTime?.scramble ? applyScramble({ type: '3x3', scramble: selectedTime.scramble }) : null
 
-  const {times, deleteTime} = useDB();
+  const { times, deleteTime } = useDB();
 
   if(!times || times.length === 0) return;
   return (

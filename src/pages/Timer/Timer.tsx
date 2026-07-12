@@ -14,6 +14,7 @@ import supabase from "@/utils/supabase";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useSettings } from "@/contexts/SettingsContext";
 import { useToast } from "@/contexts/ToastContext";
+import NavButtons from "./NavButtons";
 
 type TimerState = "idle" | "waiting" | "ready" | "running" | "stopped";
 
@@ -89,11 +90,12 @@ function Timer() {
   }, [state]);
 
   return (
-    <div>
+    <div className="timer-page-container">
       <h1 className={`timer-text timer-text--${state}`} onTransitionEnd={onFinish}>
         {formatMilliseconds(time)}
       </h1>
       <TimesList />
+      <NavButtons />
       <TimesStats times={db.times} />
       <SessionDisplay />
       <Scramble scramble={scramble} />
