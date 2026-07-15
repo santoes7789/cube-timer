@@ -1,0 +1,27 @@
+.multibutton-container {
+  display: flex;
+  flex-direction: row;
+}
+.multibutton {
+  padding: 4px 14px;
+  border: var(--border-default);
+  background-color: #1a1a1a;
+  transition: 0.25s;
+  cursor: pointer;
+}
+
+.multibutton:hover {
+  border-color: var(--highlight-color);
+}
+
+.multibutton.left {
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
+}
+
+.multibutton.right {
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+.multibutton.selected {
+  color: var(--highlight-color);
+}
