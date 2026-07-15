@@ -11,13 +11,8 @@ export const getAoX = (times: Time[], x: number, index=times.length - 1, exclude
 	}
 
 	let subset = times.slice(index - x + 1, index + 1).map((time) => {
-		if (time.modifier == "+2") {
-			return time.time + 2000;
-		}
-		else if (time.modifier == "dnf") {
-			return Infinity;
-		}
-		return time.time;
+
+    return time.getTimeValueDnfIsNull() ?? Infinity;
 	});
 
 	subset.sort((a, b) => a - b);
@@ -33,7 +28,7 @@ export const getBestTime = (times: Time[]) => {
 	let time = null;
 	let smallest = Infinity;
 	for (const t of times) {
-		const value = t.time + (t.modifier == "+2" ? 2 : 0);
+		const value = t.getTimeValue();
 		if (value < smallest && t.modifier != "dnf") {
 			time = t;
 			smallest = value;
@@ -46,7 +41,7 @@ export const getWorstTime = (times: Time[]) => {
 	let time = null;
 	let largest = 0;
 	for (const t of times) {
-		const value = t.time + (t.modifier == "+2" ? 2 : 0);
+		const value = t.getTimeValue();
 		if (value > largest && t.modifier != "dnf") {
 			time = t;
 			largest = value;

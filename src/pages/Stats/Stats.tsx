@@ -44,8 +44,9 @@ function Stats() {
       {
         label: 'Single',
         data: times.map((time) => {
-          bestSingle = Math.min(bestSingle, time.time / 1000);
-          return time.time / 1000;
+          const singleTime = time.getTimeValueDnfIsNull() ?? Infinity;
+          bestSingle = Math.min(bestSingle, singleTime / 1000);
+          return singleTime / 1000;
         }),
         showLine: true
       },

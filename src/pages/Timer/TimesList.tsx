@@ -4,8 +4,6 @@ import { MultiButton } from "@/components/MultiButton";
 import Popup from "@/components/Popup";
 import { useDB } from "@/contexts/DBContext";
 import db from "@/db/db";
-import { Time } from "@/db/times";
-import { formatMilliseconds } from "@/utils/time";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useEffect, useRef, useState } from "react";
 import { applyScramble, DisplayCube } from "react-rubiks-cube-utils";
