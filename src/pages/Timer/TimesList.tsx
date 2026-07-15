@@ -1,4 +1,5 @@
 import Divider from "@/components/Divider";
+import { FormattedTime } from "@/components/FormattedTime";
 import { MultiButton } from "@/components/MultiButton";
 import Popup from "@/components/Popup";
 import { useDB } from "@/contexts/DBContext";
@@ -48,7 +49,6 @@ export default function TimesList() {
 
   const { times, deleteTime, updateTime } = useDB();
 
-  if (!times || times.length === 0) return;
 
   // update changes onto the db
   function saveChanges() {
@@ -63,6 +63,10 @@ export default function TimesList() {
     updateTime(selectedTimeId, { comment, modifier });
   }
 
+  useEffect(saveChanges, [modifierIdx]); // If modifer change is applied, have it change immediately
+
+  if (!times || times.length === 0) return;
+
   return (
     <>
       <div className="times-list-container popout-container bottom-right">
@@ -71,13 +75,16 @@ export default function TimesList() {
             <div className="times-list-element-container">
               {[...times].reverse().map((t) => (
                 <div className="times-list-element" key={t.id} onClick={() => setSelectedTimeId(t.id)}>
-                  {formatMilliseconds(t.time)}
+                  <FormattedTime time={t} />
                 </div>
               ))}
             </div>
           </div>
         </div>
       </div>
+
+
+
       <Popup show={selectedTime !== null} onClose={() => {
         saveChanges();
         setSelectedTimeId(null);
@@ -85,7 +92,7 @@ export default function TimesList() {
         {selectedTime !== null &&
           <>
             <h1>
-              {formatMilliseconds(selectedTime?.time)}
+              <FormattedTime time={selectedTime} />
             </h1>
 
             <Divider />
@@ -116,7 +123,7 @@ export default function TimesList() {
 
 
                 <div>
-                  <div className="heading">Modifers:</div>
+                  <div className="heading">Modifiers:</div>
                   <div className="content">
                     <MultiButton texts={["DNF", "+2"]} selected={modifierIdx} onChange={(idx) => {
                       if (modifierIdx === idx) {
