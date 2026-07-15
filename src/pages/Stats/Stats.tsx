@@ -77,11 +77,11 @@ function Stats() {
       {
         label: 'Ao100',
         data: times.map((time, i) => {
-          const ao100 = getAoX(times, 100, 5);
+          const ao100 = getAoX(times, 100, i, 5);
           if (ao100 === null) {
             return null;
           }
-          bestAo100 = Math.max(bestAo100, ao100 / 1000);
+          bestAo100 = Math.min(bestAo100, ao100 / 1000);
           return ao100 / 1000;
         }),
         showLine: true
