@@ -6,6 +6,8 @@
   --border-color: rgba(255, 255, 255, 0.25);
   --border-default: 1px solid var(--border-color);
 
+  --faded-color: rgba(255, 255, 255, 0.5);
+
   --default-transition-time: 0.25s;
 
   --cube-red: #ff0000;

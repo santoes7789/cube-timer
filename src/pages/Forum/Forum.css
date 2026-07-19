@@ -37,10 +37,14 @@
 }
 
 .threadpage-post-container {
+  padding: var(--main-padding);
+}
+
+.threadpage-input-post-container {
   margin-top: var(--main-padding);
   text-align: right;
 }
 
-.threadpage-post-container button {
+.threadpage-input-post-container button {
   width: 100px;
 }

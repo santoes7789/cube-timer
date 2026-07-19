@@ -20,6 +20,14 @@ export async function createThread({ heading, body }: { heading: string, body: s
   return response;
 }
 
+export async function createPost(thread_id: string, body: string, author_id: string) {
+  const response = await supabase.from("posts").insert({ thread_id, body, author_id });
+  if (response.error) {
+    console.error(response.error)
+  }
+  return response
+}
+
 // function to retrieve threads and posts
 export async function getThreads() {
   // get latest threads
@@ -70,8 +78,6 @@ export async function getThread(threadId: string) {
   }))
 
   return { thread, posts }
-
-
 
 }
 

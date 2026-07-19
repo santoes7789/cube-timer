@@ -1,6 +1,8 @@
 import "./Divider.css"
-function Divider() {
-  return <div className="divider"/>
+
+type divderTypes = "normal" | "thick";
+function Divider({ type="normal" } : { type?: divderTypes}) {
+  return <div className={`divider ${type}`}/>
 }
 
 export default Divider;

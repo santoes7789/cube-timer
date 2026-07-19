@@ -2,4 +2,9 @@
   border-top: var(--border-default);
   height: 0;
   margin: 5px 0;
+  border-radius: 5px;
+}
+
+.divider.thick {
+  border-width: 3px;
 }
