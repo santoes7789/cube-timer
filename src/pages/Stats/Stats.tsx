@@ -91,9 +91,7 @@ function Stats() {
 
   return (
     <div className="stats-page-container">
-      <div className="top-left">
-        <BackIcon onClick={() => navigate("/timer")} />
-      </div>
+      <BackIcon onClick={() => navigate("/timer")} />
 
       <div>
         <div style={{ paddingRight: "50px", paddingLeft: "50px" }}>

@@ -1,6 +1,6 @@
 import Divider from "@/components/Divider";
 import "./Auth.css";
-import { Link, Navigate, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import supabase from "@/utils/supabase";
 import { type formStates } from "@/types";
@@ -9,7 +9,7 @@ import { BackIcon } from "@/components/BackIcon";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [state, setState] = useState<formStates>();
+  const [state, setState] = useState<formStates>("idle");
 
   const navigate = useNavigate();
 
@@ -27,11 +27,12 @@ function Login() {
     if (error) {
       console.log(error);
       toast.error("Failed to log in");
+      setState("idle");
     } else {
       navigate("/");
       toast.success("Logged in");
+      setState("loading");
     }
-    setState("loading");
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,9 +43,7 @@ function Login() {
 
   return (
     <div className="auth-page-container">
-      <div className="top-left">
-        <BackIcon onClick={() => navigate(-1)} />
-      </div>
+        <BackIcon />
       <div className="popout-container auth-block">
         <form method="post" onSubmit={handleSignin} className="auth-container">
           <div>

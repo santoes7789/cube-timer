@@ -1,4 +1,4 @@
-import { ChartLine, CircleUser, Icon, LogOut, Settings, Timer, UserLock } from "lucide-react";
+import { ChartLine, CircleUser, Icon, LogOut, MessagesSquare, Settings, Timer, UserLock } from "lucide-react";
 import { IconButton } from "@/components/IconButton";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -15,6 +15,7 @@ function NavButtons() {
     <div className="popout-container nav-buttons top-right">
       <IconButton icon={Settings} size={25} onClick={() => navigate("/timer/settings")} />
       <IconButton icon={ChartLine} size={25} onClick={() => navigate("/stats")} />
+      <IconButton icon={MessagesSquare} size={25} onClick={() => navigate("/forum")} />
       {auth ?
         <IconButton
           icon={LogOut}

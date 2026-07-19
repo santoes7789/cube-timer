@@ -1,0 +1,46 @@
+.forum-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: var(--main-padding);
+}
+
+.thread-view-container {
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  gap: 20px;
+}
+
+.createThread-page-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.threadblock-information-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.threadblock-container {
+  text-align: left;
+  cursor: pointer;
+  transition: var(--default-transition-time);
+}
+
+.threadblock-container:hover {
+  scale: 105%;
+}
+
+.threadpage-post-container {
+  margin-top: var(--main-padding);
+  text-align: right;
+}
+
+.threadpage-post-container button {
+  width: 100px;
+}

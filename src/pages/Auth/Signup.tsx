@@ -9,7 +9,7 @@ import { BackIcon } from "@/components/BackIcon";
 
 function Signup() {
   const [formData, setFormData] = useState({ email: "", password: "", repeatPassword: "" });
-  const [state, setState] = useState<formStates>();
+  const [state, setState] = useState<formStates>("idle");
 
   const navigate = useNavigate();
   const toast = useToast();
@@ -25,11 +25,12 @@ function Signup() {
 
     if (error) {
       console.log(error);
+      setState("idle");
     } else {
       navigate("/");
       toast.success("Account created!");
+      setState("loading");
     }
-    setState("loading");
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,9 +43,7 @@ function Signup() {
   return (
 
     <div className="auth-page-container">
-      <div className="top-left">
-        <BackIcon onClick={() => navigate(-1)} />
-      </div>
+      <BackIcon />
       <div className="popout-container auth-block">
         <form method="post" onSubmit={handleSignup} className="auth-container">
           <div>
