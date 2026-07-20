@@ -2,13 +2,13 @@ import Divider from "@/components/Divider";
 import "./Auth.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import supabase from "@/utils/supabase";
+import { signup } from "@/utils/supabase";
 import { type formStates } from "@/types";
 import { useToast } from "@/contexts/ToastContext";
 import { BackIcon } from "@/components/BackIcon";
 
 function Signup() {
-  const [formData, setFormData] = useState({ email: "", password: "", repeatPassword: "" });
+  const [formData, setFormData] = useState({ email: "", password: "", repeatPassword: "", username: "" });
   const [state, setState] = useState<formStates>("idle");
 
   const navigate = useNavigate();
@@ -18,18 +18,20 @@ function Signup() {
     e.preventDefault();
 
     setState("submitting");
-    const { error } = await supabase.auth.signUp({
+
+    const success = await signup({
       email: formData.email,
       password: formData.password,
-    });
+      username: formData.username
+    })
 
-    if (error) {
-      console.log(error);
-      setState("idle");
-    } else {
+    if (success) {
       navigate("/");
       toast.success("Account created!");
       setState("loading");
+    } else {
+      toast.error("Failed to create account");
+      setState("idle");
     }
   };
 
@@ -38,7 +40,7 @@ function Signup() {
   };
 
   const valid =
-    formData.email && formData.password && formData.password === formData.repeatPassword;
+    formData.email && formData.username && formData.password && formData.password === formData.repeatPassword;
 
   return (
 
@@ -63,6 +65,20 @@ function Signup() {
               onChange={handleChange}
               disabled={state === "submitting"}
               placeholder="a@example.com"
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="email">Username</label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              value={formData.username}
+              onChange={handleChange}
+              disabled={state === "submitting"}
+              placeholder="aBuffaloHerd"
               required
             />
           </div>

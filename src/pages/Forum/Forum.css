@@ -8,7 +8,7 @@
 .thread-view-container {
   display: flex;
   flex-direction: column;
-  width: 800px;
+  width: min(800px, 100%);
   gap: 20px;
 }
 

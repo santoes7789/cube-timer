@@ -14,9 +14,15 @@ interface Timetype {
   scramble: string;
 }
 
+interface User {
+  id: string;
+  email: string;
+  username: string;
+}
+
 interface Post {
   id: string;
-  author: string;
+  author: User;
   body: string;
   timestamp: Date;
 }
@@ -25,12 +31,12 @@ interface Thread {
   id: string;
   heading: string;
   body: string;
-  author: string;
+  author: User;
   timestamp: Date;
 }
 
 
-export type { Timetype, SessionType, Thread, Post };
+export type { Timetype, SessionType, Thread, Post, User };
 
 
 export type formStates = "idle" | "submitting" | "loading";

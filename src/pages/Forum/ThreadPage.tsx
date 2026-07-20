@@ -72,7 +72,10 @@ function ThreadPage() {
           <div style={{ marginBottom: "15px" }}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <h2 style={{ fontSize: "40px" }}>{thread?.heading}</h2>
-              <h6>Posted on {thread?.timestamp.toLocaleString()}</h6>
+              <div style={{ textAlign: "right" }}>
+                <h4>{thread?.author.username}</h4>
+                <h6>Posted on {thread?.timestamp.toLocaleString()}</h6>
+              </div>
             </div>
             <p style={{ marginLeft: "30px" }}>{thread?.body}</p>
           </div>
@@ -90,7 +93,7 @@ function ThreadPage() {
             return (
               <div key={post.id} className="threadpage-post-container">
                 <div style={{ display: "flex", justifyContent: "space-between"}}>
-                  <div></div>
+                  <h4> - {post.author.username}</h4>
                   {post.timestamp.toDateString()}
                 </div>
                 {post.body}

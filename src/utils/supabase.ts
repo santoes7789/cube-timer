@@ -1,6 +1,6 @@
-import db  from "@/db/db";
+import db from "@/db/db";
 import type { Time } from "@/db/times";
-import type { Post, Thread } from "@/types";
+import type { Post, Thread, User } from "@/types";
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -8,24 +8,64 @@ const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-
-
-
-// function to create a new thread using heading and body information
-export async function createThread({ heading, body }: { heading: string, body: string }) {
-  const response = await supabase.functions.invoke("create-thread", {
-    body: { heading, body }
+export async function signup({
+  username,
+  email,
+  password,
+}: {
+  username: string;
+  email: string;
+  password: string;
+}) {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
   });
 
+  if (error) {
+    console.error(error);
+    return false;
+  }
+
+  if (data.user === null) return false;
+
+  const { error: profileError } = await supabase
+    .from("profiles")
+    .insert({ id: data.user.id, username, email });
+
+  if (profileError) {
+    console.error(profileError);
+    return false;
+  }
+  return true;
+}
+
+// function to create a new thread using heading and body information
+export async function createThread({
+  heading,
+  body,
+}: {
+  heading: string;
+  body: string;
+}) {
+  const response = await supabase.functions.invoke("create-thread", {
+    body: { heading, body },
+  });
   return response;
 }
 
-export async function createPost(thread_id: string, body: string, author_id: string) {
-  const response = await supabase.from("posts").insert({ thread_id, body, author_id });
+export async function createPost(
+  thread_id: string,
+  body: string,
+  author_id: string,
+) {
+  const response = await supabase
+    .from("posts")
+    .insert({ thread_id, body, author_id });
   if (response.error) {
-    console.error(response.error)
+    console.error(response.error);
   }
-  return response
+  return response;
 }
 
 // function to retrieve threads and posts
@@ -33,31 +73,40 @@ export async function getThreads() {
   // get latest threads
   const { data } = await supabase
     .from("threads")
-    .select("id, heading, author_id, created_at, posts!threads_first_post_id_fkey(body)")
+    .select(
+      "id, heading, profiles!threads_author_id_fkey(id, username, email), created_at, posts!threads_first_post_id_fkey(body)",
+    )
     .order("created_at", { ascending: false })
-    .limit(20)
+    .limit(20);
 
   if (data) {
     const threads: Thread[] = data.map((row) => ({
       id: row.id as string,
       heading: row.heading as string,
-      author: row.author_id as string,
+      author: row.profiles as User,
       body: row.posts.body as string,
       timestamp: new Date(row.created_at),
-    }))
+    }));
+
+    console.log(JSON.stringify(threads, null, 2));
     return threads;
   }
   return [];
 }
 
-
 // function to get all posts from a specific thread
 export async function getThread(threadId: string) {
   const { data } = await supabase
     .from("threads")
-    .select("id, heading, author_id, created_at, posts!posts_thread_id_fkey(id, body, author_id, created_at)")
+    .select(
+      `id,
+      heading,
+      profiles!threads_author_id_fkey(id, username, email),
+      created_at,
+      posts!posts_thread_id_fkey(id, body, profiles!posts_author_id_fkey(id, username, email), created_at)`,
+    )
     .eq("id", threadId)
-    .order("created_at", { ascending: true, referencedTable: "posts"})
+    .order("created_at", { ascending: true, referencedTable: "posts" })
     .limit(1)
     .single();
 
@@ -66,73 +115,79 @@ export async function getThread(threadId: string) {
     id: data.id,
     heading: data.heading,
     body: data.posts[0].body,
-    author: data.author_id,
+    author: data.profiles,
     timestamp: new Date(data.created_at),
-  }
+  };
 
   const posts: Post[] = data.posts.map((row) => ({
     id: row.id.toString(),
-    author: row.author_id,
+    author: row.profiles,
     body: row.body,
-    timestamp: new Date(row.created_at)
-  }))
+    timestamp: new Date(row.created_at),
+  }));
 
-  return { thread, posts }
-
+  return { thread, posts };
 }
 
-
-
-
-
-
-
-
-
-
-
 export async function updateLocalDB(user_id: string) {
-  const unsyncedSessions = await db.sessions.where("synced").equals(0).filter(row => row.user_id === user_id).toArray();
-  const unsyncedTimes = await db.times.where("synced").equals(0).filter(row => row.user_id === user_id).toArray();
+  const unsyncedSessions = await db.sessions
+    .where("synced")
+    .equals(0)
+    .filter((row) => row.user_id === user_id)
+    .toArray();
+  const unsyncedTimes = await db.times
+    .where("synced")
+    .equals(0)
+    .filter((row) => row.user_id === user_id)
+    .toArray();
 
   // add sessions first since time relies on sessions
   const { data, error } = await supabase.functions.invoke("add-sessions", {
     body: unsyncedSessions,
-  })
+  });
   if (error) return;
 
-  const updates = await Promise.all(data.data.map(async (item: any) => {
-    const key = await db.sessions.where("uuid").equals(item.uuid).first();
-    return {
-      key: key?.id,
-      changes: {
-        synced: 1,
-      }
-    }
-  }))
+  const updates = await Promise.all(
+    data.data.map(async (item: any) => {
+      const key = await db.sessions.where("uuid").equals(item.uuid).first();
+      return {
+        key: key?.id,
+        changes: {
+          synced: 1,
+        },
+      };
+    }),
+  );
   // set those sessions as synced
   await db.sessions.bulkUpdate(updates);
 
   // add times
-  const { data: timeData, error: timeError } = await supabase.functions.invoke("add-times", {
-    body: unsyncedTimes,
-  })
+  const { data: timeData, error: timeError } = await supabase.functions.invoke(
+    "add-times",
+    {
+      body: unsyncedTimes,
+    },
+  );
 
   if (timeError) return;
 
-  const timeUpdates = await Promise.all(timeData.data.map(async (item: any) => {
-    const key = await db.times.where("timestamp").equals(new Date(item.timestamp).toISOString()).first();
-    return {
-      key: key?.id,
-      changes: {
-        synced: 1,
-      }
-    }
-  }))
+  const timeUpdates = await Promise.all(
+    timeData.data.map(async (item: any) => {
+      const key = await db.times
+        .where("timestamp")
+        .equals(new Date(item.timestamp).toISOString())
+        .first();
+      return {
+        key: key?.id,
+        changes: {
+          synced: 1,
+        },
+      };
+    }),
+  );
   // set those times as synced
   await db.times.bulkUpdate(timeUpdates);
 }
-
 
 export async function addTimeToSupabase(times: Partial<Time>[]) {
   // get unsynced data
@@ -145,8 +200,6 @@ export function helloSupabase(name: string) {
   supabase.functions.invoke("hello-world", {
     body: { name: name },
   });
-
 }
-
 
 export default supabase;
