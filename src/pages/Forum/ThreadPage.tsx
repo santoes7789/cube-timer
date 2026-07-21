@@ -1,7 +1,7 @@
 import { useToast } from "@/contexts/ToastContext";
 import { createPost, getThread } from "@/utils/supabase";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import type { Post, Thread } from "@/types";
 import Divider from "@/components/Divider";
 import { BackIcon } from "@/components/BackIcon";
@@ -22,6 +22,7 @@ function ThreadPage() {
 
   // function to retrieve data from server and update ui
   function getData() {
+    console.log("testing")
     if (!threadId) {
       toast.error("No thread found");
       return;
@@ -40,7 +41,7 @@ function ThreadPage() {
   }
 
   // retrieve all posts on startup
-  useEffect(getData);
+  useEffect(getData, [threadId]);
 
   // function to submit new post
   async function submitPost() {

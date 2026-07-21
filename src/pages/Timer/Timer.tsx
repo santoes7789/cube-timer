@@ -10,10 +10,8 @@ import RubiksCubeDisplay from "./RubiksCubeDisplay";
 import TimesStats from "./TimesStats";
 
 import { useDB } from "@/contexts/DBContext";
-import supabase from "@/utils/supabase";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useSettings } from "@/contexts/SettingsContext";
-import { useToast } from "@/contexts/ToastContext";
 import NavButtons from "./NavButtons";
 
 type TimerState = "idle" | "waiting" | "ready" | "running" | "stopped";
@@ -53,7 +51,7 @@ function Timer() {
         setScramble(generateNewScramble());
       }
     },
-    [state, db.currentSession, scramble, settings],
+    [state, db, scramble, settings],
   );
 
   const handleKeyUp = useCallback(
@@ -100,6 +98,8 @@ function Timer() {
       <SessionDisplay />
       <Scramble scramble={scramble} />
       <RubiksCubeDisplay scramble={scramble} />
+
+      {/* Where the settings drawer goes when url is timer/settings */}
       <Outlet />
     </div>
   );

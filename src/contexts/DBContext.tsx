@@ -38,7 +38,6 @@ export default function DBProvider({ children }: { children: ReactNode }) {
 
   const authSession = useAuth();
 
-
   useEffect(() => {
     if (!authSession) {
       setCurrentUser("default");

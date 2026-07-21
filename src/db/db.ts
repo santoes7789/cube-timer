@@ -20,11 +20,11 @@ export class Database extends Dexie {
     this.times.mapToClass(Time);
   }
 
-  addDefaultSession(user_id: string) {
+  async addDefaultSession(user_id: string) {
     console.log("adding ", user_id);
     const now = new Date().toISOString();
     const randUUID = crypto.randomUUID();
-    this.sessions.add({
+    await this.sessions.add({
       name: "3x3",
       uuid: randUUID,
       created_at: now,

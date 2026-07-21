@@ -4,7 +4,7 @@ import Stats from '@/pages/Stats/Stats';
 import Login from '@/pages/Auth/Login';
 import Signup from '@/pages/Auth/Signup';
 import Forum from '@/pages/Forum/Forum';
-import { TimerSettings } from '@/pages/Timer/TimerSettings';
+import Settings from '@/pages/Settings/Settings';
 import AuthProvider from '@/contexts/AuthContext';
 import './App.css'
 import Layout from './Layout';
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: "settings",
-            element: <TimerSettings />
+            element: <Settings />
           }
         ]
       },

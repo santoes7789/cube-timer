@@ -2,21 +2,17 @@ import db from "@/db/db";
 import type { Time } from "@/db/times";
 import type { Post, Thread, User } from "@/types";
 import { createClient } from "@supabase/supabase-js";
+import imageCompression from "browser-image-compression";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export async function signup({
-  username,
-  email,
-  password,
-}: {
-  username: string;
-  email: string;
-  password: string;
-}) {
+// function to signup
+export async function signup({ username, email, password, }: { username: string; email: string; password: string; }) {
+
+  // adding to auth
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -29,6 +25,7 @@ export async function signup({
 
   if (data.user === null) return false;
 
+  // adding profile data
   const { error: profileError } = await supabase
     .from("profiles")
     .insert({ id: data.user.id, username, email });
@@ -41,24 +38,14 @@ export async function signup({
 }
 
 // function to create a new thread using heading and body information
-export async function createThread({
-  heading,
-  body,
-}: {
-  heading: string;
-  body: string;
-}) {
+export async function createThread({ heading, body, }: { heading: string; body: string; }) {
   const response = await supabase.functions.invoke("create-thread", {
     body: { heading, body },
   });
   return response;
 }
 
-export async function createPost(
-  thread_id: string,
-  body: string,
-  author_id: string,
-) {
+export async function createPost( thread_id: string, body: string, author_id: string ) {
   const response = await supabase
     .from("posts")
     .insert({ thread_id, body, author_id });
@@ -120,14 +107,32 @@ export async function getThread(threadId: string) {
   };
 
   const posts: Post[] = data.posts.map((row) => ({
-    id: row.id.toString(),
-    author: row.profiles,
-    body: row.body,
+    id: row.id.toString() as string,
+    author: row.profiles as User,
+    body: row.body as string,
     timestamp: new Date(row.created_at),
   }));
 
   return { thread, posts };
 }
+
+export function getProfilePictureURL(user_id: string) {
+  const { data } = supabase.storage.from("avatars").getPublicUrl(user_id);
+  return data.publicUrl;
+}
+
+export async function uploadProfilePicture(user_id: string, file: File) {
+  // convert image to 256 x 256 webp image
+  const webpFile = await imageCompression(file, {
+    maxWidthOrHeight: 256,
+    fileType: "image/webp",
+    initialQuality: 0.8,
+  })
+  const { error } = await supabase.storage.from("avatars").upload(user_id, webpFile, { upsert: true });
+  return error === null;
+}
+
+
 
 export async function updateLocalDB(user_id: string) {
   const unsyncedSessions = await db.sessions
@@ -196,10 +201,5 @@ export async function addTimeToSupabase(times: Partial<Time>[]) {
   });
 }
 
-export function helloSupabase(name: string) {
-  supabase.functions.invoke("hello-world", {
-    body: { name: name },
-  });
-}
 
 export default supabase;

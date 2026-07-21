@@ -1,0 +1,12 @@
+.table-settings-subheading {
+  font-weight: bold;
+  font-size: 1.3em;
+  margin-top: 50px;
+}
+
+.table-settings-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 0px;
+}
