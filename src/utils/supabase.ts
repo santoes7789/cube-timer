@@ -1,4 +1,5 @@
 import db from "@/db/db";
+import default_avatar from "@/assets/default_avatar.jpg";
 import type { Time } from "@/db/times";
 import type { Post, Thread, User } from "@/types";
 import { createClient } from "@supabase/supabase-js";
@@ -34,6 +35,15 @@ export async function signup({ username, email, password, }: { username: string;
     console.error(profileError);
     return false;
   }
+
+
+  // adding profile picture
+  const response = await fetch(default_avatar);
+  const blob = await response.blob();
+  const file = new File([blob], "default_avatar.jpg", {
+    type: blob.type,
+  });
+  uploadProfilePicture(data.user.id, file)
   return true;
 }
 
