@@ -33,7 +33,16 @@ const router = createBrowserRouter([
       { path: "stats", element: <Stats /> },
       { path: "login", element: <Login /> },
       { path: "signup", element: <Signup /> },
-      { path: "forum", element: <Forum /> },
+      {
+        path: "forum",
+        element: <Forum />,
+        children: [
+          {
+            path: "settings",
+            element: <Settings />
+          }
+        ]
+      },
       { path: "forum/create", element: <CreateThread /> },
       { path: "forum/:threadId", element: <ThreadPage /> },
     ],

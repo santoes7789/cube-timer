@@ -1,8 +1,9 @@
 import "./Divider.css"
 
 type divderTypes = "normal" | "thick";
-function Divider({ type="normal" } : { type?: divderTypes}) {
-  return <div className={`divider ${type}`}/>
+type dividerOrientation = "horizontal" | "vertical";
+function Divider({ type="normal", orientation="horizontal" } : { type?: divderTypes, orientation?: dividerOrientation}) {
+  return <div className={`divider ${type} ${orientation}`}/>
 }
 
 export default Divider;

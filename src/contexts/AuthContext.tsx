@@ -3,6 +3,7 @@ import type { Session } from "@supabase/supabase-js";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { dbLastSynced } from "@/db/db";
 import type { User } from "@/types";
+import { useToast } from "./ToastContext";
 
 type AuthContextType = {
   session: Session | null,
@@ -18,6 +19,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
+  const toast = useToast();
 
   function reloadUser() {
     if (session) {
@@ -36,7 +38,13 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
       setSession(session);
       if (session) {
         if (event === "SIGNED_IN") {
-          getUser(session.user.id).then((user) => setUser(user));
+          getUser(session.user.id).then((user) => {
+            if (user) {
+              setUser(user)
+              toast.info("Signed in as: " + user.username);
+            }
+          });
+
         }
       } else {
         setUser(null);

@@ -2,3 +2,12 @@
   border: var(--border-default);
   overflow: hidden;
 }
+.profile-icon.clickable {
+  cursor: pointer;
+  border-width: 2px;
+  transition-duration: var(--default-transition-time);
+}
+
+.profile-icon.clickable:hover {
+  border-color: var(--highlight-color);
+}

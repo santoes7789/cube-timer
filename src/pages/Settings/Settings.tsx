@@ -32,7 +32,7 @@ function Settings() {
   }
 
   return (
-    <Drawer open={true} onClose={() => navigate("/timer")} side="left">
+    <Drawer open={true} onClose={() => navigate(-1)} side="left">
       <h2 style={{ marginTop: 70, marginLeft: 40, textAlign: "left" }}>Settings</h2>
       <Divider />
 

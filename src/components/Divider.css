@@ -1,8 +1,19 @@
 .divider {
+  border-radius: 5px;
+}
+
+.divider.horizontal {
   border-top: var(--border-default);
   height: 0;
+  width: 100%;
   margin: 5px 0;
-  border-radius: 5px;
+}
+
+.divider.vertical {
+  border-top: none;
+  border-left: var(--border-default);
+  width: 0;
+  margin: 0 5px;
 }
 
 .divider.thick {

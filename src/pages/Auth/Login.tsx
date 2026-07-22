@@ -26,7 +26,11 @@ function Login() {
 
     if (error) {
       console.log(error);
-      toast.error("Failed to log in");
+      if (error.status == 400) {
+        toast.error("Invalid credentials");
+      } else {
+        toast.error("Failed to log in");
+      }
       setState("idle");
     } else {
       navigate("/");

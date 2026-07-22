@@ -2,9 +2,10 @@ import "./Forum.css";
 import Divider from "@/components/Divider";
 import { getThreads } from "@/utils/supabase";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { ThreadBlock } from "./ThreadBlock";
 import type { Thread } from "@/types";
+import ForumNavButtons from "./ForumNavButtons";
 
 function Forum() {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ function Forum() {
 
   return (
     <div className="forum-page-container">
+      <ForumNavButtons />
       <h1>Forum</h1>
       <button onClick={() => navigate("/forum/create")}>create</button>
       <Divider />
@@ -33,6 +35,7 @@ function Forum() {
           ))}
         </div>
       )}
+      <Outlet />
     </div>
   );
 }

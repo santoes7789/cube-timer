@@ -2,31 +2,27 @@ import { ChartLine, CircleUser, Icon, LogOut, MessagesSquare, Settings, Timer, U
 import { IconButton } from "@/components/IconButton";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import supabase from "@/utils/supabase";
-import { useToast } from "@/contexts/ToastContext";
-import Divider from "@/components/Divider";
 import ProfilePic from "@/components/ProfilePic";
+import Divider from "@/components/Divider";
 
-function NavButtons() {
+function ForumNavButtons() {
   const navigate = useNavigate();
+
   const auth = useAuth();
-  const toast = useToast();
 
   return (
     <div className="popout-container nav-buttons top-right">
-      <IconButton icon={Settings} size={30} onClick={() => navigate("/timer/settings")} />
+      <IconButton icon={Settings} size={30} onClick={() => navigate("/forum/settings")} />
       {auth?.user ?
-        <ProfilePic user={auth.user} size={29} clickable/>
-        :
+        <ProfilePic user={auth.user} size={29} clickable /> :
         <IconButton icon={CircleUser} size={30} onClick={() => {
           navigate("/login");
         }} />
       }
-      <IconButton icon={ChartLine} size={30} onClick={() => navigate("/stats")} />
       <Divider orientation="vertical"/>
-      <IconButton icon={MessagesSquare} size={30} onClick={() => navigate("/forum")} />
+      <IconButton icon={Timer} size={30} onClick={() => navigate("/timer")} />
     </div>
   );
 }
 
-export default NavButtons;
+export default ForumNavButtons;
