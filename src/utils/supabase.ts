@@ -61,7 +61,7 @@ export async function getThreads() {
   const { data } = await supabase
     .from("threads")
     .select(
-      "id, heading, profiles!threads_author_id_fkey(id, username, email), created_at, posts!threads_first_post_id_fkey(body)",
+      "id, heading, profiles!threads_author_id_fkey(id, username, email, avatar_updated_at), created_at, posts!threads_first_post_id_fkey(body)",
     )
     .order("created_at", { ascending: false })
     .limit(20);
@@ -70,7 +70,12 @@ export async function getThreads() {
     const threads: Thread[] = data.map((row) => ({
       id: row.id as string,
       heading: row.heading as string,
-      author: row.profiles as User,
+      author: {
+        id: row.profiles.id,
+        username: row.profiles.username,
+        email: row.profiles.email,
+        avatarUpdatedAt: new Date(row.profiles.avatar_updated_at)
+      },
       body: row.posts.body as string,
       timestamp: new Date(row.created_at),
     }));
@@ -88,7 +93,7 @@ export async function getThread(threadId: string) {
     .select(
       `id,
       heading,
-      profiles!threads_author_id_fkey(id, username, email),
+      profiles!threads_author_id_fkey(id, username, email, avatar_updated_at),
       created_at,
       posts!posts_thread_id_fkey(id, body, profiles!posts_author_id_fkey(id, username, email), created_at)`,
     )
@@ -102,13 +107,24 @@ export async function getThread(threadId: string) {
     id: data.id,
     heading: data.heading,
     body: data.posts[0].body,
-    author: data.profiles,
+    author: {
+      id: data.profiles.id,
+      username: data.profiles.username,
+      email: data.profiles.email,
+      avatarUpdatedAt: new Date(data.profiles.avatar_updated_at)
+    },
+
     timestamp: new Date(data.created_at),
   };
 
   const posts: Post[] = data.posts.map((row) => ({
     id: row.id.toString() as string,
-    author: row.profiles as User,
+    author: {
+      id: row.profiles.id,
+      username: row.profiles.username,
+      email: row.profiles.email,
+      avatarUpdatedAt: new Date(row.profiles.avatar_updated_at)
+    },
     body: row.body as string,
     timestamp: new Date(row.created_at),
   }));
@@ -116,9 +132,9 @@ export async function getThread(threadId: string) {
   return { thread, posts };
 }
 
-export function getProfilePictureURL(user_id: string) {
-  const { data } = supabase.storage.from("avatars").getPublicUrl(user_id);
-  return data.publicUrl;
+export function getProfilePictureURL(user: User) {
+  const { data } = supabase.storage.from("avatars").getPublicUrl(user.id);
+  return `${data.publicUrl}?v=${user.avatarUpdatedAt}`;
 }
 
 export async function uploadProfilePicture(user_id: string, file: File) {
@@ -128,8 +144,33 @@ export async function uploadProfilePicture(user_id: string, file: File) {
     fileType: "image/webp",
     initialQuality: 0.8,
   })
-  const { error } = await supabase.storage.from("avatars").upload(user_id, webpFile, { upsert: true });
-  return error === null;
+  const { error: avatarError } = await supabase.storage.from("avatars").upload(user_id, webpFile, { upsert: true });
+  const { error: profileError } = await supabase.from("profiles")
+    .update({ avatar_updated_at: new Date().toISOString() })
+    .eq("id", user_id);
+  return (avatarError === null) && (profileError === null);
+}
+
+export async function getUser(user_id: string) {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user_id)
+    .single();
+
+  if (error) {
+    console.error(error);
+    return null;
+  }
+
+  const user: User = {
+    id: data.id,
+    username: data.username,
+    email: data.email,
+    avatarUpdatedAt: data.avatar_updated_at
+  }
+
+  return user;
 }
 
 

@@ -36,15 +36,15 @@ export default function DBProvider({ children }: { children: ReactNode }) {
   const [currentUser, currentUserSetter] = useState("default");
   const [currentSession, setCurrentSession] = useState<string | null>(null);
 
-  const authSession = useAuth();
+  const auth = useAuth();
 
   useEffect(() => {
-    if (!authSession) {
+    if (!auth?.session) {
       setCurrentUser("default");
-    } else if (authSession.user.id !== currentUser) {
-      setCurrentUser(authSession.user.id);
+    } else if (auth.session.user.id !== currentUser) {
+      setCurrentUser(auth.session.user.id);
     }
-  }, [authSession])
+  }, [auth, currentUser])
 
   // Start up code
   useEffect(() => {

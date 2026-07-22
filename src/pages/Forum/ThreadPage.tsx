@@ -6,6 +6,7 @@ import type { Post, Thread } from "@/types";
 import Divider from "@/components/Divider";
 import { BackIcon } from "@/components/BackIcon";
 import { useAuth } from "@/contexts/AuthContext";
+import ProfilePic from "@/components/ProfilePic";
 
 function ThreadPage() {
   const { threadId } = useParams();
@@ -45,7 +46,7 @@ function ThreadPage() {
 
   // function to submit new post
   async function submitPost() {
-    if (!thread || !auth) return;
+    if (!thread || !auth?.user) return;
 
     if (postBody.trim().length === 0) {
       toast.error("Post cannot be empty");
@@ -71,10 +72,15 @@ function ThreadPage() {
       <div className="thread-view-container">
         <div className="popout-container" style={{ textAlign: "left" }}>
           <div style={{ marginBottom: "15px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div className="table-row" >
               <h2 style={{ fontSize: "40px" }}>{thread?.heading}</h2>
               <div style={{ textAlign: "right" }}>
-                <h4>{thread?.author.username}</h4>
+                <div style={{ display: "flex", justifyContent: "right", gap: "10px", alignItems: "center", marginBottom: "5px" }}>
+                  <div>
+                    <h4>{thread?.author.username}</h4>
+                  </div>
+                  <ProfilePic user={thread?.author} size={40} />
+                </div>
                 <h6>Posted on {thread?.timestamp.toLocaleString()}</h6>
               </div>
             </div>
@@ -89,12 +95,15 @@ function ThreadPage() {
           }
 
           {posts?.map((post, index) => {
-
             if (index === 0) return;
             return (
               <div key={post.id} className="threadpage-post-container">
-                <div style={{ display: "flex", justifyContent: "space-between"}}>
-                  <h4> - {post.author.username}</h4>
+                <div className="table-row" style={{ marginBottom: "5px" }}>
+                  <div className="table-row">
+                    <ProfilePic user={post.author} size={30} />
+                    <h4 style={{ marginLeft: "10px" }}>{post.author.username}</h4>
+                  </div>
+
                   {post.timestamp.toDateString()}
                 </div>
                 {post.body}

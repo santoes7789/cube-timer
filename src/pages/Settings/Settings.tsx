@@ -8,7 +8,7 @@ import ProfilePic from "@/components/ProfilePic";
 import { useAuth } from "@/contexts/AuthContext";
 import { uploadProfilePicture } from "@/utils/supabase";
 import { useToast } from "@/contexts/ToastContext";
-import "./Settings.css";
+import "./Settings.css"
 
 function Settings() {
   const settings = useSettings();
@@ -20,10 +20,11 @@ function Settings() {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   async function setProfilePicture(e: ChangeEvent<HTMLInputElement>) {
-    if (e.target.files && e.target.files[0] && auth) {
+    if (e.target.files && e.target.files[0] && auth?.user) {
       const success = await uploadProfilePicture(auth.user.id, e.target.files[0]);
       if (success) {
         toast.success("Updated profile picture!");
+        auth.reloadUser();
       } else {
         toast.error("Unable to update profile picture.")
       }
@@ -60,21 +61,20 @@ function Settings() {
         </div>
 
         {
-          auth &&
+          auth?.user &&
           <>
             <div className="table-settings-subheading">Account</div>
             <div className="table-settings-row">
-              <ProfilePic user_id={auth.user.id} size={100}/>
+              <ProfilePic user={auth.user} size={100}/>
               <button onClick={() => inputRef.current?.click()}>Upload new profile picture</button>
             </div>
             <div className="table-settings-row">
-              <div>Username</div>
+              <div>Username:</div>
+              <div>{auth.user.username}</div>
             </div>
             <div className="table-settings-row">
-              <div>Email</div>
-            </div>
-            <div className="table-settings-row">
-              <div>Password</div>
+              <div>Email:</div>
+              <div>{auth.user.email}</div>
             </div>
             <input type="file"
               accept="image/*"
