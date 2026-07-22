@@ -41,7 +41,6 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
           getUser(session.user.id).then((user) => {
             if (user) {
               setUser(user)
-              toast.info("Signed in as: " + user.username);
             }
           });
 

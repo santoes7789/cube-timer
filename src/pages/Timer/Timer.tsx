@@ -93,11 +93,11 @@ function Timer() {
         {formatMilliseconds(time)}
       </h1>
       <TimesList />
-      <NavButtons />
       <TimesStats times={db.times} />
       <SessionDisplay />
       <Scramble scramble={scramble} />
       <RubiksCubeDisplay scramble={scramble} />
+      <NavButtons />
 
       {/* Where the settings drawer goes when url is timer/settings */}
       <Outlet />
