@@ -60,7 +60,6 @@ export function CustomDropdown({ options, value, onClick, onRightClick, below = 
                       onRightClick(option.value);
                     }
                   }}
-
                 >
                   <div>
                     {option.label}

@@ -38,6 +38,16 @@
 
 .threadpage-post-container {
   padding: var(--main-padding);
+  transition-duration: var(--default-transition-time);
+  border-radius: var(--border-radius);
+}
+
+.threadpage-post-container:hover {
+  background-color: color-mix(in srgb, var(--bg-color), white 5%);
+}
+
+.threadpage-post-container:hover .hidden {
+  display: block;
 }
 
 .threadpage-input-post-container {

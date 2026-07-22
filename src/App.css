@@ -49,6 +49,10 @@ textarea {
   text-underline-offset: 3px;
 }
 
+.hidden {
+  display: none;
+}
+
 /* POSITIONING */
 .bottom-left {
   position: absolute;

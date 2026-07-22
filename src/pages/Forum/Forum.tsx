@@ -31,7 +31,7 @@ function Forum() {
       ) : (
         <div className="thread-view-container">
           {threads.map((thread) => (
-            <ThreadBlock key={thread.id} thread={thread} isAuthor />
+            <ThreadBlock key={thread.id} thread={thread} isAuthor={false} />
           ))}
         </div>
       )}

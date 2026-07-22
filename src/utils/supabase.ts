@@ -55,6 +55,11 @@ export async function createPost( thread_id: string, body: string, author_id: st
   return response;
 }
 
+export async function deletePost(post_id: string) {
+  const { error } = await supabase.from("posts").delete().eq("id", post_id);
+  return error == null;
+}
+
 // function to retrieve threads and posts
 export async function getThreads() {
   // get latest threads
@@ -80,7 +85,6 @@ export async function getThreads() {
       timestamp: new Date(row.created_at),
     }));
 
-    console.log(JSON.stringify(threads, null, 2));
     return threads;
   }
   return [];
