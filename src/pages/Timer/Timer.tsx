@@ -89,15 +89,16 @@ function Timer() {
 
   return (
     <div className="timer-page-container">
-      <h1 className={`timer-text timer-text--${state}`} onTransitionEnd={onFinish}>
-        {formatMilliseconds(time)}
-      </h1>
       <TimesList />
       <TimesStats times={db.times} />
       <SessionDisplay />
       <Scramble scramble={scramble} />
       <RubiksCubeDisplay scramble={scramble} />
       <NavButtons />
+      <div className={`timer-background ${(state === "running" || state === "ready")  ? "show" : ""}`}></div>
+      <h1 className={`timer-text timer-text--${state}`} onTransitionEnd={onFinish}>
+        {formatMilliseconds(time)}
+      </h1>
 
       {/* Where the settings drawer goes when url is timer/settings */}
       <Outlet />
