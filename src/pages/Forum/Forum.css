@@ -8,14 +8,14 @@
 .forum-heading-container {
   text-align: left;
   padding: 0px;
-  width: min(1000px, 100%);
+  width: min(1300px, 100%);
   margin: 100px 0px 0px 0px;
 }
 
 .thread-view-container {
   display: flex;
   flex-direction: column;
-  width: min(800px, 100%);
+  width: min(1000px, 100%);
   gap: 20px;
 }
 

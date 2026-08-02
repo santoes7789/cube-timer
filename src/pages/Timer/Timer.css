@@ -115,6 +115,14 @@
   background-color: var(--cube-orange) !important;
 }
 
+.rubiks-display {
+  transform-origin: top left;
+}
+
+.rubiks-display:hover {
+  scale: 2;
+}
+
 /* POPUP */
 .new-session-popup-buttons {
   display: flex;
@@ -153,6 +161,7 @@
   transform-origin: bottom left;
   cursor: pointer;
 }
+
 
 .times-stats:hover {
   scale: 1.3;
