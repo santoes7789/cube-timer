@@ -33,7 +33,7 @@ function NavButtons() {
           navigate("/login");
         }}/>
       }
-      <IconButton icon={ChartLine} size={30} onClick={() => navigate("/stats")} />
+      <IconButton icon={ChartLine} size={30} onClick={() => navigate("stats")} />
       <Divider orientation="vertical"/>
       <IconButton icon={MessagesSquare} size={30} onClick={() => navigate("/forum")} />
     </div>

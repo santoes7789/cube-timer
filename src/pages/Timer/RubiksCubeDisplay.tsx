@@ -8,4 +8,3 @@ export default function RubiksCubeDisplay ({ scramble } : {scramble: string})  {
     </div>
   );
 }
-

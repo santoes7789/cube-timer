@@ -10,7 +10,7 @@ import { applyScramble, DisplayCube } from "react-rubiks-cube-utils";
 
 export default function TimesList() {
 
-  // variables to control the popup's inputs 
+  // variables to control the popup's inputs
   const [comment, setComment] = useState("");
   const [modifierIdx, setModifierIdx] = useState(-1);
 

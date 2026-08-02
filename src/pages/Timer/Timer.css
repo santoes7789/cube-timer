@@ -149,8 +149,18 @@
 
 .times-stats {
   min-width: 100px;
+  transition-duration: var(--default-transition-time);
+  transform-origin: bottom left;
+  cursor: pointer;
 }
 
+.times-stats:hover {
+  scale: 1.3;
+}
+
+.times-stats:hover .hidden {
+  display: block;
+}
 .times-stats-row {
   display: flex;
   flex-direction: row;

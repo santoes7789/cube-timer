@@ -2,8 +2,10 @@ import type { Time } from "@/db/times";
 import { getAoX, getBestTime } from "@/utils/time";
 import { formatMilliseconds } from "@/utils/time";
 import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 function TimesStats({ times } : {times?: Time[]}) {
+  const navigate = useNavigate();
 
   const ao5 = useMemo(() => {
     if (!times) return null;
@@ -23,7 +25,7 @@ function TimesStats({ times } : {times?: Time[]}) {
   if(!times) return;
 
   return (
-    <div className="times-stats popout-container bottom-left">
+    <div className="times-stats popout-container bottom-left" onClick={() => navigate("stats")}>
       <div className="times-stats-row">
         <div>
           Best:

@@ -13,6 +13,7 @@ import SettingsProvider from '@/contexts/SettingsContext';
 import ToastProvider from '@/contexts/ToastContext';
 import CreateThread from '@/pages/Forum/CreateThread';
 import ThreadPage from '@/pages/Forum/ThreadPage';
+import StatsPopup from '@/pages/Stats/StatsPopup';
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
           {
             path: "settings",
             element: <Settings />
+          },
+          {
+            path: "stats",
+            element: <StatsPopup />
           }
         ]
       },
