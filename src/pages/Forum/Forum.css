@@ -5,6 +5,13 @@
   margin: var(--main-padding);
 }
 
+.forum-heading-container {
+  text-align: left;
+  padding: 0px;
+  width: min(1000px, 100%);
+  margin: 100px 0px 0px 0px;
+}
+
 .thread-view-container {
   display: flex;
   flex-direction: column;

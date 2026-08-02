@@ -1,5 +1,7 @@
 :root {
   --bg-color: #2c303d;
+  --bg-light: color-mix(in srgb, var(--bg-color) 70%, white);
+  --bg-dark: color-mix(in srgb, var(--bg-color) 70%, black);
   --highlight-color: #0081ff;
   --border-radius: 10px;
   --main-padding: 20px;

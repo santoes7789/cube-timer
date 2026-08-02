@@ -27,9 +27,21 @@ function Forum() {
   return (
     <div className="forum-page-container">
       <ForumNavButtons />
-      <h1>Forum</h1>
-      <button onClick={() => navigate("/forum/create")}>create</button>
-      <Divider />
+      <div className="forum-heading-container">
+        <div className="popout-container" style={{ backgroundColor: "var(--bg-dark)"}}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end"}}>
+            <div>
+              <h1>Forum</h1>
+              <p style={{ color: "var(--faded-color)"}}>Share ideas, ask questions and connect with the community</p>
+            </div>
+            <button onClick={() => navigate("/forum/create")}>Create new post</button>
+          </div>
+        </div>
+      </div>
+      {/*<div style={{ margin: "20px 0px"}}>*/}
+      <Divider margin={"20px"} />
+      {/*</div>*/}
+
 
       {loading ? (
         <div className="thread-view-container">Loading...</div>
