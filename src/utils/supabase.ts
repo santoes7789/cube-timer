@@ -70,6 +70,11 @@ export async function deletePost(post_id: string) {
   return error == null;
 }
 
+export async function deleteThread(thread_id: string) {
+  const { error } = await supabase.from("threads").delete().eq("id", thread_id);
+  return error == null;
+}
+
 // function to retrieve threads and posts
 export async function getThreads() {
   // get latest threads

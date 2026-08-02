@@ -6,11 +6,16 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { ThreadBlock } from "./ThreadBlock";
 import type { Thread } from "@/types";
 import ForumNavButtons from "./ForumNavButtons";
+import { useAuth } from "@/contexts/AuthContext";
 
 function Forum() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [threads, setThreads] = useState<Thread[]>([]);
+
+  const [threadToDelete, setThreadToDelete] = useState<Thread | null>(null);
+
+  const auth = useAuth();
 
   useEffect(() => {
     getThreads().then((threads) => {
@@ -31,7 +36,7 @@ function Forum() {
       ) : (
         <div className="thread-view-container">
           {threads.map((thread) => (
-            <ThreadBlock key={thread.id} thread={thread} isAuthor={false} />
+            <ThreadBlock key={thread.id} thread={thread} isAuthor={thread.author.id === auth?.user?.id} />
           ))}
         </div>
       )}

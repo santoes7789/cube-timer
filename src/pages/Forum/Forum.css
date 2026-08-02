@@ -36,6 +36,10 @@
   scale: 105%;
 }
 
+.threadblock-container:hover .hidden {
+  display: block;
+}
+
 .threadpage-post-container {
   padding: var(--main-padding);
   transition-duration: var(--default-transition-time);
@@ -57,4 +61,12 @@
 
 .threadpage-input-post-container button {
   width: 100px;
+}
+
+.thread-view-container-thread-post {
+  margin-bottom: 15px;
+}
+
+.thread-info-container:hover .hidden {
+  display: block;
 }
