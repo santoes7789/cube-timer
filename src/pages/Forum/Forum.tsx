@@ -28,8 +28,8 @@ function Forum() {
     <div className="forum-page-container">
       <ForumNavButtons />
       <div className="forum-heading-container">
-        <div className="popout-container" style={{ backgroundColor: "var(--bg-dark)"}}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end"}}>
+        <div className="popout-container" style={{ backgroundColor: "var(--bg-dark)", height: "100px", padding: '35px', display: "flex" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%"}}>
             <div>
               <h1>Forum</h1>
               <p style={{ color: "var(--faded-color)"}}>Share ideas, ask questions and connect with the community</p>

@@ -32,7 +32,10 @@ function Settings() {
   }
 
   return (
-    <Drawer open={true} onClose={() => navigate(-1)} side="left">
+    <Drawer open={true} onClose={() => {
+      navigate(-1);
+      settings.saveSettings();
+    }} side="left">
       <h2 style={{ marginTop: 70, marginLeft: 40, textAlign: "left" }}>Settings</h2>
       <Divider />
 
@@ -42,11 +45,32 @@ function Settings() {
           <div>Background color</div>
           <ColorPicker color={settings.backgroundColor} onColorChange={(e) => {
             settings.setSettings(prev => ({ ...prev, backgroundColor: e.target.value }))
-          }}
-          />
+          }}/>
+        </div>
+
+        <div className="table-settings-row">
+          <div>Font color</div>
+          <ColorPicker color={settings.fontColor} onColorChange={(e) => {
+            settings.setSettings(prev => ({ ...prev, fontColor: e.target.value }))
+          }}/>
+        </div>
+
+        <div className="table-settings-row">
+          <div>Accent color</div>
+          <ColorPicker color={settings.accentColor} onColorChange={(e) => {
+            settings.setSettings(prev => ({ ...prev, accentColor: e.target.value }))
+          }}/>
         </div>
 
         <div className="table-settings-subheading">Timer</div>
+
+        <div className="table-settings-row">
+          <div>Timer font size</div>
+          <input style={{ maxWidth: 60 }} type="number" step="1" value={settings.timerFontSize} onChange={(e) => {
+            settings.setSettings(prev => ({ ...prev, timerFontSize: e.target.valueAsNumber }))
+          }}/>
+        </div>
+
         <div className="table-settings-row">
           <div>Wait time</div>
           <input style={{ maxWidth: 60 }} type="number" step="1" value={settings.timerWaitTime} onChange={(e) => {
@@ -60,10 +84,14 @@ function Settings() {
           }}/>
         </div>
 
+        <button style={{ margin: "20px 0px" }} onClick={settings.resetSettings}>Reset to defaults</button>
+
+
         {
           auth?.user &&
           <>
-            <div className="table-settings-subheading">Account</div>
+            <Divider />
+            <div className="table-settings-subheading" style={{ marginTop: "20px"}}>Account</div>
             <div className="table-settings-row">
               <ProfilePic user={auth.user} size={100}/>
               <button onClick={() => inputRef.current?.click()}>Upload new profile picture</button>

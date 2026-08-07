@@ -4,6 +4,7 @@ import type { Time } from "@/db/times";
 import type { Post, Thread, User } from "@/types";
 import { createClient } from "@supabase/supabase-js";
 import imageCompression from "browser-image-compression";
+import type { Settings } from "@/contexts/SettingsContext";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
@@ -190,6 +191,28 @@ export async function getUser(user_id: string) {
   }
 
   return user;
+}
+
+export async function saveSettings(settings: Settings, user_id: string) {
+  const { error } = await supabase
+    .from("profiles")
+    .update({ settings: settings })
+    .eq("id", user_id);
+
+  return error === null;
+}
+
+export async function getSettings(user_id: string) {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("settings")
+    .eq("id", user_id);
+
+  if (error) {
+    console.error(error);
+    return null;
+  }
+  return data[0].settings;
 }
 
 

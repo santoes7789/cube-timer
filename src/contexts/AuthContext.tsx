@@ -43,7 +43,8 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
               setUser(user)
             }
           });
-
+        } else if (event === "INITIAL_SESSION") {
+          toast.success(`Signed in!`)
         }
       } else {
         setUser(null);

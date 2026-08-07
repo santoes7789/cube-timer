@@ -1,5 +1,5 @@
 .timer-text {
-  font-size: 6em;
+  font-size: var(--timer-font-size);
   font-family: "Share Tech Mono", monospace;
   font-variant-numeric: tabular-nums;
   letter-spacing: 1px;

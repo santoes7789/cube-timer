@@ -5,9 +5,11 @@
   --highlight-color: #0081ff;
   --border-radius: 10px;
   --main-padding: 20px;
-  --border-color: rgba(255, 255, 255, 0.25);
   --border-default: 1px solid var(--border-color);
 
+
+  --font-color: rgba(255, 255, 255);
+  --border-color: rgb(from var(--font-color) r g b / 0.25);
   --faded-color: rgba(255, 255, 255, 0.5);
 
   --default-transition-time: 0.25s;
@@ -24,7 +26,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgb(from var(--font-color) r g b / 0.87);
   background-color: var(--bg-color);
 
   font-synthesis: none;
