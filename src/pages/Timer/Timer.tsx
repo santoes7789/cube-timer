@@ -47,8 +47,12 @@ function Timer() {
         clearInterval(updateTimerRef.current);
         setTime(time);
 
-        db.addTime(new Date(startTime.current).toISOString(), time, scramble);
-        setScramble(generateNewScramble());
+        if (!settings.zenMode) {
+          db.addTime(new Date(startTime.current).toISOString(), time, scramble);
+          setScramble(generateNewScramble());
+        }
+      } else if (event.code === "Escape") {
+        settings.setZenMode(false);
       }
     },
     [state, db, scramble, settings],
@@ -78,6 +82,7 @@ function Timer() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("keyup", handleKeyUp);
+      settings.setZenMode(false);
     };
   }, [handleKeyDown, handleKeyUp]);
 
@@ -89,12 +94,20 @@ function Timer() {
 
   return (
     <div className="timer-page-container">
-      <TimesList />
-      <TimesStats times={db.times} />
-      <SessionDisplay />
-      <Scramble scramble={scramble} />
-      <RubiksCubeDisplay scramble={scramble} />
-      <NavButtons />
+      { !settings.zenMode &&
+        <>
+          <TimesList />
+          <TimesStats times={db.times} />
+          <SessionDisplay />
+          <Scramble scramble={scramble} />
+          <RubiksCubeDisplay scramble={scramble} />
+          <NavButtons />
+        </>
+      }
+      <div className="nav-buttons-hover-container">
+        <NavButtons />
+      </div>
+
       <div className={`timer-background ${(state === "running" || state === "ready")  ? "show" : ""}`}></div>
       <h1 className={`timer-text timer-text--${state}`} onTransitionEnd={onFinish}>
         {formatMilliseconds(time)}

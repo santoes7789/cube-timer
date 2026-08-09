@@ -48,7 +48,7 @@ function Login() {
   return (
     <div className="auth-page-container">
         <BackIcon />
-      <div className="popout-container auth-block">
+      <div className="popout-container auth-block" style={{ backgroundColor: "var(--bg-dark)"}}>
         <form method="post" onSubmit={handleSignin} className="auth-container">
           <div>
             <h2>Login</h2>

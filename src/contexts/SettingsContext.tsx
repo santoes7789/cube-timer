@@ -21,6 +21,8 @@ type SettingsContextType = Settings & {
   setSettings: React.Dispatch<React.SetStateAction<Settings>>;
   resetSettings: () => void;
   saveSettings: () => void;
+  zenMode: boolean,
+  setZenMode: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const defaultSettings  = {
@@ -37,7 +39,9 @@ const SettingsContext = createContext<SettingsContextType>({
   ...defaultSettings,
   setSettings: () => { },
   resetSettings: () => { },
-  saveSettings: () => { }
+  saveSettings: () => { },
+  zenMode: false,
+  setZenMode: () => { },
 });
 
 export const useSettings = () => {
@@ -50,6 +54,7 @@ export default function SettingsProvider({ children } : { children: ReactNode}) 
 
   // Get default value from local storage
   const [settings, setSettings] = useState<Settings>(getLocalSettings);
+  const [zenMode, setZenMode] = useState(false);
 
   const auth = useAuth();
   const toast = useToast();
@@ -106,7 +111,9 @@ export default function SettingsProvider({ children } : { children: ReactNode}) 
       ...settings,
       setSettings,
       resetSettings,
-      saveSettings: saveUserSettings
+      saveSettings: saveUserSettings,
+      zenMode,
+      setZenMode,
     }}>
       {children}
     </SettingsContext>

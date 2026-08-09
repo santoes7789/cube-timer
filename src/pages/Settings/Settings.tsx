@@ -10,6 +10,7 @@ import { uploadProfilePicture } from "@/utils/supabase";
 import { useToast } from "@/contexts/ToastContext";
 import "./Settings.css"
 import { Icon, Palette, RotateCcw, SettingsIcon, Timer, Upload, User } from "lucide-react";
+import Switch from "@/components/Switch";
 
 function Settings() {
   const settings = useSettings();
@@ -84,17 +85,22 @@ function Settings() {
           </TableSettingsRow>
           <Divider />
 
-          <TableSettingsRow heading="Wait time" text="How long the spacebar must be held to start timer, in ms.">
+          <TableSettingsRow heading="Wait time" text="How long the spacebar must be held to start timer.\n (in milliseconds)">
             <input style={{ maxWidth: 60 }} type="number" step="1" value={settings.timerWaitTime} onChange={(e) => {
               settings.setSettings(prev => ({ ...prev, timerWaitTime: e.target.valueAsNumber }))
             }}/>
           </TableSettingsRow>
           <Divider />
 
-          <TableSettingsRow heading="Update interval" text="How often the timer updates when running, in ms.">
+          <TableSettingsRow heading="Update interval" text="How often the timer updates when running.\n (in milliseconds)">
             <input style={{ maxWidth: 60 }} type="number" step="1" value={settings.timerUpdateInterval} onChange={(e) => {
               settings.setSettings(prev => ({ ...prev, timerUpdateInterval: e.target.valueAsNumber }))
             }}/>
+          </TableSettingsRow>
+
+          <Divider />
+          <TableSettingsRow heading="Zen mode" text="Times are not recorded, distractions are removed. \n Press esc to exit zen mode.">
+            <Switch isChecked={settings.zenMode} handleToggle={(e) => settings.setZenMode(e.target.checked) }/>
           </TableSettingsRow>
 
 
@@ -154,11 +160,18 @@ function Settings() {
 }
 
 function TableSettingsRow({ heading, text, children} : { heading: string, text: string, children: ReactNode}) {
+  const lines = text.split("\\n");
   return (
     <div className="table-settings-row">
-      <div style={{ textAlign: "left"}}>
+      <div style={{ textAlign: "left", maxWidth: "370px"}}>
         <div style={{ fontWeight: "bold"}}>{heading}</div>
-        <div style={{ color: "var(--faded-color)", fontSize: "14px" }}>{text}</div>
+        <div style={{ color: "var(--faded-color)", fontSize: "14px" }}>
+          {lines.map((line, idx) => (
+            <p key={idx}>
+              {line}
+            </p>
+          ))}
+        </div>
       </div>
       { children }
     </div>

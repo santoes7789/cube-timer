@@ -195,6 +195,20 @@
   gap: 15px;
 }
 
+.nav-buttons-hover-container {
+  position: absolute;
+  width: 300px;
+  height: 150px;
+  right: 0;
+  top: 00;
+  opacity: 0;
+  transition-duration: var(--default-transition-time);
+}
+
+.nav-buttons-hover-container:hover {
+  opacity: 100;
+}
+
 .timer-page-container {
   position: fixed;
   width: 100vw;
