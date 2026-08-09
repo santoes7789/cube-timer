@@ -1,8 +1,12 @@
 .forum-page-container {
   display: flex;
+  box-sizing: border-box;
   flex-direction: column;
   align-items: center;
-  margin: var(--main-padding);
+  padding: var(--main-padding);
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
 }
 
 .forum-heading-container {
@@ -17,6 +21,20 @@
   flex-direction: column;
   width: min(1000px, 100%);
   gap: 20px;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.threads-container-parent {
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.threads-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow: hidden;
 }
 
 .createThread-page-container {
@@ -40,7 +58,7 @@
 }
 
 .threadblock-container:hover {
-  scale: 105%;
+  border-color: var(--highlight-color);
 }
 
 .threadblock-container:hover .hidden {
@@ -76,4 +94,18 @@
 
 .thread-info-container:hover .hidden {
   display: block;
+}
+
+.popout-container.search-bar {
+  background-color: var(--bg-dark);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.popout-container.search-bar  input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 15px;
 }
