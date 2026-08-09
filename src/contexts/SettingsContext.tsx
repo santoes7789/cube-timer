@@ -28,7 +28,7 @@ type SettingsContextType = Settings & {
 const defaultSettings  = {
   darkMode: true,
   backgroundColor: "#2c303d",
-  fontColor: "#FFFFFFDE",
+  fontColor: "#FFFFFF",
   accentColor: "#0081ff",
   timerWaitTime: 400,
   timerUpdateInterval: 8,

@@ -48,6 +48,13 @@ export async function signup({ username, email, password, }: { username: string;
   return true;
 }
 
+export async function setUsername(name: string, user_id: string) {
+  const response = await supabase.from("profiles")
+    .update({ "username": name })
+    .eq("id", user_id);
+  return response;
+}
+
 // function to create a new thread using heading and body information
 export async function createThread({ heading, body, }: { heading: string; body: string; }) {
   const response = await supabase.functions.invoke("create-thread", {

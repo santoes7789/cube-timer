@@ -6,16 +6,18 @@ import { useRef, useState, type ChangeEvent, type ReactNode } from "react";
 import { useNavigate, useResolvedPath } from "react-router-dom";
 import ProfilePic from "@/components/ProfilePic";
 import { useAuth } from "@/contexts/AuthContext";
-import { uploadProfilePicture } from "@/utils/supabase";
+import { setUsername, uploadProfilePicture } from "@/utils/supabase";
 import { useToast } from "@/contexts/ToastContext";
 import "./Settings.css"
-import { Icon, Palette, RotateCcw, SettingsIcon, Timer, Upload, User } from "lucide-react";
+import { Edit2, Icon, Palette, RotateCcw, SettingsIcon, Timer, Upload, User } from "lucide-react";
 import Switch from "@/components/Switch";
+import { IconButton } from "@/components/IconButton";
 
 function Settings() {
   const settings = useSettings();
   const navigate = useNavigate();
   const toast = useToast();
+  const [usernameToChange, setUsernameToChange] = useState<string | null>(null);
 
   const auth = useAuth();
 
@@ -135,9 +137,27 @@ function Settings() {
                 </button>
               </div>
               <div className="popout-container" style={{ padding: "0px 15px"}}>
-                <div className="table-settings-row">
+                <div className="table-settings-row username-row">
                   <div>Username:</div>
-                  <div>{auth.user.username}</div>
+                  {usernameToChange !== null ?
+                    <input value={usernameToChange} style={{ textAlign: "right", width: 200 }}
+                      onChange={(e) => setUsernameToChange(e.target.value)}
+                      onBlur={() => {
+                        if (usernameToChange.trim() === "") {
+                          toast.error("Username cannot be empty");
+                        } else if (auth.user?.id){
+                          setUsername(usernameToChange, auth.user.id).then(auth.reloadUser);
+                        }
+                        setUsernameToChange(null);
+                      }}
+                    /> :
+                    <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10}}>
+                      <div>{auth.user.username}</div>
+                      <div className="hidden">
+                        <IconButton icon={Edit2} size={18} onClick={() => setUsernameToChange(auth.user?.username ?? "")}/>
+                      </div>
+                    </div>
+                  }
                 </div>
                 <Divider />
                 <div className="table-settings-row">
