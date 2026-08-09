@@ -68,13 +68,20 @@ export default function TimesList() {
   return (
     <>
       <div className="times-list-container popout-container bottom-right">
+        <div style={{ color: "var(--faded-color)", fontSize: 15, margin: 5}}>
+          Solve times
+        </div>
+        <Divider />
         <div className="times-list-inner-container">
           <div className="times-list-scroll-container">
             <div className="times-list-element-container">
-              {[...times].reverse().map((t) => (
-                <div className="times-list-element" key={t.id} onClick={() => setSelectedTimeId(t.id)}>
-                  <FormattedTime time={t} />
-                </div>
+              {[...times].reverse().map((t, i) => (
+                <>
+                  { i !== 0 && <Divider />}
+                  <div className="times-list-element" key={t.id} onClick={() => setSelectedTimeId(t.id)}>
+                    <FormattedTime time={t} />
+                  </div>
+                </>
               ))}
             </div>
           </div>

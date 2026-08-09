@@ -32,31 +32,28 @@
   padding: 0 var(--main-padding);
   mask-image: linear-gradient(
     to bottom,
-    transparent 0%,
-    black calc(var(--main-padding) + 5px),
     black calc(100% - var(--main-padding) - 5px),
     transparent 100%
   );
 }
 
 .times-list-scroll-container {
-  max-height: 230px;
+  max-height: 240px;
   overflow-y: auto;
   scrollbar-width: none;
-  padding-top: var(--main-padding);
+  padding-top: 5px;
   padding-bottom: var(--main-padding);
 }
 
 .times-list-element {
-  display: block;
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-  padding: 3px 10px;
+  padding: 1px 10px;
   min-width: 50px;
   cursor: pointer;
+  transition-duration: var(--default-transition-time);
 }
 .times-list-element:hover {
-  border-color: var(--highlight-color);
+
+  color: var(--highlight-color);
 }
 .times-list-element-container {
   gap: 4px;
