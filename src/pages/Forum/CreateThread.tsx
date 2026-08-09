@@ -30,6 +30,11 @@ function CreateThread() {
       return;
     }
 
+    if (heading.trim() == "" || body.trim() == "") {
+      toast.error("Heading and body cannot be empty");
+      return
+    }
+
     setState("submitting");
 
     const { error } =  await createThread({ heading, body })

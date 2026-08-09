@@ -82,7 +82,6 @@ function Timer() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("keyup", handleKeyUp);
-      settings.setZenMode(false);
     };
   }, [handleKeyDown, handleKeyUp]);
 
