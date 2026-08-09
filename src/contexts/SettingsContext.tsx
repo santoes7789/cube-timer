@@ -69,6 +69,7 @@ export default function SettingsProvider({ children } : { children: ReactNode}) 
   }, [settings]);
 
   useEffect(() => {
+    // Gets settings from supabase
     async function getSavedSettings() {
       if (auth?.session) {
         const savedSettings = await getSettings(auth.session.user.id);

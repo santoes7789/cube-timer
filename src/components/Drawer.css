@@ -8,18 +8,23 @@
   z-index: 20;
 }
 
+.drawer-parent {
+  height: 100vh;
+  width: 650px;
+}
+
 .drawer-popup {
-  background-color: var(--bg-color);
-  width: 500px;
+  overflow-y: auto;
+  width: 100%;
+  background-color: var(--bg-dark);
   height: 100%;
+  scrollbar-width: thin;
 }
 
 .drawer-right {
-  position: absolute;
   right: 0;
 }
 
 .drawer-left {
-  position: absolute;
   left: 0;
 }

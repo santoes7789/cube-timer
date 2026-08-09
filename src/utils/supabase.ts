@@ -215,66 +215,17 @@ export async function getSettings(user_id: string) {
   return data[0].settings;
 }
 
-
-
-export async function updateLocalDB(user_id: string) {
-  const unsyncedSessions = await db.sessions
+export async function sendChangesToSupabase(user_id: string) {
+  // Send session data first, since times rely on session existing
+  const sessionData = (await db.sessions
     .where("synced")
     .equals(0)
-    .filter((row) => row.user_id === user_id)
-    .toArray();
-  const unsyncedTimes = await db.times
-    .where("synced")
-    .equals(0)
-    .filter((row) => row.user_id === user_id)
-    .toArray();
+    .toArray())
+    .filter((e) => e.user_id === user_id);
 
-  // add sessions first since time relies on sessions
-  const { data, error } = await supabase.functions.invoke("add-sessions", {
-    body: unsyncedSessions,
-  });
-  if (error) return;
-
-  const updates = await Promise.all(
-    data.data.map(async (item: any) => {
-      const key = await db.sessions.where("uuid").equals(item.uuid).first();
-      return {
-        key: key?.id,
-        changes: {
-          synced: 1,
-        },
-      };
-    }),
-  );
-  // set those sessions as synced
-  await db.sessions.bulkUpdate(updates);
-
-  // add times
-  const { data: timeData, error: timeError } = await supabase.functions.invoke(
-    "add-times",
-    {
-      body: unsyncedTimes,
-    },
-  );
-
-  if (timeError) return;
-
-  const timeUpdates = await Promise.all(
-    timeData.data.map(async (item: any) => {
-      const key = await db.times
-        .where("timestamp")
-        .equals(new Date(item.timestamp).toISOString())
-        .first();
-      return {
-        key: key?.id,
-        changes: {
-          synced: 1,
-        },
-      };
-    }),
-  );
-  // set those times as synced
-  await db.times.bulkUpdate(timeUpdates);
+  await supabase.functions.invoke("add-sessions", {
+    body: sessionData,
+  })
 }
 
 export async function addTimeToSupabase(times: Partial<Time>[]) {

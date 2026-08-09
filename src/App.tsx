@@ -54,11 +54,6 @@ const router = createBrowserRouter([
   },
 ]);
 
-export const dbWorker = new Worker(
-  new URL("./db-worker.ts", import.meta.url),
-  { type: "module" }
-);
-
 function App() {
   return (
     <>

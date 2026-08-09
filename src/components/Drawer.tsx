@@ -6,9 +6,11 @@ export function Drawer({ open, onClose, children, side }: { open: boolean, onClo
 
   return (
     <div className="drawer-background" onClick={onClose}>
-      <div className={`drawer-popup ${side === "left" ? "drawer-left" : 'drawer-right'}`}
-        onClick={(e) => e.stopPropagation()}>
-        {children}
+      <div className="drawer-parent">
+        <div className={`drawer-popup ${side === "left" ? "drawer-left" : 'drawer-right'}`}
+          onClick={(e) => e.stopPropagation()}>
+          {children}
+        </div>
       </div>
     </div>
   )

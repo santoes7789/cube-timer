@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 import { dbLastSynced } from "@/db/db";
 import type { User } from "@/types";
 import { useToast } from "./ToastContext";
+import { data } from "react-router-dom";
 
 type AuthContextType = {
   session: Session | null,

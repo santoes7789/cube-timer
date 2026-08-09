@@ -4,7 +4,7 @@ import type { Time } from "@/db/times";
 import { useLiveQuery } from "dexie-react-hooks";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { useAuth } from "./AuthContext";
-import { dbWorker } from "@/App";
+import { sendChangesToSupabase } from "@/utils/supabase";
 
 type DBContextType = {
   sessions: Session[];
@@ -56,17 +56,6 @@ export default function DBProvider({ children }: { children: ReactNode }) {
       }
     }
     loadId();
-
-    // add event listener to db worker
-    dbWorker.addEventListener("message", (event) => {
-      const { type, success, message, data } = event.data;
-      console.log("Received from db-worker:", message);
-
-      if (type === "ADD_SESSION") {
-        setCurrentSession(data);
-      }
-
-    });
   }, []);
 
   const sessions = useLiveQuery(
@@ -98,46 +87,59 @@ export default function DBProvider({ children }: { children: ReactNode }) {
       updated_at: new Date().toISOString(),
       user_id: currentUser,
       session_uuid: currentSession,
+      synced: 0,
+      uuid: crypto.randomUUID()
     }
-    dbWorker.postMessage({ type: "ADD_TIME", data: timeObj, auth: currentUser })
+
+    db.times.add(timeObj);
   }
 
 
   function updateTime(id: number, updates: Partial<Time>) {
-    dbWorker.postMessage({ type: "UPDATE_TIME", data: { id, updates }, auth: currentUser })
+    db.times.update(id, { ...updates, synced: 0, updated_at: new Date().toISOString() });
   }
 
   function deleteTime(id: number) {
-    dbWorker.postMessage({ type: "DELETE_TIME", data: id, auth: currentUser });
+    db.times.delete(id);
   }
 
 
   // functions to edit sessions table //
-  function addSession(name: string) {
+  function addSession(name: string, user_id=currentUser) {
+    const randUUID = crypto.randomUUID();
     const sessionObj = {
       name: name,
       updated_at: new Date().toISOString(),
       created_at: new Date().toISOString(),
-      user_id: currentUser,
+      user_id: user_id,
+      uuid: randUUID,
+      synced: 0,
     }
+    db.sessions.add(sessionObj).then(() => {
+      setCurrentSession(randUUID);
+    });
 
-    dbWorker.postMessage({ type: "ADD_SESSION", data: sessionObj, auth: currentUser })
+    if (auth) {
+      sendChangesToSupabase(currentUser);
+    }
   }
 
   function updateSession(id: number, updates: Partial<Session>) {
-    dbWorker.postMessage({ type: "UPDATE_SESSION", data: { id, updates }, auth: currentUser })
+    db.sessions.update(id, { ...updates, synced: 0, updated_at: new Date().toISOString() });
   }
 
   function deleteSession(uuid: string) {
-    dbWorker.postMessage({ type: "DELETE_SESSION", data: { uuid: uuid }, auth: currentUser })
+    db.times.where("[user_id+session_uuid]").equals([currentUser, uuid]).delete();
+    db.sessions.where("uuid").equals(uuid).delete();
   }
 
   async function setCurrentUser(user_id: string) {
     currentUserSetter(user_id);
     const userSessions = await db.sessions.where("user_id").equals(user_id).toArray();
     if (userSessions.length === 0) {
-      const sessionId = await db.addDefaultSession(user_id);
-      setCurrentSession(sessionId);
+      addSession("3x3", user_id);
+      // const sessionId = await db.addDefaultSession(user_id);
+      // setCurrentSession(sessionId);
     } else {
       setCurrentSession(userSessions[0].uuid);
     }

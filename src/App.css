@@ -91,3 +91,8 @@ textarea {
   justify-content: space-between;
   align-items: center;
 }
+
+.table-row-left-aligned {
+  display: flex;
+  align-items: center;
+}

@@ -1,28 +1,30 @@
 import db, { dbLastSynced } from "@/db/db";
 import supabase from "./utils/supabase";
 
+let accessToken: string | null = null;
+
+
 self.onmessage = async (event) => {
   const {type, data, auth} = event.data;
   switch(type) {
+    case "ACCESS_TOKEN":
+      accessToken = data;
+      break;
     case "UPDATE_DB":
       break;
     case "WIPE_DB":
       break;
 
     case "ADD_TIME": {
-      const id = await db.times.add({ ...data, synced: 0, uuid: crypto.randomUUID()});
+
+      const time = {...data, synced: 0, uuid: crypto.randomUUID()}
+      const id = await db.times.add(time);
       self.postMessage({
         type: type,
         status: "success",
         data: id,
         message: "Added time to local db"
       })
-
-      if (auth) {
-        // Check for updates to prevent missing rows
-
-        // Send update to server
-      }
       break;
     }
 
@@ -36,6 +38,9 @@ self.onmessage = async (event) => {
         data: "",
         message: "Updated time in local db"
       })
+
+      if (auth) {
+      }
       break;
 
 
@@ -50,13 +55,10 @@ self.onmessage = async (event) => {
       break;
 
 
-    case "ADD_SESSION":
+    case "ADD_SESSION": {
       const randUUID = crypto.randomUUID();
-      await db.sessions.add({
-        ...data,
-        uuid: randUUID,
-        synced: 0,
-      })
+      const session = { ...data, uuid: randUUID, synced: 0 }
+      await db.sessions.add(session);
 
       self.postMessage({
         type: type,
@@ -64,9 +66,19 @@ self.onmessage = async (event) => {
         data: randUUID,
         message: "Added new session to local db"
       })
+
+      if (auth) {
+        sessionActions.push({
+          type: "ADD",
+          data: session,
+        })
+      }
+      sendUpdates();
+
+      // Update remote
+
       break;
-
-
+    }
 
     case "UPDATE_SESSION":
       await db.sessions.update(data.id, { ...data.updates, synced: 0, updated_at: new Date().toISOString() });
@@ -90,7 +102,25 @@ self.onmessage = async (event) => {
       })
       break;
   }
+}
 
+
+async function sendUpdates() {
+
+  // Send session data first, since times rely on session existing
+  const sessionData = (await db.sessions
+    .where("synced")
+    .equals(0)
+    .toArray())
+    .filter((e) => e.user_id !== "default");
+
+  await supabase.functions.invoke("add-sessions", {
+    body: sessionData,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+  console.log(sessionData);
 
 }
 
