@@ -36,7 +36,9 @@ function Forum() {
               <h1>Forum</h1>
               <p style={{ color: "var(--faded-color)"}}>Share ideas, ask questions and connect with the community</p>
             </div>
-            <button onClick={() => navigate("/forum/create")}>Create new post</button>
+            {auth &&
+              <button onClick={() => navigate("/forum/create")}>Create new post</button>
+            }
           </div>
         </div>
       </div>

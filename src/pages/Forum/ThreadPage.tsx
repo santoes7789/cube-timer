@@ -51,7 +51,11 @@ function ThreadPage() {
 
   // function to submit new post
   async function submitPost() {
-    if (!thread || !auth?.user) return;
+    if (!thread) return;
+    if (!auth) {
+      toast.error("You must be signed in to make comments")
+      return;
+    }
 
     if (postBody.trim().length === 0) {
       toast.error("Post cannot be empty");
