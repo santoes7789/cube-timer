@@ -76,12 +76,12 @@ export default function TimesList() {
           <div className="times-list-scroll-container">
             <div className="times-list-element-container">
               {[...times].reverse().map((t, i) => (
-                <>
+                <div key={t.id}>
                   { i !== 0 && <Divider />}
-                  <div className="times-list-element" key={t.id} onClick={() => setSelectedTimeId(t.id)}>
+                  <div className="times-list-element" onClick={() => setSelectedTimeId(t.id)}>
                     <FormattedTime time={t} />
                   </div>
-                </>
+                </div>
               ))}
             </div>
           </div>

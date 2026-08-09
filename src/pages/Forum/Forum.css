@@ -19,7 +19,7 @@
 .thread-view-container {
   display: flex;
   flex-direction: column;
-  width: min(1000px, 100%);
+  width: min(1100px, 100%);
   gap: 20px;
   flex-grow: 1;
   overflow: hidden;
@@ -89,7 +89,7 @@
 }
 
 .thread-view-container-thread-post {
-  margin-bottom: 15px;
+  margin: 30px 30px 45px 30px;
 }
 
 .thread-info-container:hover .hidden {

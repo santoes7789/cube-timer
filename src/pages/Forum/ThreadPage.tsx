@@ -75,7 +75,7 @@ function ThreadPage() {
     <div className="forum-page-container">
       <BackIcon />
       <div className="thread-view-container">
-        <div className="popout-container" style={{ textAlign: "left" }}>
+        <div className="popout-container" style={{ textAlign: "left", backgroundColor: "var(--bg-dark)"}}>
           <div className="thread-view-container-thread-post">
 
             {/* Heading of Thread */}
