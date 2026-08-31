@@ -25,7 +25,7 @@ type SettingsContextType = Settings & {
   setZenMode: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const defaultSettings  = {
+export const defaultSettings  = {
   darkMode: true,
   backgroundColor: "#2c303d",
   fontColor: "#FFFFFF",

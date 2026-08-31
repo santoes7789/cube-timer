@@ -4,7 +4,7 @@ import type { Time } from "@/db/times";
 import type { Post, Thread, User } from "@/types";
 import { createClient } from "@supabase/supabase-js";
 import imageCompression from "browser-image-compression";
-import type { Settings } from "@/contexts/SettingsContext";
+import { defaultSettings, type Settings } from "@/contexts/SettingsContext";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
@@ -30,7 +30,7 @@ export async function signup({ username, email, password, }: { username: string;
   // adding profile data
   const { error: profileError } = await supabase
     .from("profiles")
-    .insert({ id: data.user.id, username, email });
+    .insert({ id: data.user.id, username, email, settings: defaultSettings });
 
   if (profileError) {
     console.error(profileError);
