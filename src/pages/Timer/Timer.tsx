@@ -16,6 +16,7 @@ import NavButtons from "./NavButtons";
 
 type TimerState = "idle" | "waiting" | "ready" | "running" | "stopped";
 
+// The timer page, the main page
 function Timer() {
   const [time, setTime] = useState(0);
   const [state, setState] = useState<TimerState>("idle");
@@ -27,9 +28,9 @@ function Timer() {
   const [scramble, setScramble] = useState(() => generateNewScramble());
 
   const db = useDB();
-
   const settings = useSettings();
 
+  // When user clicks a button
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       if (state === "idle" && event.code === "Space") {
@@ -47,6 +48,7 @@ function Timer() {
         clearInterval(updateTimerRef.current);
         setTime(time);
 
+        // If user is in zenmode, don't add time to db
         if (!settings.zenMode) {
           db.addTime(new Date(startTime.current).toISOString(), time, scramble);
           setScramble(generateNewScramble());
@@ -58,6 +60,7 @@ function Timer() {
     [state, db, scramble, settings],
   );
 
+  // When user lets go of a buton
   const handleKeyUp = useCallback(
     (event: KeyboardEvent) => {
       if (state === "ready" && event.code === "Space") {
@@ -76,15 +79,19 @@ function Timer() {
     [state, settings],
   );
 
+  // On startup, add the key listeners
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("keyup", handleKeyUp);
+
+    // When page unloads, remove the listeners
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("keyup", handleKeyUp);
     };
   }, [handleKeyDown, handleKeyUp]);
 
+  // When the time has been stopped, and the animation has finished
   const onFinish = useCallback(() => {
     if (state === "stopped") {
       setState("idle");
@@ -93,6 +100,7 @@ function Timer() {
 
   return (
     <div className="timer-page-container">
+      {/*All the components around the timer - dont display when zen mode*/}
       { !settings.zenMode &&
         <>
           <TimesList />
@@ -103,6 +111,7 @@ function Timer() {
           <NavButtons />
         </>
       }
+      {/*Nav buttons*/}
       <div className="nav-buttons-hover-container">
         <NavButtons />
       </div>

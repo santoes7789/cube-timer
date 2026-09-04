@@ -3,6 +3,7 @@ import ProfilePic from "@/components/ProfilePic";
 import type { Thread } from "@/types";
 import { useNavigate } from "react-router-dom";
 
+// Component for a thread in the main forum page
 export function ThreadBlock({ thread }: { thread: Thread; isAuthor: boolean }) {
   const navigate = useNavigate();
 

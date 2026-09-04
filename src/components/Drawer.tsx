@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import "./Drawer.css";
 
+// Drawer component that opens on the side of the screen, greys out backgorund
 export function Drawer({ open, onClose, children, side }: { open: boolean, onClose: () => void, children: ReactNode, side: "left" | "right" }) {
   if (!open) return;
 

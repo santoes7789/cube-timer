@@ -6,6 +6,7 @@ interface MultiButtonProps {
   onChange: (index: number) => void;
 }
 
+// Button with multiple options, wrapped under one container
 export function MultiButton({ texts, selected, onChange }: MultiButtonProps) {
   return (
     <div className="multibutton-container">

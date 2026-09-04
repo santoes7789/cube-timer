@@ -1,10 +1,12 @@
 import type { Time } from "@/db/times";
 
+// Function to convert milliseconds into a readable string
 export function formatMilliseconds(time: number | null | undefined) {
   if (time == null) return null;
   return (time/1000).toFixed(3);
 }
 
+// Gets the average of x amount of times. Uses cubing standards, removes slowest and fastest from the average
 export const getAoX = (times: Time[], x: number, index=times.length - 1, exclude=1) => {
 	if (times.length < x || index - x + 1 < 0 || times.length <= 0) {
 		return null;
@@ -24,6 +26,7 @@ export const getAoX = (times: Time[], x: number, index=times.length - 1, exclude
 	return sum / (x - (exclude * 2));
 }
 
+// Get the best time from the given array
 export const getBestTime = (times: Time[]) => {
 	let time = null;
 	let smallest = Infinity;
@@ -37,6 +40,7 @@ export const getBestTime = (times: Time[]) => {
 	return time;
 }
 
+// Get the worst time from the given array
 export const getWorstTime = (times: Time[]) => {
 	let time = null;
 	let largest = 0;
@@ -50,6 +54,7 @@ export const getWorstTime = (times: Time[]) => {
 	return time;
 }
 
+// Gets the sum of all the times from the array
 export const getTotalTime = (times: Time[]) => {
   let sum = 0;
 
@@ -59,7 +64,7 @@ export const getTotalTime = (times: Time[]) => {
   return sum;
 }
 
-  
+
 export const getSessionAverage = (times: Time[]) => {
   let sum = 0;
   let count = 0;
@@ -72,7 +77,7 @@ export const getSessionAverage = (times: Time[]) => {
   }
 
   if(count == 0) return null;
-  return sum/count; 
+  return sum/count;
 }
 
 export const getDeviation = (times: Time[]) => {
@@ -87,6 +92,6 @@ export const getDeviation = (times: Time[]) => {
       count ++;
     }
   }
-  
+
   return Math.sqrt(sum/count);
 }

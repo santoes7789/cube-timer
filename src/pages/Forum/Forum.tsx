@@ -10,15 +10,22 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Search, X } from "lucide-react";
 import { IconButton } from "@/components/IconButton";
 
+// Forum page
 function Forum() {
   const navigate = useNavigate();
+
+  // State of the forum page
   const [loading, setLoading] = useState(true);
+
+  // Threads to be shown
   const [threads, setThreads] = useState<Thread[]>([]);
 
+  // Search term
   const [searchTerm, setSearchTerm] = useState("");
 
   const auth = useAuth();
 
+  // When the page loads, get the threads, once threads have been retreieved remove loading state
   useEffect(() => {
     getThreads().then((threads) => {
       setThreads(threads);
@@ -29,6 +36,8 @@ function Forum() {
   return (
     <div className="forum-page-container">
       <ForumNavButtons />
+
+      {/*Heading*/}
       <div className="forum-heading-container">
         <div className="popout-container" style={{ backgroundColor: "var(--bg-darker)", height: "100px", padding: '35px', display: "flex" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%"}}>
@@ -46,6 +55,7 @@ function Forum() {
       <Divider margin={"20px"} />
 
 
+
       <div className="thread-view-container">
         {/*search bar*/}
         <div className="popout-container search-bar">
@@ -56,6 +66,7 @@ function Forum() {
           }
         </div>
 
+        {/*The different threads*/}
         <div className="threads-container-parent">
           {loading ? "Loading..."  : (
             <div className="threads-container">

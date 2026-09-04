@@ -54,6 +54,7 @@ function CreateThread() {
     <div className="createThread-page-container">
       <BackIcon />
       <div className="popout-container" style={{ textAlign: "left", minWidth: "500px" }}>
+        {/*Header*/}
         <h2>Create new post</h2>
         <Divider />
 
@@ -79,6 +80,7 @@ function CreateThread() {
           />
         </div>
 
+        {/*Submit button*/}
         <div style={{ textAlign: "center", marginTop: "20px" }}>
           <button
             onClick={createNewThread}

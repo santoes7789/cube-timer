@@ -15,6 +15,7 @@ import CreateThread from '@/pages/Forum/CreateThread';
 import ThreadPage from '@/pages/Forum/ThreadPage';
 import StatsPopup from '@/pages/Stats/StatsPopup';
 
+// Routes
 const router = createBrowserRouter([
   {
     path: "/",
@@ -54,7 +55,9 @@ const router = createBrowserRouter([
   },
 ]);
 
+// App
 function App() {
+  // All the neccesary providers
   return (
     <>
       <ToastProvider>

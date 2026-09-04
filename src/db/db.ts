@@ -2,6 +2,7 @@ import { Dexie, type EntityTable } from "dexie";
 import { Time } from "./times";
 import { Session } from "./session";
 
+// Basic database schema and setup
 export class Database extends Dexie {
   times!: EntityTable<Time, "id">;
   sessions!: EntityTable<Session, "id">;

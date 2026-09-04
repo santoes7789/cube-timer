@@ -63,6 +63,7 @@ export async function createThread({ heading, body, }: { heading: string; body: 
   return response;
 }
 
+// Function to create a post
 export async function createPost( thread_id: string, body: string, author_id: string ) {
   const response = await supabase
     .from("posts")
@@ -73,11 +74,13 @@ export async function createPost( thread_id: string, body: string, author_id: st
   return response;
 }
 
+// Function to delete a post
 export async function deletePost(post_id: string) {
   const { error } = await supabase.from("posts").delete().eq("id", post_id);
   return error == null;
 }
 
+// Function to delete a thread
 export async function deleteThread(thread_id: string) {
   const { error } = await supabase.from("threads").delete().eq("id", thread_id);
   return error == null;
@@ -159,11 +162,13 @@ export async function getThread(threadId: string) {
   return { thread, posts };
 }
 
+// Function to retrieve url of user's profile picture to be displayed
 export function getProfilePictureURL(user: User) {
   const { data } = supabase.storage.from("avatars").getPublicUrl(user.id);
   return `${data.publicUrl}?v=${user.avatarUpdatedAt}`;
 }
 
+// Function to upload custom image as a profile picture
 export async function uploadProfilePicture(user_id: string, file: File) {
   // convert image to 256 x 256 webp image
   const webpFile = await imageCompression(file, {
@@ -178,6 +183,7 @@ export async function uploadProfilePicture(user_id: string, file: File) {
   return (avatarError === null) && (profileError === null);
 }
 
+// Function to get user information based on user id
 export async function getUser(user_id: string) {
   const { data, error } = await supabase
     .from("profiles")
@@ -200,6 +206,7 @@ export async function getUser(user_id: string) {
   return user;
 }
 
+// Save user settings to supabase
 export async function saveSettings(settings: Settings, user_id: string) {
   const { error } = await supabase
     .from("profiles")
@@ -209,6 +216,7 @@ export async function saveSettings(settings: Settings, user_id: string) {
   return error === null;
 }
 
+// Get users settings from supabase
 export async function getSettings(user_id: string) {
   const { data, error } = await supabase
     .from("profiles")
@@ -223,7 +231,6 @@ export async function getSettings(user_id: string) {
 }
 
 export async function sendChangesToSupabase(user_id: string) {
-  // Send session data first, since times rely on session existing
   const sessionData = (await db.sessions
     .where("synced")
     .equals(0)

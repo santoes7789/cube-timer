@@ -8,6 +8,7 @@ interface IconButtonProps {
   size: number;
 }
 
+// Icon element that can be used as a button
 export function IconButton({ icon: Icon, size, onClick }: IconButtonProps) {
   return (
     <div className="icon-button" onClick={onClick}>

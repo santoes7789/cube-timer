@@ -7,6 +7,7 @@ import Divider from "@/components/Divider";
 import ProfilePopup from "@/components/ProfilePopup";
 import { useState } from "react";
 
+// Nav buttons to go on the top of each page
 function ForumNavButtons() {
   const navigate = useNavigate();
   const auth = useAuth();
@@ -15,6 +16,8 @@ function ForumNavButtons() {
   return (
     <div className="popout-container nav-buttons top-right">
       <IconButton icon={Settings} size={30} onClick={() => navigate("/forum/settings")} />
+
+      {/*User icon if user is logged in, if not just show blank profile icon*/}
       {auth?.user ?
         <>
           <ProfilePic user={auth.user}

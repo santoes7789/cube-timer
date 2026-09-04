@@ -23,7 +23,7 @@ function StatComponent({ text, value }: { text: string, value: string | null }) 
   )
 }
 
-
+// Same as the statistics page, in popup form
 function StatsPopup() {
   const { sessions, times, setCurrentSession, currentSessionName } = useDB();
   const navigate = useNavigate();
@@ -35,6 +35,7 @@ function StatsPopup() {
 
 
 
+  // Calculate the statistics
   let bestSingle = Infinity;
   let bestAo5 = Infinity;
   let bestAo12 = Infinity;
@@ -90,6 +91,10 @@ function StatsPopup() {
       },
     ],
   };
+
+  // Displaying statistics
+  // First show graph, using chartjs
+  // followed by statistic blocks
 
   return (
     <Popup show onClose={() => navigate("/timer")}>

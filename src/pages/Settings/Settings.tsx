@@ -13,16 +13,20 @@ import { Edit2, Icon, Palette, RotateCcw, SettingsIcon, Timer, Upload, User } fr
 import Switch from "@/components/Switch";
 import { IconButton } from "@/components/IconButton";
 
+// Settings drawer that acts as a 'page'
 function Settings() {
   const settings = useSettings();
   const navigate = useNavigate();
   const toast = useToast();
+
+  // state for users to change their name if they want
   const [usernameToChange, setUsernameToChange] = useState<string | null>(null);
 
   const auth = useAuth();
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
+  // Function to take user's image and upload it to supabase
   async function setProfilePicture(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files[0] && auth?.user) {
       const success = await uploadProfilePicture(auth.user.id, e.target.files[0]);
@@ -35,6 +39,7 @@ function Settings() {
     }
   }
 
+  // Setting page uses a drawer component
   return (
     <Drawer open={true} onClose={() => {
       navigate(-1);
@@ -117,6 +122,8 @@ function Settings() {
             </div>
           </div>
         </button>
+
+        {/*Section for auth*/}
         {
           auth?.user &&
           <>
@@ -179,6 +186,7 @@ function Settings() {
   )
 }
 
+// subcomponent for each row of the settings page
 function TableSettingsRow({ heading, text, children} : { heading: string, text: string, children: ReactNode}) {
   const lines = text.split("\\n");
   return (

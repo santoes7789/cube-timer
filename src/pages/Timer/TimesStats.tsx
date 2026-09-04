@@ -4,9 +4,11 @@ import { formatMilliseconds } from "@/utils/time";
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Small component to show some of the times
 function TimesStats({ times } : {times?: Time[]}) {
   const navigate = useNavigate();
 
+  // Get the current statistics
   const ao5 = useMemo(() => {
     if (!times) return null;
     return getAoX(times, 5)

@@ -5,16 +5,19 @@ import supabase from "@/utils/supabase";
 import { useToast } from "@/contexts/ToastContext";
 import { useNavigate } from "react-router-dom";
 
+// Component for when the user clicks the account. Contains options for signing out, switching account and settings.
 export default function ProfilePopup({ user, show, onClose }: {user: User, show: boolean, onClose: () => void }) {
   const toast = useToast();
   const navigate = useNavigate();
 
+  // Works as a popup, so returns nothing if the popup shouldn't be displayed.
   if (!show) return;
 
   return (
     <div className="profile-popup" onMouseLeave={onClose}>
       <div className="popout-container" style={{ marginTop: "5px"}}>
 
+        {/* Profile picture, name and email */}
         <div className="table-row" style={{ gap: "20px", marginBottom: "var(--main-padding)"}}>
           <ProfilePic user={user}/>
           <div style={{ textAlign: "left"}}>
@@ -23,6 +26,7 @@ export default function ProfilePopup({ user, show, onClose }: {user: User, show:
           </div>
         </div>
 
+        {/* Options/buttons */}
         <div className="table-row" style={{ fontSize: "11px", justifyContent: "center", gap: "10px", textWrap: "nowrap"}}>
           <button onClick={() => navigate("settings")}>
             Settings

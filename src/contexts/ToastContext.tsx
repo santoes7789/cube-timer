@@ -21,9 +21,11 @@ export const useToast = () => {
   return ctx;
 };
 
+// Toast provider so all pages on the app can send a toast
 export default function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
+  // Function to add a new toast
   const addToast = (type: ToastType, message: string) => {
     const id = crypto.randomUUID();
     setToasts((prev) => [...prev, { id, message, type }]);
@@ -32,6 +34,7 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
     }, toastTimeout);
   };
 
+  // Function to remove a toast from current toasts
   const onClose = (id: string) => {
     setToasts((prev) => prev.filter((e) => e.id !== id));
   };

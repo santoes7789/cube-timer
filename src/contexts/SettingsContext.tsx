@@ -59,11 +59,11 @@ export default function SettingsProvider({ children } : { children: ReactNode}) 
   const auth = useAuth();
   const toast = useToast();
 
+  // Get local settings
   function getLocalSettings() {
     const stored = localStorage.getItem(localSettingsKey);
     return stored ? JSON.parse(stored) : defaultSettings;
   }
-
 
   // Changes css settings immediately when settings changes
   useEffect(() => {
@@ -93,10 +93,12 @@ export default function SettingsProvider({ children } : { children: ReactNode}) 
     getSavedSettings();
   }, [auth?.session])
 
+  // Resets current settings to default
   function resetSettings() {
     setSettings(defaultSettings);
   }
 
+  // function to save current user settings
   function saveUserSettings() {
     if (auth?.user?.id) {
       saveSettings(settings, auth.user.id);

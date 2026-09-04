@@ -9,6 +9,7 @@ import ProfilePic from "@/components/ProfilePic";
 import ProfilePopup from "@/components/ProfilePopup";
 import { useState } from "react";
 
+// Nav buttons for the timer page
 function NavButtons() {
   const navigate = useNavigate();
   const auth = useAuth();

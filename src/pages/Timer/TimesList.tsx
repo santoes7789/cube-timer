@@ -8,6 +8,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { useEffect, useRef, useState } from "react";
 import { applyScramble, DisplayCube } from "react-rubiks-cube-utils";
 
+// Component to show the list of times
 export default function TimesList() {
 
   // variables to control the popup's inputs

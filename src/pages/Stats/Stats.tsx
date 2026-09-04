@@ -8,12 +8,14 @@ import { BackIcon } from "@/components/BackIcon";
 import { useNavigate } from "react-router-dom";
 import Divider from "@/components/Divider";
 
+// register chart.js
 ChartJS.register(...registerables);
 
 const options = {
   responsive: true,
 };
 
+// Subcomponent for a stat, ie best single: 15s
 function StatComponent({ text, value }: { text: string, value: string | null }) {
   return (
     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
@@ -23,7 +25,7 @@ function StatComponent({ text, value }: { text: string, value: string | null }) 
   )
 }
 
-
+// Stats page
 function Stats() {
   const { sessions, times, setCurrentSession, currentSessionName } = useDB();
   const navigate = useNavigate();
@@ -34,6 +36,7 @@ function Stats() {
   }
 
 
+  // Calculate the best single, ao5, ao12 and ao100
   let bestSingle = Infinity;
   let bestAo5 = Infinity;
   let bestAo12 = Infinity;
@@ -89,6 +92,7 @@ function Stats() {
     ],
   };
 
+  // Show the graph using chart js, followed by stat page
   return (
     <div className="stats-page-container">
       <BackIcon onClick={() => navigate("/timer")} />
@@ -122,6 +126,7 @@ function Stats() {
 
       <div style={{ display: "flex", flexDirection: "row", gap: "15px", marginTop: "30px" }}>
 
+        {/*Statistics for best of each stat*/}
         <div className="popout-container">
           <div style={{ fontWeight: "bold" }}>BEST</div>
           <Divider />
@@ -131,6 +136,7 @@ function Stats() {
           <StatComponent text="Ao100:" value={(bestAo100 == Infinity ? null : bestAo100.toFixed(3))} />
         </div>
 
+        {/*current stats*/}
         <div className="popout-container">
           <div style={{ fontWeight: "bold" }}>CURRENT</div>
           <Divider />
@@ -140,6 +146,7 @@ function Stats() {
           <StatComponent text="Ao100:" value={data.datasets[3].data.at(-1)?.toFixed(3) ?? null} />
         </div>
 
+        {/*other information*/}
         <div className="popout-container">
           <StatComponent text="Average:" value={formatMilliseconds(getSessionAverage(times))} />
           <StatComponent text="Deviation:" value={formatMilliseconds(getDeviation(times))} />

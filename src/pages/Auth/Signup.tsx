@@ -7,13 +7,16 @@ import { type formStates } from "@/types";
 import { useToast } from "@/contexts/ToastContext";
 import { BackIcon } from "@/components/BackIcon";
 
+// Signup page
 function Signup() {
   const [formData, setFormData] = useState({ email: "", password: "", repeatPassword: "", username: "" });
   const [state, setState] = useState<formStates>("idle");
 
+  // Hooks to be used
   const navigate = useNavigate();
   const toast = useToast();
 
+  // Function to handle signup
   const handleSignup = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -35,19 +38,21 @@ function Signup() {
     }
   };
 
+  // Function to handle when one of the fields change
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  // All fields need to be not null, and two password fields must be the same
   const valid =
     formData.email && formData.username && formData.password && formData.password === formData.repeatPassword;
 
   return (
-
     <div className="auth-page-container">
       <BackIcon />
-      <div className="popout-container auth-block" style={{ backgroundColor: "var(--bg-dark)"}}>
+      <div className="popout-container auth-block">
         <form method="post" onSubmit={handleSignup} className="auth-container">
+          {/*Heading*/}
           <div>
             <h2>Sign up</h2>
             Create a new account
@@ -55,6 +60,7 @@ function Signup() {
 
           <Divider />
 
+          {/*Fields*/}
           <div>
             <label htmlFor="email">Email</label>
             <input

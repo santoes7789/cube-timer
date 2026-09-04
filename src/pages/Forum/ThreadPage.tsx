@@ -1,6 +1,6 @@
 import { useToast } from "@/contexts/ToastContext";
 import { createPost, deletePost, deleteThread, getThread } from "@/utils/supabase";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import type { Post, Thread } from "@/types";
 import Divider from "@/components/Divider";
@@ -10,17 +10,23 @@ import ProfilePic from "@/components/ProfilePic";
 import Popup from "@/components/Popup";
 import { DeleteOptionsButton } from "./DeleteOptionsButton";
 
+
 function ThreadPage() {
+  // states for deleting posts
   const [postToDelete, setPostToDelete] = useState<Post | null>(null);
   const [deleteThreadPopup, setDeleteThreadPopup] = useState(false);
 
+  // get thread id from usl
   const { threadId } = useParams();
+
+  // toast hook for notifications
   const toast = useToast();
 
-  const [loading, setLoading] = useState(true);
+  // Set current thread and post
   const [thread, setThread] = useState<Thread | null>(null);
   const [posts, setPosts] = useState<Post[] | null>(null);
 
+  // For adding a new post to a comment
   const [postBody, setPostBody] = useState("");
   const [submittingPost, setSubmittingPost] = useState(false);
 
@@ -42,7 +48,6 @@ function ThreadPage() {
 
       setThread(data.thread);
       setPosts(data.posts);
-      setLoading(false);
     });
   }
 

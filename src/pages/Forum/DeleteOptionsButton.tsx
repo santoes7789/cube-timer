@@ -2,16 +2,21 @@ import { IconButton } from "@/components/IconButton";
 import { EllipsisVertical } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
+// Dropdown/popup component for deleting thread or post
 export function DeleteOptionsButton({ onDelete }: { onDelete: () => void}) {
+  // State of the popop
   const [show, setShow] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Close the popup when user clicks outside of the popup
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setShow(false);
       }
     };
+
+    // Add mouse click listeners
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);

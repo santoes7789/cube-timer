@@ -4,6 +4,7 @@ import { useDB } from "@/contexts/DBContext";
 import { Session } from "@/db/session";
 import { useState, type Dispatch, type SetStateAction } from "react";
 
+// Component to display current session and switch
 export default function SessionDisplay() {
   const [newNamePopup, setNewNamePopup] = useState(false);
   const [selectedSession, setSelectedSession] = useState<Session | null>(null);
