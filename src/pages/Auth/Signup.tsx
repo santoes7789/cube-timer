@@ -6,6 +6,7 @@ import { signup } from "@/utils/supabase";
 import { type formStates } from "@/types";
 import { useToast } from "@/contexts/ToastContext";
 import { BackIcon } from "@/components/BackIcon";
+import { useAuth } from "@/contexts/AuthContext";
 
 // Signup page
 function Signup() {
@@ -15,6 +16,7 @@ function Signup() {
   // Hooks to be used
   const navigate = useNavigate();
   const toast = useToast();
+  const auth = useAuth();
 
   // Function to handle signup
   const handleSignup = async (e: FormEvent) => {
@@ -28,11 +30,15 @@ function Signup() {
       username: formData.username
     })
 
+    auth?.reloadUser();
+
     if (success) {
       navigate("/");
+      console.log("account created")
       toast.success("Account created!");
       setState("loading");
     } else {
+      console.log("failed to create account")
       toast.error("Failed to create account");
       setState("idle");
     }
@@ -50,7 +56,7 @@ function Signup() {
   return (
     <div className="auth-page-container">
       <BackIcon />
-      <div className="popout-container auth-block">
+      <div className="popout-container auth-block" style={{ backgroundColor: "var(--bg-dark)"}}>
         <form method="post" onSubmit={handleSignup} className="auth-container">
           {/*Heading*/}
           <div>

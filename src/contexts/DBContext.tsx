@@ -32,12 +32,14 @@ export const useDB = () => {
   return ctx;
 };
 
+// DB provider so rest of app has access to the db.
 export default function DBProvider({ children }: { children: ReactNode }) {
   const [currentUser, currentUserSetter] = useState("default");
   const [currentSession, setCurrentSession] = useState<string | null>(null);
 
   const auth = useAuth();
 
+  // On startup find
   useEffect(() => {
     if (!auth?.session) {
       setCurrentUser("default");
@@ -58,6 +60,7 @@ export default function DBProvider({ children }: { children: ReactNode }) {
     loadId();
   }, []);
 
+  // Sessions and times as live query
   const sessions = useLiveQuery(
     () => db.sessions.where("user_id").equals(currentUser).toArray(),
     [currentUser],
@@ -118,10 +121,6 @@ export default function DBProvider({ children }: { children: ReactNode }) {
     db.sessions.add(sessionObj).then(() => {
       setCurrentSession(randUUID);
     });
-
-    if (auth) {
-      sendChangesToSupabase(currentUser);
-    }
   }
 
   function updateSession(id: number, updates: Partial<Session>) {
@@ -138,8 +137,6 @@ export default function DBProvider({ children }: { children: ReactNode }) {
     const userSessions = await db.sessions.where("user_id").equals(user_id).toArray();
     if (userSessions.length === 0) {
       addSession("3x3", user_id);
-      // const sessionId = await db.addDefaultSession(user_id);
-      // setCurrentSession(sessionId);
     } else {
       setCurrentSession(userSessions[0].uuid);
     }
