@@ -2,7 +2,7 @@ import { CustomDropdown } from "@/components/CustomDropdown";
 import Popup from "@/components/Popup";
 import { useDB } from "@/contexts/DBContext";
 import { Session } from "@/db/session";
-import { useState, type Dispatch, type SetStateAction } from "react";
+import { useState } from "react";
 
 // Component to display current session and switch
 export default function SessionDisplay() {

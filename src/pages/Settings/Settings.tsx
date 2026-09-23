@@ -2,42 +2,20 @@ import { ColorPicker } from "@/components/ColorPicker";
 import Divider from "@/components/Divider";
 import { Drawer } from "@/components/Drawer";
 import { useSettings } from "@/contexts/SettingsContext";
-import { useRef, useState, type ChangeEvent, type ReactNode } from "react";
-import { useNavigate, useResolvedPath } from "react-router-dom";
-import ProfilePic from "@/components/ProfilePic";
+import { type ReactNode } from "react";
+import { useNavigate  } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { setUsername, uploadProfilePicture } from "@/utils/supabase";
-import { useToast } from "@/contexts/ToastContext";
 import "./Settings.css"
-import { Edit2, Icon, Palette, RotateCcw, SettingsIcon, Timer, Upload, User } from "lucide-react";
+import { Palette, RotateCcw, SettingsIcon, Timer, User } from "lucide-react";
 import Switch from "@/components/Switch";
-import { IconButton } from "@/components/IconButton";
 
 // Settings drawer that acts as a 'page'
 function Settings() {
   const settings = useSettings();
   const navigate = useNavigate();
-  const toast = useToast();
-
-  // state for users to change their name if they want
-  const [usernameToChange, setUsernameToChange] = useState<string | null>(null);
 
   const auth = useAuth();
 
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
-  // Function to take user's image and upload it to supabase
-  async function setProfilePicture(e: ChangeEvent<HTMLInputElement>) {
-    if (e.target.files && e.target.files[0] && auth?.user) {
-      const success = await uploadProfilePicture(auth.user.id, e.target.files[0]);
-      if (success) {
-        toast.success("Updated profile picture!");
-        auth.reloadUser();
-      } else {
-        toast.error("Unable to update profile picture.")
-      }
-    }
-  }
 
   // Setting page uses a drawer component
   return (
@@ -114,7 +92,7 @@ function Settings() {
 
         </div>
 
-        <button style={{ margin: "40px 0px" }} onClick={settings.resetSettings}>
+        <button style={{ margin: "40px 0px 0px 0px" }} onClick={settings.resetSettings}>
           <div className="table-row">
             <RotateCcw size={15} />
             <div style={{ marginLeft: "7px"}}>
@@ -127,56 +105,18 @@ function Settings() {
         {
           auth?.user &&
           <>
-            <div className="popout-container" style={{ backgroundColor: "var(--bg-color)"}}>
+            <div className="popout-container" style={{ backgroundColor: "var(--bg-color)", marginTop: "40px"}}>
               <div className="table-settings-subheading" style={{ marginTop: "20px" }}>
                 <User size={25}/>
                 Account
               </div>
-              <div className="table-row-left-aligned" style={{ margin: 15}}>
-                <ProfilePic user={auth.user} size={90}/>
-                <button onClick={() => inputRef.current?.click()} style={{ marginLeft: 15, fontSize: "15px" }}>
-                  <div className="table-row">
-                    <Upload size={15} />
-                    <div style={{ marginLeft: "7px"}}>
-                      Upload new profile picture
-                    </div>
-                  </div>
-                </button>
-              </div>
+              <div className="table-row-left-aligned" style={{ margin: 15}}></div>
               <div className="popout-container" style={{ padding: "0px 15px"}}>
-                <div className="table-settings-row username-row">
-                  <div>Username:</div>
-                  {usernameToChange !== null ?
-                    <input value={usernameToChange} style={{ textAlign: "right", width: 200 }}
-                      onChange={(e) => setUsernameToChange(e.target.value)}
-                      onBlur={() => {
-                        if (usernameToChange.trim() === "") {
-                          toast.error("Username cannot be empty");
-                        } else if (auth.user?.id){
-                          setUsername(usernameToChange, auth.user.id).then(auth.reloadUser);
-                        }
-                        setUsernameToChange(null);
-                      }}
-                    /> :
-                    <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10}}>
-                      <div>{auth.user.username}</div>
-                      <div className="hidden">
-                        <IconButton icon={Edit2} size={18} onClick={() => setUsernameToChange(auth.user?.username ?? "")}/>
-                      </div>
-                    </div>
-                  }
-                </div>
                 <Divider />
                 <div className="table-settings-row">
                   <div>Email:</div>
                   <div>{auth.user.email}</div>
                 </div>
-                <input type="file"
-                accept="image/*"
-                ref={inputRef}
-                onChange={setProfilePicture}
-                hidden
-                />
               </div>
             </div>
           </>

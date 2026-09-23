@@ -1,7 +1,5 @@
 // db worker runs on a separate thread, so can execute tasks without interfereing with main ui
-
-import db, { dbLastSynced } from "@/db/db";
-import supabase from "./utils/supabase";
+import db from "@/db/db";
 
 self.onmessage = async (event) => {
   const {type, data, auth} = event.data;

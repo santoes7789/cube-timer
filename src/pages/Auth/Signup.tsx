@@ -8,17 +8,14 @@ import { useToast } from "@/contexts/ToastContext";
 import { BackIcon } from "@/components/BackIcon";
 import { useAuth } from "@/contexts/AuthContext";
 
-// Signup page
 function Signup() {
-  const [formData, setFormData] = useState({ email: "", password: "", repeatPassword: "", username: "" });
+  const [formData, setFormData] = useState({ email: "", password: "", repeatPassword: "" });
   const [state, setState] = useState<formStates>("idle");
 
-  // Hooks to be used
   const navigate = useNavigate();
   const toast = useToast();
   const auth = useAuth();
 
-  // Function to handle signup
   const handleSignup = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -27,7 +24,6 @@ function Signup() {
     const success = await signup({
       email: formData.email,
       password: formData.password,
-      username: formData.username
     })
 
     auth?.reloadUser();
@@ -51,7 +47,7 @@ function Signup() {
 
   // All fields need to be not null, and two password fields must be the same
   const valid =
-    formData.email && formData.username && formData.password && formData.password === formData.repeatPassword;
+    formData.email && formData.password && formData.password === formData.repeatPassword;
 
   return (
     <div className="auth-page-container">
@@ -77,20 +73,6 @@ function Signup() {
               onChange={handleChange}
               disabled={state === "submitting"}
               placeholder="a@example.com"
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="email">Username</label>
-            <input
-              id="username"
-              name="username"
-              type="text"
-              value={formData.username}
-              onChange={handleChange}
-              disabled={state === "submitting"}
-              placeholder="aBuffaloHerd"
               required
             />
           </div>

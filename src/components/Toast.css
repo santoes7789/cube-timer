@@ -10,12 +10,12 @@
 }
 
 .toast {
-  background-color: var(--bg-color);
+  background-color: var(--bg-dark);
   border-radius: var(--border-radius);
   border: var(--border-default);
 
   max-width: 500px;
-  padding: var(--main-padding);
+  padding: 15px;
   box-shadow:
     0 4px 8px rgba(0, 0, 0, 0.12),
     0 12px 32px rgba(0, 0, 0, 0.18);

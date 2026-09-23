@@ -5,7 +5,7 @@ import Popup from "@/components/Popup";
 import { useDB } from "@/contexts/DBContext";
 import db from "@/db/db";
 import { useLiveQuery } from "dexie-react-hooks";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { applyScramble, DisplayCube } from "react-rubiks-cube-utils";
 
 // Component to show the list of times
@@ -63,7 +63,6 @@ export default function TimesList() {
   }
 
   useEffect(saveChanges, [modifierIdx]); // If modifer change is applied, have it change immediately
-
   if (!times || times.length === 0) return;
 
   return (

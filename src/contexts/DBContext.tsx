@@ -4,7 +4,6 @@ import type { Time } from "@/db/times";
 import { useLiveQuery } from "dexie-react-hooks";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { useAuth } from "./AuthContext";
-import { sendChangesToSupabase } from "@/utils/supabase";
 
 type DBContextType = {
   sessions: Session[];
@@ -34,19 +33,10 @@ export const useDB = () => {
 
 // DB provider so rest of app has access to the db.
 export default function DBProvider({ children }: { children: ReactNode }) {
-  const [currentUser, currentUserSetter] = useState("default");
   const [currentSession, setCurrentSession] = useState<string | null>(null);
 
   const auth = useAuth();
-
-  // On startup find
-  useEffect(() => {
-    if (!auth?.session) {
-      setCurrentUser("default");
-    } else if (auth.session.user.id !== currentUser) {
-      setCurrentUser(auth.session.user.id);
-    }
-  }, [auth, currentUser])
+  const currentUser = auth?.user?.id ?? "default";
 
   // Start up code
   useEffect(() => {
@@ -132,15 +122,19 @@ export default function DBProvider({ children }: { children: ReactNode }) {
     db.sessions.where("uuid").equals(uuid).delete();
   }
 
-  async function setCurrentUser(user_id: string) {
+  function setCurrentUser(user_id: string) {
     currentUserSetter(user_id);
-    const userSessions = await db.sessions.where("user_id").equals(user_id).toArray();
-    if (userSessions.length === 0) {
-      addSession("3x3", user_id);
-    } else {
-      setCurrentSession(userSessions[0].uuid);
-    }
+    db.sessions.where("user_id").equals(user_id).toArray().then(
+      (userSessions) => {
+        if (userSessions.length === 0) {
+          addSession("3x3", user_id)
+        } else {
+          setCurrentSession(userSessions[0].uuid);
+        }
+      })
   }
+
+
   return (
     <DBContext
       value={{

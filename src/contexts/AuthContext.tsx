@@ -44,14 +44,14 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
             }
           });
         } else if (event === "INITIAL_SESSION") {
-          toast.success(`Signed in!`)
+          toast.success(`Signed in as ${session.user.email}`)
         }
       } else {
         setUser(null);
       }
     });
     return () => subscription.unsubscribe();
-  }, []);
+  }, [toast]);
 
   return <AuthContext value={session ? { session, user, reloadUser } : null}>{children}</AuthContext>;
 }

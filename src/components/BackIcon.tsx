@@ -1,4 +1,4 @@
-// @ts-expect-error
+// @ts-expect-error svg will compile properly
 import ArrowLeft from "@/assets/icons/arrow-left.svg?react";
 
 import "./BackIcon.css";
