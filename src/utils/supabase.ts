@@ -15,10 +15,12 @@ export async function signup({ email, password, }: { email: string; password: st
 
   if (error) {
     console.error(error);
-    return false;
+    return { success: false, error };
   }
 
-  if (data.user === null) return false;
+  if (data.user === null) {
+    return { success: false, error };
+  };
 
   // adding profile data
   const { error: profileError } = await supabase
@@ -27,10 +29,9 @@ export async function signup({ email, password, }: { email: string; password: st
 
   if (profileError) {
     console.error(profileError);
-    return false;
+    return { success: false, error: profileError };
   }
-
-  return true;
+  return { success: true }
 }
 
 // Function to get user information based on user id

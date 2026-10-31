@@ -7,16 +7,12 @@ import { type formStates } from "@/types";
 import { useToast } from "@/contexts/ToastContext";
 import { BackIcon } from "@/components/BackIcon";
 
-// Login page
 function Login() {
-  // Formdata and state
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [state, setState] = useState<formStates>("idle");
 
-  // Hooks to be used
   const navigate = useNavigate();
   const toast = useToast();
-
 
   // When users presses the log in button
   const handleSignin = async (e: FormEvent) => {
@@ -24,23 +20,19 @@ function Login() {
 
     setState("submitting");
     const { error } = await supabase.auth.signInWithPassword({
-      email: formData.email,
+      email: formData.email.toLowerCase(),
       password: formData.password,
     });
 
     if (error) {
       console.log(error);
-      if (error.status == 400) {
-        toast.error("Invalid credentials");
-      } else {
-        toast.error("Failed to log in");
-      }
+      toast.error(error.message);
       setState("idle");
-    } else {
-      navigate("/");
-      toast.success("Logged in");
-      setState("loading");
+      return;
     }
+
+    navigate("/");
+    setState("loading");
   };
 
   // Update state when one of the fields change

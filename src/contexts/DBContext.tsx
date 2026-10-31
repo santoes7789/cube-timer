@@ -12,7 +12,6 @@ type DBContextType = {
   currentSessionName: string;
 
   setCurrentSession: (session: string) => void;
-  setCurrentUser: (user: string) => void;
 
   addTime: (startTime: string, time: number, scramble: string) => void;
   updateTime: (id: number, updates: Partial<Time>) => void;
@@ -36,19 +35,8 @@ export default function DBProvider({ children }: { children: ReactNode }) {
   const [currentSession, setCurrentSession] = useState<string | null>(null);
 
   const auth = useAuth();
-  const currentUser = auth?.user?.id ?? "default";
+  const currentUser = auth?.session?.user.id ?? "default";
 
-  // Start up code
-  useEffect(() => {
-    // set initial session to be first on in db
-    async function loadId() {
-      const session = await db.sessions.where("user_id").equals("default").first();
-      if (session) {
-        setCurrentSession(session.uuid);
-      }
-    }
-    loadId();
-  }, []);
 
   // Sessions and times as live query
   const sessions = useLiveQuery(
@@ -98,7 +86,7 @@ export default function DBProvider({ children }: { children: ReactNode }) {
 
 
   // functions to edit sessions table //
-  function addSession(name: string, user_id=currentUser) {
+   function addSession(name: string, user_id=currentUser) {
     const randUUID = crypto.randomUUID();
     const sessionObj = {
       name: name,
@@ -122,17 +110,21 @@ export default function DBProvider({ children }: { children: ReactNode }) {
     db.sessions.where("uuid").equals(uuid).delete();
   }
 
-  function setCurrentUser(user_id: string) {
-    currentUserSetter(user_id);
-    db.sessions.where("user_id").equals(user_id).toArray().then(
-      (userSessions) => {
-        if (userSessions.length === 0) {
-          addSession("3x3", user_id)
-        } else {
-          setCurrentSession(userSessions[0].uuid);
-        }
-      })
-  }
+  // Start up code
+  useEffect(() => {
+    function handleUserChange() {
+      db.sessions.where("user_id").equals(currentUser).toArray().then(
+        (userSessions) => {
+          if (userSessions.length === 0) {
+            addSession("3x3", currentUser)
+          } else {
+            setCurrentSession(userSessions[0].uuid);
+          }
+        })
+    }
+    handleUserChange();
+  }, [currentUser]);
+
 
 
   return (
@@ -151,8 +143,6 @@ export default function DBProvider({ children }: { children: ReactNode }) {
         addSession,
         updateSession,
         deleteSession,
-
-        setCurrentUser,
       }}>
       {children}
     </DBContext>

@@ -106,13 +106,12 @@ function Settings() {
           auth?.user &&
           <>
             <div className="popout-container" style={{ backgroundColor: "var(--bg-color)", marginTop: "40px"}}>
-              <div className="table-settings-subheading" style={{ marginTop: "20px" }}>
+              <div className="table-settings-subheading">
                 <User size={25}/>
                 Account
               </div>
               <div className="table-row-left-aligned" style={{ margin: 15}}></div>
               <div className="popout-container" style={{ padding: "0px 15px"}}>
-                <Divider />
                 <div className="table-settings-row">
                   <div>Email:</div>
                   <div>{auth.user.email}</div>

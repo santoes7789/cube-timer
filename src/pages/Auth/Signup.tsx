@@ -2,11 +2,10 @@ import Divider from "@/components/Divider";
 import "./Auth.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import { signup } from "@/utils/supabase";
 import { type formStates } from "@/types";
 import { useToast } from "@/contexts/ToastContext";
 import { BackIcon } from "@/components/BackIcon";
-import { useAuth } from "@/contexts/AuthContext";
+import { signup } from "@/utils/supabase";
 
 function Signup() {
   const [formData, setFormData] = useState({ email: "", password: "", repeatPassword: "" });
@@ -14,30 +13,25 @@ function Signup() {
 
   const navigate = useNavigate();
   const toast = useToast();
-  const auth = useAuth();
 
   const handleSignup = async (e: FormEvent) => {
     e.preventDefault();
 
     setState("submitting");
 
-    const success = await signup({
-      email: formData.email,
+    const { error } = await signup({
+      email: formData.email.toLowerCase(),
       password: formData.password,
     })
 
-    auth?.reloadUser();
-
-    if (success) {
-      navigate("/");
-      console.log("account created")
-      toast.success("Account created!");
-      setState("loading");
-    } else {
-      console.log("failed to create account")
-      toast.error("Failed to create account");
+    if (error) {
+      toast.error(error.message);
       setState("idle");
+      return;
     }
+    navigate("/");
+    toast.success("Account created!");
+    setState("loading");
   };
 
   // Function to handle when one of the fields change
