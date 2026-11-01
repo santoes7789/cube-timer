@@ -1,0 +1,10 @@
+.timer {
+}
+
+.timer[data-status="waiting"] {
+  color: red;
+}
+
+.timer[data-status="ready"] {
+  color: green;
+}

@@ -10,7 +10,6 @@ function TimeList() {
           {e.getFormattedTimeValue()}
         </div>
       )}
-
     </>
   )
 
