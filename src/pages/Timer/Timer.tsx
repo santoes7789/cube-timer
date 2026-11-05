@@ -3,6 +3,8 @@ import { useSettings } from "@/contexts/SettingsContext";
 import { useDB } from "@/contexts/DBContext";
 import styles from "./Timer.module.css";
 import TimeList from "./TimeList";
+import Divider from "@/components/divider";
+import TimeStats from "./TimeStats";
 
 type TimerState = "idle" | "waiting" | "ready" | "running" | "stopped";
 
@@ -74,8 +76,13 @@ function Timer() {
 
   return (
     <>
+      <Divider />
       <h1 className={styles.timer} data-status={state}>{time}</h1>
-      <TimeList />
+      <Divider />
+      <div className={styles.bottomContainer}>
+        <TimeStats />
+        <TimeList />
+      </div>
     </>
   )
 }

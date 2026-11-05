@@ -17,7 +17,7 @@ type SettingsContextType = Settings & {
 
 export const defaultSettings  = {
   timerWaitTime: 400,
-  timerUpdateInterval: 8,
+  timerUpdateInterval: 234,
 };
 
 const SettingsContext = createContext<SettingsContextType>({

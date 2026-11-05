@@ -1,15 +1,18 @@
-import { useDB } from "../../contexts/DBContext"
+import { useDB } from "@/contexts/DBContext"
+import styles from "./Timer.module.css";
 
 function TimeList() {
 
   const db = useDB();
   return (
     <>
-      {db.times.map((e) =>
-        <div key={e.id}>
-          {e.getFormattedTimeValue()}
-        </div>
-      )}
+      <div className={styles.timesList}>
+        {db.times.toReversed().map((e) =>
+          <a key={e.id}>
+            {e.getFormattedTimeValue()}
+          </a>
+        )}
+      </div>
     </>
   )
 

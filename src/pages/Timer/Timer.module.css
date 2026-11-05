@@ -1,4 +1,10 @@
 .timer {
+  display: flex;
+  width: 100%;
+  height: 1000px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
 .timer[data-status="waiting"] {
@@ -7,4 +13,20 @@
 
 .timer[data-status="ready"] {
   color: green;
+}
+
+.bottomContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.timesList {
+  overflow-y: scroll;
+  width: max-content;
+}
+
+.timesList a {
+  display: block;
+  padding: 0px 5px;
 }
