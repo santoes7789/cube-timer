@@ -1,6 +1,7 @@
 :root {
   --text: #6b6375;
   --text-h: #08060d;
+  --text-disabled: #b3adba;
   --bg: #fff;
   --border: #e5e4e7;
   --accent: #aa3bff;
@@ -8,6 +9,8 @@
   --accent-border: rgba(170, 59, 255, 0.5);
   --secondary-bg: rgba(244, 243, 236, 0.5);
   --shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+
+  --warning: #aa4422;
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
@@ -36,6 +39,7 @@
   :root {
     --text: #9ca3af;
     --text-h: #f3f4f6;
+    --text-disabled: #60656e;
     --bg: #16171d;
     --border: #2e303a;
     --accent: #c084fc;

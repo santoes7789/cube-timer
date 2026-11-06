@@ -24,9 +24,22 @@
 .timesList {
   overflow-y: scroll;
   width: max-content;
+  height: 100px;
 }
 
 .timesList a {
-  display: block;
   padding: 0px 5px;
+}
+
+.timesListRow {
+  text-align: left;
+}
+
+.deleteSession:hover {
+  color: var(--warning);
+}
+
+.deleteSession[data-status="disabled"] {
+  color: var(--text-disabled);
+  cursor: default;
 }

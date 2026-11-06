@@ -1,8 +1,8 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import type { Session } from "../db/session";
-import type { Time } from "../db/times";
-import db from "../db/db";
+import type { Session } from "@/db/session";
+import type { Time } from "@/db/times";
+import db from "@/db/db";
 
 type DBContextType = {
   sessions: Session[];
