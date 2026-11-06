@@ -8,7 +8,7 @@ function TimeList() {
   const groups = 12;
   const groupedTimes: Array<Time[]> = [];
   for (let i = 0; i < times.length; i += groups) {
-    groupedTimes.push(times.slice(i, i += groups));
+    groupedTimes.push(times.slice(i, i + groups));
   }
   return (
     <>

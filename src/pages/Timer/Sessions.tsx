@@ -1,5 +1,4 @@
 import { useDB } from "@/contexts/DBContext";
-import styles from "./Timer.module.css";
 import Popup from "@/components/Popup";
 import { useRef, useState } from "react";
 
