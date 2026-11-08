@@ -36,7 +36,9 @@ function Sessions() {
           </p>
           <input ref={inputRef}/>
           <div className="row-container">
-            <a>cancel</a>
+            <a onClick={() => {
+              setAddSessionPopup(false);
+            }}>cancel</a>
             <a onClick={() => {
               db.addSession(inputRef.current.value);
               setAddSessionPopup(false);
