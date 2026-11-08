@@ -38,8 +38,3 @@
 .deleteSession:hover {
   color: var(--warning);
 }
-
-.deleteSession[data-status="disabled"] {
-  color: var(--text-disabled);
-  cursor: default;
-}

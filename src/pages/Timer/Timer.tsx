@@ -6,6 +6,7 @@ import TimeList from "./TimeList";
 import Divider from "@/components/Divider";
 import TimeStats from "./TimeStats";
 import Sessions from "./Sessions";
+import { formatMilliseconds } from "@/utils/time";
 
 type TimerState = "idle" | "waiting" | "ready" | "running" | "stopped";
 
@@ -78,7 +79,7 @@ function Timer() {
   return (
     <>
       <Divider />
-      <h1 className={styles.timer} data-status={state}>{time}</h1>
+      <h1 className={styles.timer} data-status={state}>{formatMilliseconds(time)}</h1>
       <Divider />
       <div className={styles.bottomContainer}>
         <div className="row-container">

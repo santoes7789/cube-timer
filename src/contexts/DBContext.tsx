@@ -102,9 +102,17 @@ export default function DBProvider({ children }: { children: ReactNode }) {
     db.sessions.update(uuid, { ...updates, synced: 0, updated_at: new Date().toISOString() });
   }
 
-  function deleteSession(uuid: string) {
+  async function deleteSession(uuid: string) {
     db.times.where("[user_id+session_uuid]").equals([currentUser, uuid]).delete();
-    db.sessions.where("uuid").equals(uuid).delete();
+    await db.sessions.where("uuid").equals(uuid).delete();
+    if (uuid === currentSession) {
+      const newSession = await db.sessions.toCollection().first();
+      if (newSession) {
+        setCurrentSession(newSession.uuid);
+      } else {
+        setCurrentSession(null);
+      }
+    }
   }
 
   // Start up code
@@ -114,11 +122,7 @@ export default function DBProvider({ children }: { children: ReactNode }) {
       const session = await db.sessions.toCollection().first();
       if (session) {
         setCurrentSession(session.uuid);
-      } else {
-        db.addDefaultSession("local");
-
-      }
-    }
+      }     }
     setInitialSession();
   }, []);
 

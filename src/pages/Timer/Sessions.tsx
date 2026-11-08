@@ -1,6 +1,7 @@
 import { useDB } from "@/contexts/DBContext";
 import Popup from "@/components/Popup";
 import { useRef, useState } from "react";
+import styles from "./Timer.module.css"
 
 function Sessions() {
   const [addSessionPopup, setAddSessionPopup] = useState(false);
@@ -22,9 +23,11 @@ function Sessions() {
       <div>
         <a onClick={() => setAddSessionPopup(true)}>Add session</a>
       </div>
-      {/*<div>
-        <a className={styles.deleteSession} data-status={db.sessions.length <= 1 ? "disabled" : ""}>Delete session</a>
-      </div>*/}
+      <div>
+        <a className={styles.deleteSession} onClick={() => {
+          db.deleteSession(db.currentSession);
+        }}>Delete session</a>
+      </div>
 
       <Popup show={addSessionPopup} setShow={setAddSessionPopup}>
         <div>
