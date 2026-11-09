@@ -16,7 +16,9 @@ function TimeList() {
         {groupedTimes.map((e, i) =>
           <div className={styles.timesListRow} key={`group-${i}`}>
             {e.map((e) => (
-              <a key={e.id}>
+              <a key={e.id} onClick={() => {
+                db.deleteTime(e.id);
+              }}>
                 {e.getFormattedTimeValue()}
               </a>
             ))}
